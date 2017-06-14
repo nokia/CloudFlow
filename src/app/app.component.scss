@@ -1,0 +1,10 @@
+$navbar-height: 38px;
+
+nav.navbar {
+  padding: 0.1rem .5rem;
+  height: $navbar-height;
+}
+
+/deep/ .height-100-fix {
+  height: calc(100vh - #{$navbar-height});
+}

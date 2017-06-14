@@ -1,0 +1,21 @@
+@import "colors";
+
+/*******************
+*** badge colors ***
+********************/
+.badge {
+  padding: .5em !important;
+
+  &.ERROR {
+    background: $entity-error;
+  }
+  &.SUCCESS {
+    background: $entity-success;
+  }
+  &.RUNNING {
+    background: $entity-running;
+  }
+  &.PAUSED, &.DELAYED, &.IDLE {
+    background: gray;
+  }
+}

@@ -1,0 +1,26 @@
+@import "colors";
+
+/******************
+*** Code Mirror ***
+*******************/
+@import "../node_modules/codemirror/lib/codemirror.css";
+@import "../node_modules/codemirror/addon/fold/foldgutter.css";
+@import "../node_modules/codemirror/addon/dialog/dialog.css";
+@import "../node_modules/codemirror/addon/search/matchesonscrollbar.css";
+
+codemirror.cm-mxh-150 {
+  .CodeMirror {
+    height: auto;
+    .CodeMirror-scroll {
+      max-height: 150px;
+    }
+  }
+}
+
+.CodeMirror {
+  border: 1px solid $border;
+}
+
+.CodeMirror .CodeMirror-foldmarker {
+  text-shadow: none;
+}

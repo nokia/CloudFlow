@@ -1,0 +1,14 @@
+/******************
+*** Modal Sizes ***
+*******************/
+@media(min-width: 1200px) {
+  .modal-lg {
+    max-width: 1100px;
+  }
+}
+
+@media(min-width: 1400px) {
+  .modal-lg {
+    max-width: 1300px;
+  }
+}

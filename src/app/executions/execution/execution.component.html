@@ -1,0 +1,47 @@
+<div class="execution-header bg-white header-shadow" *ngIf="execution">
+  <div class="p-3">
+    <h4>{{execution.workflow_name}}</h4>
+    <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+    <span [title]="'Created At: ' + execution.created_at" class="text-muted2 ml-2">
+      <i class="fa fa-clock-o"></i> {{execution.created_at}}
+    </span>
+  </div>
+</div>
+
+<div style="height: calc(100vh - 38px - 81px - 3px)">
+
+  <split direction="horizontal" >
+
+    <split-area [size]="75" class="graph-container-overflow">
+      <ngb-tabset type="pills" activeId="graph" [destroyOnHide]="true">
+        <ngb-tab id="definition">
+          <ng-template ngbTabTitle>
+            <small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small> Definition
+          </ng-template>
+          <ng-template ngbTabContent>
+            <codemirror [input]="workflowDef" [config]="{mode: 'yaml', readonly: true, fullHeight: true}"></codemirror>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab id="graph">
+          <ng-template ngbTabTitle>
+            <i class="fa fa-sitemap"></i> Graph
+          </ng-template>
+
+          <ng-template ngbTabContent>
+
+            <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"
+                         (taskSelect)="setSelectedTask($event)"></cf-workflow-graph>
+
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </split-area>
+
+    <split-area [size]="25" class="bg-white">
+      <div class="bg-white h-100">
+        <router-outlet></router-outlet>
+      </div>
+    </split-area>
+  </split>
+</div>

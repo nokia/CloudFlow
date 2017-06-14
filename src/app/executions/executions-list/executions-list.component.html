@@ -1,0 +1,27 @@
+<div class="bg-white d-flex search-header header-shadow">
+  <div class="container d-flex flex-column justify-content-around">
+    <div class="pt-2">
+      <p><input type="text" class="form-control" placeholder="Search workflows"></p>
+      <p><strong>Showing {{executions.length}} Executions</strong></p>
+    </div>
+
+    <div class="row pb-1 m-0 text-muted">
+      <div class="col-1">State</div>
+      <div class="col-8">Workflow</div>
+      <div class="col-3">Created At</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="container search-results">
+  <div class="" id="executions-list">
+    <div class="row py-3 m-0 execution-list-item pointer" *ngFor="let execution of executions;" [routerLink]="[execution.id]">
+      <div class="col-1">
+        <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+      </div>
+      <div class="col-8">{{execution.workflow_name}}</div>
+      <div class="col-3">{{execution.created_at}}</div>
+    </div>
+  </div>
+</div>

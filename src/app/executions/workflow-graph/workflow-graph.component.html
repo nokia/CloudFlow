@@ -1,0 +1,16 @@
+<div #graphContainer id="graph-container">
+  <div class="task"
+       *ngFor="let task of tasks"
+       [ngClass]="[task.state, task.type]"
+       [id]="task.id"
+       [style.left.px]="task.left" [style.top.px]="task.top"
+       (click)="taskSelected(task)"
+       [routerLink]="['tasks', task.id]"
+       [routerLinkActive]="'selected'">
+
+    <div class="task-content d-flex flex-column justify-content-between h-100">
+      <div class="task-name">{{task.name}}</div>
+      <div class="badge task-state mr-auto font-weight-normal" [ngClass]="task.state">{{task.state}}</div>
+    </div>
+  </div>
+</div>

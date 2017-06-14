@@ -1,0 +1,22 @@
+<nav class="navbar navbar-inverse bg-primary flex-row" style="flex: 0 0 38px">
+  <img src="favicon.ico" height="32" width="32" class="mr-2" />
+  <a class="navbar-brand" [routerLink]="['/']">CloudFlow</a>
+
+
+  <ul class="navbar-nav ml-auto flex-row">
+    <li class="nav-item">
+      <a class="nav-link p-2" href="#">About</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link p-2" href="#">Help</a>
+    </li>
+  </ul>
+
+</nav>
+
+<div class="container-fluid height-100-fix p-0">
+
+  <router-outlet></router-outlet>
+
+</div>

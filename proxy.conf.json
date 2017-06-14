@@ -1,0 +1,13 @@
+{
+  "/api": {
+    "target": {
+      "host": "135.248.18.173",
+      "protocol": "http:",
+      "port": 8989
+    },
+    "pathRewrite": {"^/api": "/v2"},
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "info"
+  }
+}

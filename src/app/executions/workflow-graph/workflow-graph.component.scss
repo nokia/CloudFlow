@@ -1,0 +1,65 @@
+@import "../../../styles/colors";
+
+$WF-shadow: 4px -4px #c0c0c0, 5px -5px #bebebe;
+$selected-shadow: 0 5px 10px 1px rgba(0, 0, 0, .35);
+
+#graph-container {
+  position: relative;
+}
+
+.task {
+  width: 165px;
+  height: 65px;
+  border: 1px solid $border;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 4px;
+  transition: border-color .3s ease-in-out, box-shadow .25s ease-in-out;
+
+  .task-content {
+    padding: .5rem;
+  }
+}
+
+.task:hover {
+  border-width: 2px;
+}
+
+.task.WORKFLOW {
+  box-shadow: $WF-shadow;
+}
+
+.task.selected {
+  border-width: 3px;
+  box-shadow: $selected-shadow;
+  outline: none;
+}
+
+.task.WORKFLOW.selected {
+  // workaround for box-shadow override
+  box-shadow: $selected-shadow, $WF-shadow;
+}
+
+$state-colors: (SUCCESS: rgb(111,162,60), ERROR: $entity-error, COMPLETE: $entity-default);
+
+// set hover color on tasks
+@each $state, $color in $state-colors {
+  .task.#{$state}:hover {
+    border-color: $color;
+  }
+}
+
+// set selected task style
+@each $state, $color in $state-colors {
+  .task.#{$state}.selected {
+    border-color: $color;
+  }
+}
+
+// edges colors - currently disabled due to https://github.com/jsplumb/jsPlumb/issues/647
+@each $state, $color in $state-colors {
+  /deep/svg.jtk-connector.edge-#{$state} path {
+    stroke: $color;
+    stroke-width: 3px;
+  }
+}

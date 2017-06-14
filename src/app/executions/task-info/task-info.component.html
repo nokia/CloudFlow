@@ -1,0 +1,129 @@
+<div class="p-3 mb-1" *ngIf="task">
+    <div class="d-flex flex-column">
+
+        <div class="info-item">
+            <h6>Task:</h6>
+            {{task.name}}
+        </div>
+
+        <div class="info-item">
+            <h6>State:</h6>
+            <span class="badge font-weight-normal" [ngClass]="task.state">{{task.state}}</span>
+        </div>
+
+        <div class="info-item" *ngIf="isAction">
+            <h6>Action:</h6>
+            {{taskDef.action}}
+        </div>
+
+        <div class="info-item" *ngIf="isWorkflow">
+            <h6>Workflow:</h6>
+            {{taskDef.workflow}}
+        </div>
+
+        <div class="d-flex flex-row">
+            <div class="info-item flex-1-1-auto">
+                <h6>Started:</h6>
+                {{task.created_at}}
+            </div>
+
+            <div class="info-item flex-1-1-auto">
+                <h6>Ended:</h6>
+                {{task.updated_at}}
+            </div>
+        </div>
+
+        <div class="info-item" *ngIf="taskDef['with-items']">
+            <h6>With Items:</h6>
+            {{taskDef['with-items']}}
+        </div>
+
+        <!--<div class="info-item">-->
+            <!--<h6>Duration:</h6>-->
+            <!--[00:00:00]-->
+        <!--</div>-->
+
+        <div class="info-item">
+            <h6>State Info:</h6>
+            <codemirror [input]="task.state_info" [config]="{readonly: true, mode: 'text'}" class="cm-mxh-150"></codemirror>
+        </div>
+
+        <div class="info-item">
+            <h6>Published:</h6>
+            <codemirror [input]="task.published" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+        </div>
+
+        <div class="info-item">
+            <h6>Result:</h6>
+            <codemirror [input]="task.published" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+        </div>
+
+        <div class="info-item" *ngIf="isAction">
+            <h6>Action Executions:</h6>
+            <ngb-accordion [closeOthers]="false">
+                <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
+                    <ng-template ngbPanelTitle>
+                        <div class="d-flex">
+                            <div style="flex:0 0 70px">
+                                <div class="badge font-weight-normal" [ngClass]="actionExecution.state">{{actionExecution.state}}</div>
+                            </div>
+                            <div class="flex-1-1-auto">{{actionExecution.name}}</div>
+
+                        </div>
+                    </ng-template>
+                    <ng-template ngbPanelContent>
+
+                        <div class="info-item">
+                            <h6>Input:</h6>
+                            <codemirror [input]="actionExecution.input" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+                        </div>
+
+                        <div class="info-item">
+                            <h6>Output:</h6>
+                            <codemirror [input]="actionExecution.output" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+                        </div>
+
+                    </ng-template>
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+
+        <div class="info-item" *ngIf="isWorkflow">
+            <h6>Workflow Executions:</h6>
+            <ngb-accordion [closeOthers]="false">
+                <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">
+
+                    <ng-template ngbPanelTitle>
+                        <div class="d-flex">
+                            <div style="flex:0 0 70px">
+                                <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
+                            </div>
+
+                            <div class="flex-1-1-auto">
+                                {{e.workflow_name}}
+                            </div>
+
+                            <a class="btn btn-link pointer" [routerLink]="['/executions', e.id]" title="Go to this Workflow Execution">
+                                <i class="fa fa-sitemap"></i>
+                            </a>
+                        </div>
+                    </ng-template>
+
+                    <ng-template ngbPanelContent>
+                        <div class="info-item">
+                            <h6>Input:</h6>
+                            <codemirror [input]="e.input" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+                        </div>
+
+                        <div class="info-item">
+                            <h6>Output:</h6>
+                            <codemirror [input]="e.output" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
+                        </div>
+                    </ng-template>
+
+                </ngb-panel>
+            </ngb-accordion>
+        </div>
+
+    </div>
+</div>

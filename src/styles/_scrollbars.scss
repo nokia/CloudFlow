@@ -1,0 +1,45 @@
+/*****************
+*** Scrollbars ***
+******************/
+$color: #717171;
+
+::-webkit-scrollbar {
+  width: .5rem;
+  height: .5rem;
+}
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+::-webkit-scrollbar-thumb {
+  background: $color;
+  border: none;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $color;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #bbb;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border: none;
+  border-radius: 44px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #f7f7f7;
+}
+::-webkit-scrollbar-track:active {
+  background: #f7f7f7;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/****************************
+*** angular-split gutters ***
+*****************************/
+split-gutter {
+  background-color: #fff !important;
+}

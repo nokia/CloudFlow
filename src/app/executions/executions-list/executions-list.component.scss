@@ -1,0 +1,29 @@
+@import "../../../styles/colors";
+
+$header-size: 38px;
+$search-header: 130px;
+
+.search-header {
+  height: $search-header;
+}
+
+.search-results {
+  height: calc(100vh - #{$header-size} - #{$search-header} - 10px);
+  margin-top: 10px;
+}
+
+h2.card-title {
+  padding: 1.5rem;
+}
+
+#executions-list {
+  overflow-y: auto;
+  height: 100%;
+}
+
+.execution-list-item {
+  border-bottom: 1px solid $border;
+  &:hover {
+    background-color: #fff;
+  }
+}
