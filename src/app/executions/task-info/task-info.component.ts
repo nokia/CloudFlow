@@ -6,6 +6,10 @@ import {TaskDef} from "../../shared/models/task";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/toPromise";
+import {
+    CodeMirrorModalService
+} from "../../shared/components/codemirror/codemirror-modal.service";
+import {CodeMirrorConfig} from "../../shared/components/codemirror/codemirror.component";
 
 @Component({
     selector: 'cf-task-info',
@@ -20,7 +24,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     actionExecutions: ActionExecution[];
     subWfExecutions: any[];
 
-    constructor(private service: MistralService) {
+    constructor(private service: MistralService, private codeMirrorService: CodeMirrorModalService) {
     }
 
     ngOnInit() {
@@ -48,6 +52,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
 
     private async loadWfExecutionsByTaskExecutionId(taskExecId: string) {
         this.subWfExecutions = await this.service.wfExecutionsByTaskExecutionId(taskExecId).toPromise();
+    }
+
+    codeMirrorModal(input: any, config: CodeMirrorConfig) {
+        this.codeMirrorService.open(input, config);
     }
 
     ngOnDestroy() {

@@ -1,9 +1,17 @@
-<div class="p-3 mb-1" *ngIf="task">
+<div class="p-3 mb-1 animated slideInLeft" *ngIf="task">
+
     <div class="d-flex flex-column">
 
-        <div class="info-item">
-            <h6>Task:</h6>
-            {{task.name}}
+        <div class="d-flex flex-row justify-content-between">
+            <div class="info-item">
+                <h6>Task:</h6>
+                {{task.name}}
+            </div>
+
+            <div>
+                <button class="btn btn-link btn-link--reset pointer p-0" title="See task definition" (click)="codeMirrorModal(taskDef, {mode: 'yaml'})"><small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small></button>
+                <a class="btn btn-link btn-link--reset pointer font-24 p-0 pl-2" [routerLink]="['../../']" title="Go back to Execution Info">&times;</a>
+            </div>
         </div>
 
         <div class="info-item">
@@ -64,7 +72,7 @@
                 <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
                     <ng-template ngbPanelTitle>
                         <div class="d-flex">
-                            <div style="flex:0 0 70px">
+                            <div class="badge-flex">
                                 <div class="badge font-weight-normal" [ngClass]="actionExecution.state">{{actionExecution.state}}</div>
                             </div>
                             <div class="flex-1-1-auto">{{actionExecution.name}}</div>
@@ -95,7 +103,7 @@
 
                     <ng-template ngbPanelTitle>
                         <div class="d-flex">
-                            <div style="flex:0 0 70px">
+                            <div class="badge-flex">
                                 <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
                             </div>
 

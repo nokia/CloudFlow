@@ -1,3 +1,7 @@
+.execution-content {
+  height: calc(100vh - 38px - 81px - 3px); // 100vh - (header) - (sub header) - (sub header bottom border)
+}
+
 .graph-container-overflow {
   overflow-x: auto !important;
 }

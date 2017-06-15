@@ -21,6 +21,9 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 //@import "../node_modules/cytoscape-navigator/cytoscape.js-navigator.css";
 //@import "../node_modules/cytoscape-panzoom/cytoscape.js-panzoom.css";
 
+/* animate.css */
+@import "../node_modules/animate.css/animate.min.css";
+
 html {
   font-size: 14px;
 }
@@ -87,6 +90,17 @@ pre {
 
 .flex-1-1-auto {
   flex: 1 1 auto;
+}
+
+.btn-link--reset {
+  color: unset;
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+  }
+}
+
+.font-24 {
+  font-size: 24px;
 }
 
 /***************************

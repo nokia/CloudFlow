@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AngularSplitModule} from "angular-split";
-import {CodeMirrorComponent} from "./components/codemirror.component";
+import {CodeMirrorModule} from "./components/codemirror/codemirror.module";
 
 @NgModule({
     imports: [
@@ -11,16 +11,17 @@ import {CodeMirrorComponent} from "./components/codemirror.component";
         FormsModule,
         NgbModule,
         AngularSplitModule,
+        CodeMirrorModule,
     ],
     declarations: [
-        CodeMirrorComponent,
+
     ],
     exports: [
         CommonModule,
         FormsModule,
         NgbModule,
         AngularSplitModule,
-        CodeMirrorComponent,
+        CodeMirrorModule,
     ]
 })
 export class SharedModule {

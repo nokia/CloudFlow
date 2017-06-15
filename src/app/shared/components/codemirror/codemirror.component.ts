@@ -12,6 +12,7 @@ import "codemirror/addon/search/search";
 import "codemirror/addon/search/searchcursor";
 import "codemirror/addon/search/matchesonscrollbar";
 import "codemirror/addon/dialog/dialog";
+import "codemirror/addon/display/autorefresh";
 
 export interface CodeMirrorConfig {
     readonly?: boolean;
@@ -59,7 +60,6 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
     }
 
     ngAfterViewInit() {
-        (<any>window).cm = CodeMirror;
         this.instance = CodeMirror.fromTextArea(this.textArea.nativeElement, {
             value: '',
             mode: modes[this.config.mode],
@@ -68,8 +68,9 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
             readOnly: this.config.readonly,
             foldGutter: true,
             matchBrackets: true,
+            autoRefresh: true,
             extraKeys: {"Ctrl-F": "findPersistent"},
-            gutters: ["CodeMirror-foldgutter", "CodeMirror-search-match"]
+            gutters: ["CodeMirror-foldgutter"],
         } as any);
 
         setTimeout(() => {
@@ -77,7 +78,6 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
             if (this.config.fullHeight) {
                 this.instance.setSize("100%", "100%");
             }
-            setTimeout(() => this.instance.refresh(), 1000);
         });
     }
 

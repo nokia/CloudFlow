@@ -3,6 +3,7 @@ $navbar-height: 38px;
 nav.navbar {
   padding: 0.1rem .5rem;
   height: $navbar-height;
+  flex: 0 0 $navbar-height;
 }
 
 /deep/ .height-100-fix {
