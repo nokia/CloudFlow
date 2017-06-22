@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {CommonFields, ExecutionState} from "./common";
 
 export interface ActionExecution extends CommonFields {

@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 

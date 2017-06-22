@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {Component} from '@angular/core';
 
 @Component({

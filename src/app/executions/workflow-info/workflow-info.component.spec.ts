@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {By} from "@angular/platform-browser";
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";

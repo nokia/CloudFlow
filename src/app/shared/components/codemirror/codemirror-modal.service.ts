@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {Component, Injectable, Input} from "@angular/core";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {CodeMirrorConfig} from "./codemirror.component";

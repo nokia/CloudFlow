@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 

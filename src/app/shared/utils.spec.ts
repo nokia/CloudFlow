@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {objectToString, stringToObject, toUrlParams} from './utils';
 import * as dedent from 'dedent-js';
 

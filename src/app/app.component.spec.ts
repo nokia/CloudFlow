@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {TestBed, async} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 

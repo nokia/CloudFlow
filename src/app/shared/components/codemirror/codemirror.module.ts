@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 

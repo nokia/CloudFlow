@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution} from "../../shared/models/execution";

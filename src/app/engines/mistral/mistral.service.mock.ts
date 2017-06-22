@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 export const MistralServiceMock = {
     selectedExecution: {
         subscribe: function(next: Function) {

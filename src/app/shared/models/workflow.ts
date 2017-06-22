@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import * as jsyaml from "js-yaml";
 import {CommonFields} from "./common";
 import {TaskDef} from "./task";

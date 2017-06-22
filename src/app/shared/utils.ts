@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {URLSearchParams} from "@angular/http";
 import * as jsyaml from 'js-yaml';
 

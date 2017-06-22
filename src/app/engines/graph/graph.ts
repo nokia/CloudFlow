@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import jsPlumb from 'jsplumb/dist/js/jsplumb';
 import * as dagre from "dagre";
 import * as $ from "jquery";

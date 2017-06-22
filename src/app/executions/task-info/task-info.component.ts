@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {TaskExec} from "../../shared/models/taskExec";

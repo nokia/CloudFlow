@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
 import * as CodeMirror from "codemirror";
 import "codemirror/mode/javascript/javascript";

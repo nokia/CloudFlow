@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {NgModule} from '@angular/core';
 import {SharedModule} from "../shared/shared.module";
 import {ExecutionsListComponent} from './executions-list/executions-list.component';

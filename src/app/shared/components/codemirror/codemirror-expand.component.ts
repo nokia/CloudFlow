@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {CodeMirrorModalService} from "./codemirror-modal.service";
 import {Component, Input} from "@angular/core";
 import {CodeMirrorConfig} from "./codemirror.component";

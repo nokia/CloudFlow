@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {RuntimeContext, TaskExec} from "../../shared/models/taskExec";
 
 /**

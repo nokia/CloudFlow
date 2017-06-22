@@ -1,3 +1,5 @@
+// Copyright (C) 2017 Nokia
+
 import {
     AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output,
     ViewChild
