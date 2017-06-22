@@ -7,6 +7,7 @@
     "start": "ng serve --host 0.0.0.0 --port 4200 --publicHost http://0.0.0.0:4200 --disableHostCheck --proxy-config proxy.conf.json --extract-css",
     "build": "ng build --aot --prod --extract-css",
     "test": "ng test",
+    "test-ci": "ng test --singleRun",
     "lint": "ng lint --type-check",
     "e2e": "ng e2e"
   },
