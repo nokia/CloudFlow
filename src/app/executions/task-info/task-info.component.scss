@@ -1,18 +1,1 @@
-@import "../../../styles/colors";
-
-.info-item {
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
-
-  h6 {
-    margin-bottom: .2rem;
-    color: $text-muted2;
-    font-weight: normal;
-    font-size: .9rem;
-  }
-
-  .badge-flex {
-    flex:0 0 70px;
-  }
-}
+@import "../workflow-info/workflow-info.component";

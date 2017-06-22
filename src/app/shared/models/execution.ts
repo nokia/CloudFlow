@@ -1,4 +1,5 @@
 import {CommonFields, ExecutionState} from "./common";
+import {stringToObject} from "../utils";
 
 export interface JExecution extends CommonFields {
     state_info: null | string;
@@ -28,9 +29,9 @@ export class Execution implements JExecution {
 
     constructor(other: JExecution) {
         Object.assign(this, other);
-        this.params = JSON.parse(this.params as string);
-        this.output = JSON.parse(this.output as string);
-        this.input = JSON.parse(this.input as string);
+        this.params = stringToObject(this.params, "json");
+        this.output = stringToObject(this.output, "json");
+        this.input = stringToObject(this.input, "json");
     }
 
 }

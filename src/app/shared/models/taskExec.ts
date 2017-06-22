@@ -1,5 +1,6 @@
 import {CommonFields, ExecutionState} from "./common";
 import * as moment from "moment";
+import {stringToObject} from "../utils";
 
 export interface RuntimeContext {
     triggered_by?: {
@@ -34,7 +35,7 @@ export class TaskExec implements JStackExec, TaskDrawing {
     workflow_id: string;
     processed: boolean;
     published: string | Object;
-    type;
+    type: "ACTION" | "WORKFLOW";
     id: string;
     created_at: string;
     updated_at: string;
@@ -47,8 +48,16 @@ export class TaskExec implements JStackExec, TaskDrawing {
 
     constructor(other: JStackExec) {
         Object.assign(this, other);
-        this.published = JSON.parse(this.published as string);
-        this.runtime_context = JSON.parse(this.runtime_context as string);
+        this.published = stringToObject(this.published, "json");
+        this.runtime_context = stringToObject(this.runtime_context, "json");
         this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
+    }
+
+    get isAction() {
+        return this.type === "ACTION";
+    }
+
+    get isWorkflow() {
+        return this.type === "WORKFLOW";
     }
 }

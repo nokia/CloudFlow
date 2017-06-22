@@ -19,6 +19,12 @@ $selected-shadow: 0 5px 10px 1px rgba(0, 0, 0, .35);
   .task-content {
     padding: .5rem;
   }
+
+  .task-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .task:hover {

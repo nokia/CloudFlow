@@ -38,20 +38,25 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
                 this.task = task.task;
                 this.taskDef = task.taskDef;
 
-                if (this.isAction) {
-                    this.loadTaskExecutions(this.task.id);
+                if (this.task.isAction) {
+                    this.loadActionExecutions(this.task.id);
                 } else {
                     this.loadWfExecutionsByTaskExecutionId(this.task.id);
                 }
             })
     }
 
-    private async loadTaskExecutions(taskExecId: string) {
-        this.actionExecutions = await this.service.actionExecutions(taskExecId).toPromise();
+    /**
+     * For task of type "ACTION"- load the action executions
+     * @param taskExecId
+     * @returns {Promise<void>}
+     */
+    private loadActionExecutions(taskExecId: string) {
+        this.service.actionExecutions(taskExecId).subscribe(executions => this.actionExecutions = executions);
     }
 
-    private async loadWfExecutionsByTaskExecutionId(taskExecId: string) {
-        this.subWfExecutions = await this.service.wfExecutionsByTaskExecutionId(taskExecId).toPromise();
+    private loadWfExecutionsByTaskExecutionId(taskExecId: string) {
+        this.service.wfExecutionsByTaskExecutionId(taskExecId).subscribe(executions => this.subWfExecutions = executions);
     }
 
     codeMirrorModal(input: any, config: CodeMirrorConfig) {
@@ -60,14 +65,6 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
-    }
-
-    get isWorkflow() {
-        return this.task.type === "WORKFLOW";
-    }
-
-    get isAction() {
-        return this.task.type === "ACTION";
     }
 
 }

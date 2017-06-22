@@ -1,6 +1,8 @@
 @import "../../../styles/colors";
 
 .info-item {
+  position: relative;
+
   &:not(:last-child) {
     margin-bottom: 2rem;
   }
@@ -11,4 +13,13 @@
     font-weight: normal;
     font-size: .9rem;
   }
+
+  .info-item-header {
+    display: flex;
+    align-items: baseline;
+  }
+}
+
+.badge-flex {
+  flex: 0 1 15%;
 }

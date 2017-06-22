@@ -4,6 +4,7 @@ import {CommonModule} from "@angular/common";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {CodeMirrorModalComponent, CodeMirrorModalService} from "./codemirror-modal.service";
 import {CodeMirrorComponent} from "./codemirror.component";
+import {CodeMirrorExpandComponent} from "./codemirror-expand.component";
 
 
 @NgModule({
@@ -14,10 +15,11 @@ import {CodeMirrorComponent} from "./codemirror.component";
     declarations: [
         CodeMirrorModalComponent,
         CodeMirrorComponent,
+        CodeMirrorExpandComponent
     ],
     exports: [
-        NgbModule,
-        CodeMirrorComponent
+        CodeMirrorComponent,
+        CodeMirrorExpandComponent,
     ],
     providers: [
         CodeMirrorModalService

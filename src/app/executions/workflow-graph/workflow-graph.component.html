@@ -9,8 +9,11 @@
        [routerLinkActive]="'selected'">
 
     <div class="task-content d-flex flex-column justify-content-between h-100">
-      <div class="task-name">{{task.name}}</div>
-      <div class="badge task-state mr-auto font-weight-normal" [ngClass]="task.state">{{task.state}}</div>
+      <div class="task-name" [title]="task.name">{{task.name}}</div>
+      <div class="d-flex justify-content-between align-items-baseline">
+        <div class="badge task-state mr-auto font-weight-normal" [ngClass]="task.state">{{task.state}}</div>
+        <a *ngIf="task.isWorkflow" class="btn btn-link disabled px-1"><i class="fa fa-sitemap"></i></a>
+      </div>
     </div>
   </div>
 </div>

@@ -2,6 +2,9 @@ import * as jsyaml from "js-yaml";
 import {CommonFields} from "./common";
 import {TaskDef} from "./task";
 
+/**
+ * Workflow structure from API response
+ */
 export interface JWorkflow extends CommonFields {
     name: string;
     tags: string[];
@@ -11,6 +14,9 @@ export interface JWorkflow extends CommonFields {
     definition: string | IWorkflowDef;
 }
 
+/**
+ * Workflow Definition structure
+ */
 export interface IWorkflowDef {
     tasks: {[workflow_name: string]: TaskDef[]};
 }
@@ -27,6 +33,11 @@ export class WorkflowDef {
         this.definition = asJson;
     }
 
+    /**
+     * Get the task definition part from the Workflow definition
+     * @param {String} taskName
+     * @returns {TaskDef[]}
+     */
     getTaskDef(taskName: string): TaskDef {
         return this.definition.tasks[taskName];
     }

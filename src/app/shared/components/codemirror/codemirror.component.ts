@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
 import * as CodeMirror from "codemirror";
-import * as jsyaml from "js-yaml";
-import {isObject} from "lodash/lang";
 import "codemirror/mode/javascript/javascript";
 import "codemirror/mode/yaml/yaml";
 import "codemirror/addon/edit/matchbrackets";
@@ -13,6 +11,7 @@ import "codemirror/addon/search/searchcursor";
 import "codemirror/addon/search/matchesonscrollbar";
 import "codemirror/addon/dialog/dialog";
 import "codemirror/addon/display/autorefresh";
+import {objectToString} from "../../utils";
 
 export interface CodeMirrorConfig {
     readonly?: boolean;
@@ -41,22 +40,7 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
     }
 
     private formatValue(value: any) {
-        const newValue: string = value;
-        if (this.config.mode === "json" && isObject(value)) {
-            // this is indeed json. convert it to string
-            return JSON.stringify(value, null, 2);
-        }
-
-        if (this.config.mode === "json" && typeof value === "string") {
-            // this is a string, convert it to JSON to fix newline problems
-            return JSON.stringify(JSON.parse(value), null, 2);
-        }
-
-        if (this.config.mode === "yaml") {
-            return jsyaml.safeDump(value, );
-        }
-
-        return (newValue || '').toString();
+        return objectToString(value, this.config.mode);
     }
 
     ngAfterViewInit() {

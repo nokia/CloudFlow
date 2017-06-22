@@ -19,12 +19,12 @@
             <span class="badge font-weight-normal" [ngClass]="task.state">{{task.state}}</span>
         </div>
 
-        <div class="info-item" *ngIf="isAction">
+        <div class="info-item" *ngIf="task.isAction">
             <h6>Action:</h6>
             {{taskDef.action}}
         </div>
 
-        <div class="info-item" *ngIf="isWorkflow">
+        <div class="info-item" *ngIf="task.isWorkflow">
             <h6>Workflow:</h6>
             {{taskDef.workflow}}
         </div>
@@ -39,6 +39,11 @@
                 <h6>Ended:</h6>
                 {{task.updated_at}}
             </div>
+
+            <div class="info-item flex-1-1-auto">
+                <h6>Duration:</h6>
+                {{task.duration}}
+            </div>
         </div>
 
         <div class="info-item" *ngIf="taskDef['with-items']">
@@ -46,27 +51,28 @@
             {{taskDef['with-items']}}
         </div>
 
-        <!--<div class="info-item">-->
-            <!--<h6>Duration:</h6>-->
-            <!--[00:00:00]-->
-        <!--</div>-->
+        <div class="info-item show-on-hover-parent">
+            <div class="info-item-header">
+                <h6>State Info:</h6>
 
-        <div class="info-item">
-            <h6>State Info:</h6>
+                <cf-cm-expand [input]="task.state_info" [config]="{readonly: true, mode: 'text'}" class="show-on-hover"></cf-cm-expand>
+
+                <cf-copyable [content]="task.state_info" class="show-on-hover"></cf-copyable>
+            </div>
             <codemirror [input]="task.state_info" [config]="{readonly: true, mode: 'text'}" class="cm-mxh-150"></codemirror>
         </div>
 
-        <div class="info-item">
-            <h6>Published:</h6>
+        <div class="info-item show-on-hover-parent">
+            <div class="info-item-header">
+                <h6>Published:</h6>
+                <cf-cm-expand [input]="task.published" [config]="{readonly: true, mode: 'json'}" class="show-on-hover"></cf-cm-expand>
+
+                <cf-copyable [content]="task.published" [contentType]="json" class="show-on-hover"></cf-copyable>
+            </div>
             <codemirror [input]="task.published" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
         </div>
 
-        <div class="info-item">
-            <h6>Result:</h6>
-            <codemirror [input]="task.published" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
-        </div>
-
-        <div class="info-item" *ngIf="isAction">
+        <div class="info-item" *ngIf="task.isAction">
             <h6>Action Executions:</h6>
             <ngb-accordion [closeOthers]="false">
                 <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
@@ -96,13 +102,13 @@
             </ngb-accordion>
         </div>
 
-        <div class="info-item" *ngIf="isWorkflow">
+        <div class="info-item" *ngIf="task.isWorkflow">
             <h6>Workflow Executions:</h6>
             <ngb-accordion [closeOthers]="false">
                 <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">
 
                     <ng-template ngbPanelTitle>
-                        <div class="d-flex">
+                        <div class="d-flex align-items-center">
                             <div class="badge-flex">
                                 <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
                             </div>

@@ -8,7 +8,7 @@ import {CodeMirrorConfig} from "./codemirror.component";
         <div class="modal-header">
             <h4 class="modal-title">{{title}}</h4>
             <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
-                <span area-hidden="true">&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
