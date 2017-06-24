@@ -9,7 +9,8 @@
     "test": "ng test",
     "test-ci": "ng test --singleRun",
     "lint": "ng lint --type-check",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "ci": "npm run lint && npm run test-ci && npm run build"
   },
   "private": true,
   "dependencies": {
