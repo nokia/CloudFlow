@@ -1,16 +1,16 @@
 <nav class="navbar navbar-inverse bg-primary flex-row">
-  <img src="favicon.ico" height="32" width="32" class="mr-2" />
+  <img src="assets/icon256.svg" height="32" width="32" class="mr-2" />
   <a class="navbar-brand" [routerLink]="['/']">CloudFlow</a>
 
 
   <ul class="navbar-nav ml-auto flex-row">
     <li class="nav-item">
-      <a class="nav-link p-2" href="#">About</a>
+      <a class="nav-link p-2 pointer" (click)="about()">About</a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link p-2" href="#">Help</a>
-    </li>
+    <!--<li class="nav-item">-->
+      <!--<a class="nav-link p-2" href="#">Help</a>-->
+    <!--</li>-->
   </ul>
 
 </nav>
