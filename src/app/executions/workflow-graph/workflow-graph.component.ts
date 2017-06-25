@@ -19,6 +19,7 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
     private graphElements: any;
 
     @ViewChild("graphContainer") private container: ElementRef;
+    @ViewChild("zoomContainer") private zoomContainer: ElementRef;
 
     @Output() taskSelect = new EventEmitter<TaskExec>();
 
@@ -34,13 +35,12 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         return this._tasks;
     }
 
-
     constructor() {
     }
 
     ngAfterViewInit() {
         setTimeout(() => {
-            this.graph = new Graph(this.container.nativeElement, this.graphElements);
+            this.graph = new Graph(this.container.nativeElement, this.graphElements, this.zoomContainer.nativeElement);
         });
     }
 

@@ -21,7 +21,7 @@ import {CodeMirrorConfig} from "./codemirror.component";
 export class CodeMirrorModalComponent {
     @Input() input: any;
     @Input() config: CodeMirrorConfig;
-    title = '';
+    @Input() title = '';
     constructor(public activeModal: NgbActiveModal) {}
 }
 
@@ -30,11 +30,11 @@ export class CodeMirrorModalService {
 
     constructor(protected modal: NgbModal) {}
 
-    open(input: any, config?: CodeMirrorConfig) {
+    open(input: any, config?: CodeMirrorConfig, title?) {
         const modalRef = this.modal.open(CodeMirrorModalComponent, {size: "lg"});
         modalRef.componentInstance.input = input;
         modalRef.componentInstance.config = config;
-        modalRef.componentInstance.ready = true;
+        modalRef.componentInstance.title = title || '';
         return modalRef;
     }
 }

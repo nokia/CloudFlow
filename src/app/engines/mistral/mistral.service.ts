@@ -37,10 +37,11 @@ export class MistralService {
      */
     executions(): Observable<Execution[]> {
         const params = toUrlParams({
-            limit: 100,
-            fields: "workflow_name,created_at,state",
+            limit: 1000,
+            fields: "workflow_name,created_at,state,task_execution_id",
             sort_keys: "created_at,name",
             sort_dirs: "desc"
+
         });
 
         return this.http.get(this.prefix + "executions", {search: params})
@@ -86,6 +87,9 @@ export class MistralService {
             .catch(e => this.handleError(e));
     }
 
+    /**
+     * url: /tasks/<taskExecutionId>/action_executions
+     */
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
         return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`)
             .map(res => res.json())
@@ -93,6 +97,10 @@ export class MistralService {
             .catch(e => this.handleError(e));
     }
 
+    /**
+     * url: /executions/?task_execution_id=<id>
+     * retrieve the subworkflow execution details
+     */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
         const params = toUrlParams({task_execution_id: taskExecId});
         return this.http.get(this.prefix + "executions", {search: params})

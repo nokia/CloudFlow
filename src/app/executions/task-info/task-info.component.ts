@@ -62,7 +62,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     }
 
     codeMirrorModal(input: any, config: CodeMirrorConfig) {
-        this.codeMirrorService.open(input, config);
+        this.codeMirrorService.open(input, config, 'Task Definition');
     }
 
     ngOnDestroy() {

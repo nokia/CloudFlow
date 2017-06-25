@@ -2,13 +2,14 @@
 
 import jsPlumb from 'jsplumb/dist/js/jsplumb';
 import * as dagre from "dagre";
-import * as $ from "jquery";
+import Zoom from "./zoom";
 
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
     private static readonly EndpointStyle = {radius: 6, fill: "#456"};
 
     private p = jsPlumb.jsPlumb;
+    private zoom: Zoom;
 
     private connectAll(edges: any) {
         for (const edge of edges) {
@@ -24,7 +25,7 @@ export class Graph {
         }
     }
 
-    constructor(container: any, elements: any) {
+    constructor(container: any, elements: any, zoomContainer: any) {
         this.p.ready(() => {
             this.p.importDefaults({
                 Connector: ["Flowchart", {cornerRadius: 10, midpoint: .9}]
@@ -34,6 +35,8 @@ export class Graph {
                 this.connectAll(elements.edges);
                 this.layout(elements);
             });
+
+            this.zoom = new Zoom(zoomContainer, {zoomOnly: true}, this.setZoom.bind(this));
         });
     }
 
@@ -42,9 +45,25 @@ export class Graph {
             this.p.removeAllEndpoints(node.id);
             this.p.remove(node.id);
         });
+        this.zoom.destroy();
     }
 
-    layout(elements) {
+    private setZoom(zoom: number) {
+        const transformOrigin = [0.5, 0.5];
+        const container = this.p.getContainer();
+        const prefixes = ["-webkit-", "-moz-", "-ms-", "-o-", ""],
+            scale = `scale(${zoom})`,
+            transform = `${transformOrigin[0] * 100}% ${transformOrigin[1] * 100}%`;
+
+        prefixes.forEach(prefix => {
+            container.style[`${prefix}transform`] = scale;
+            container.style[`${prefix}transformOrigin`] = "top left";
+        });
+
+        this.p.setZoom(zoom);
+    };
+
+    private layout(elements) {
         const g = new dagre.graphlib.Graph();
         g.setGraph({marginx: 50, marginy: 10});
         g.setDefaultEdgeLabel(() => ({}));
