@@ -28,7 +28,7 @@ export class WorkflowDef {
     definition: IWorkflowDef;
 
     constructor(definition: string, workflowName: string) {
-        let asJson = jsyaml.safeLoad(definition);
+        const asJson = jsyaml.safeLoad(definition);
 
         if (workflowName in asJson) {
             this.definition = asJson[workflowName];
