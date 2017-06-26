@@ -83,7 +83,7 @@ export class MistralService {
     workflowDef(id: string): Observable<WorkflowDef> {
         return this.http.get(this.prefix + `workflows/${id}`)
             .map(res => res.json())
-            .map(res => new WorkflowDef(res.definition))
+            .map(res => new WorkflowDef(res.definition, res.name))
             .catch(e => this.handleError(e));
     }
 

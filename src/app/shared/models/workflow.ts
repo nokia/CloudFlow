@@ -27,12 +27,17 @@ export interface IWorkflowDef {
 export class WorkflowDef {
     definition: IWorkflowDef;
 
-    constructor(definition: string) {
+    constructor(definition: string, workflowName: string) {
         let asJson = jsyaml.safeLoad(definition);
-        // remove the workflow name from the definition
-        asJson = asJson[Object.keys(asJson)[0]];
 
-        this.definition = asJson;
+        if (workflowName in asJson) {
+            this.definition = asJson[workflowName];
+        } else {
+            // workflow name may describe nested wf (contains dots)
+            const normalizeName = workflowName.split(".");
+            const actualName = normalizeName[normalizeName.length - 1];
+            this.definition = asJson[actualName];
+        }
     }
 
     /**
