@@ -2,14 +2,10 @@
 
     <div class="d-flex flex-column">
 
-        <div class="d-flex flex-row justify-content-between">
-            <div class="info-item show-on-hover-parent">
-                <div class="info-item-header">
-                    <h6>Task:</h6>
-                    <cf-copyable [content]="task.name" class="show-on-hover"></cf-copyable>
-                </div>
-                {{task.name}}
-            </div>
+        <div class="d-flex flex-row justify-content-between mb-4">
+
+            <!-- task name -->
+            <cf-info-item [prop]="{display: 'Task', value: task.name}"></cf-info-item>
 
             <div>
                 <button class="btn btn-link btn-link--reset pointer p-0" title="Show task definition"
@@ -18,92 +14,48 @@
                 </button>
                 <a class="btn btn-link btn-link--reset pointer font-24 p-0 pl-2" [routerLink]="['../../']" title="Go back to execution details">&times;</a>
             </div>
+
         </div>
 
-        <div class="info-item show-on-hover-parent">
-            <div class="info-item-header">
-                <h6>State:</h6>
-                <cf-copyable [content]="task.state" class="show-on-hover"></cf-copyable>
-            </div>
-            <span class="badge font-weight-normal" [ngClass]="task.state">{{task.state}}</span>
-        </div>
+        <!-- state -->
+        <cf-info-item [prop]="{display: 'State', value: task.state, key:'state', renderType: 'badge'}"></cf-info-item>
 
-        <div class="info-item show-on-hover-parent">
-            <div class="info-item-header">
-                <h6>{{task.isAction? 'Action' : 'Workflow'}}:</h6>
-                <cf-copyable [content]="task.isAction ? taskDef.action : taskDef.workflow" class="show-on-hover"></cf-copyable>
+        <!-- action / workflow name -->
+        <cf-info-item *ngIf="task.isAction"
+                      [prop]="{display: 'Action', value: taskDef.action, key: 'action'}"></cf-info-item>
 
-            </div>
-            {{task.isAction ? taskDef.action : taskDef.workflow}}
-        </div>
+        <cf-info-item *ngIf="task.isWorkflow"
+                      [prop]="{display: 'Workflow', value: taskDef.workflow, key: 'workflow'}"></cf-info-item>
 
         <div class="d-flex flex-row">
-            <div class="info-item flex-1-1-auto show-on-hover-parent">
-                <div class="info-item-header">
-                    <h6>Started:</h6>
-                    <cf-copyable [content]="task.created_at" class="show-on-hover"></cf-copyable>
-                </div>
-                {{task.created_at}}
-            </div>
 
-            <div class="info-item flex-1-1-auto">
-                <div class="info-item-header show-on-hover-parent">
-                    <h6>Ended:</h6>
-                    <cf-copyable [content]="task.updated_at" class="show-on-hover"></cf-copyable>
-                </div>
-                {{task.updated_at}}
-            </div>
+            <!-- created -->
+            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Started', value: task.created_at,
+                                                            key: 'created_at'}"></cf-info-item>
 
-            <div class="info-item flex-1-1-auto">
-                <div class="info-item-header show-on-hover-parent">
-                    <h6>Duration:</h6>
-                    <cf-copyable [content]="task.duration" class="show-on-hover"></cf-copyable>
-                </div>
-                {{task.duration}}
-            </div>
+            <!-- updated -->
+            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Updated', value: task.updated_at,
+                                                            key: 'updated_at'}"></cf-info-item>
+
+            <!-- duration -->
+            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Duration', value: task.duration,
+                                                            key: 'duration'}"></cf-info-item>
         </div>
 
-        <div class="info-item" *ngIf="taskDef['with-items']">
-            <h6>With Items:</h6>
-            {{taskDef['with-items']}}
-        </div>
+        <!-- with-items -->
+        <cf-info-item *ngIf="taskDef['with-items']"
+                      [prop]="{display: 'With Items', value: taskDef['with-items'], key: 'with-items'}"></cf-info-item>
 
-        <div class="info-item show-on-hover-parent">
-            <div class="info-item-header">
-                <h6>State Info:</h6>
 
-                <cf-cm-expand [input]="task.state_info"
-                              [config]="{readonly: true, mode: 'text'}"
-                              [title]="'State Info'" class="show-on-hover"></cf-cm-expand>
+        <!-- state info -->
+        <cf-info-item [prop]="{display: 'State Info', value: task.state_info, renderType: 'code',
+                                key: 'state_info'}"></cf-info-item>
 
-                <cf-copyable [content]="task.state_info"
-                             class="show-on-hover"></cf-copyable>
-            </div>
+        <!-- published -->
+        <cf-info-item [prop]="{display: 'Published', value: task.published, renderType: 'code',
+                                mode: 'json', key: 'published'}"></cf-info-item>
 
-            <codemirror [input]="task.state_info"
-                        [config]="{readonly: true, mode: 'text'}"
-                        class="cm-mxh-150"></codemirror>
-        </div>
-
-        <div class="info-item show-on-hover-parent">
-            <div class="info-item-header">
-                <h6>Published:</h6>
-                <cf-cm-expand [input]="task.published"
-                              [config]="{readonly: true, mode: 'json'}"
-                              [title]="'Published'"
-                              class="show-on-hover"></cf-cm-expand>
-
-                <cf-copyable [content]="task.published"
-                             [contentType]="json"
-                             class="show-on-hover"></cf-copyable>
-            </div>
-
-            <codemirror [input]="task.published"
-                        [config]="{readonly: true, mode: 'json'}"
-                        class="cm-mxh-150"></codemirror>
-        </div>
-
-        <div class="info-item" *ngIf="task.isAction">
+        <div *ngIf="task.isAction" class="mt-4">
             <h6>Action Executions:</h6>
             <ngb-accordion [closeOthers]="false">
                 <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
@@ -118,22 +70,20 @@
                     </ng-template>
                     <ng-template ngbPanelContent>
 
-                        <div class="info-item">
-                            <h6>Input:</h6>
-                            <codemirror [input]="actionExecution.input" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
-                        </div>
+                        <!-- input -->
+                        <cf-info-item [prop]="{display: 'Input', value: actionExecution.input, renderType: 'code',
+                                                mode: 'json', key: 'action-'+i+'-input'}"></cf-info-item>
 
-                        <div class="info-item">
-                            <h6>Output:</h6>
-                            <codemirror [input]="actionExecution.output" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
-                        </div>
+                        <!-- output -->
+                        <cf-info-item [prop]="{display: 'Output', value: actionExecution.output, renderType: 'code',
+                                                mode: 'json', key: 'action-'+i+'-output'}"></cf-info-item>
 
                     </ng-template>
                 </ngb-panel>
             </ngb-accordion>
         </div>
 
-        <div class="info-item" *ngIf="task.isWorkflow">
+        <div *ngIf="task.isWorkflow" class="mt-4">
             <h6>Workflow Executions:</h6>
             <ngb-accordion [closeOthers]="false">
                 <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">
@@ -155,15 +105,13 @@
                     </ng-template>
 
                     <ng-template ngbPanelContent>
-                        <div class="info-item">
-                            <h6>Input:</h6>
-                            <codemirror [input]="e.input" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
-                        </div>
+                        <!-- input -->
+                        <cf-info-item [prop]="{display: 'Input', value: e.input, renderType: 'code',
+                                                mode: 'json', key: 'e-'+i+'-input'}"></cf-info-item>
 
-                        <div class="info-item">
-                            <h6>Output:</h6>
-                            <codemirror [input]="e.output" [config]="{readonly: true, mode: 'json'}" class="cm-mxh-150"></codemirror>
-                        </div>
+                        <!-- output -->
+                        <cf-info-item [prop]="{display: 'Output', value: e.output, renderType: 'code',
+                                                mode: 'json', key: 'e-'+i+'-output'}"></cf-info-item>
                     </ng-template>
 
                 </ngb-panel>

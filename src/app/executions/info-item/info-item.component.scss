@@ -1,0 +1,25 @@
+// Copyright (C) 2017 Nokia
+
+@import "../../../styles/colors";
+
+:host:not(:last-of-type) {
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  position: relative;
+  width: 100%;
+
+  h6 {
+    margin-bottom: .2rem;
+    color: $text-muted2;
+    font-weight: normal;
+    font-size: .9rem;
+  }
+
+  .info-item-header {
+    display: flex;
+    align-items: baseline;
+  }
+}
+

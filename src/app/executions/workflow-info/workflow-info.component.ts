@@ -5,6 +5,7 @@ import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution} from "../../shared/models/execution";
 import {Subscription} from "rxjs/Subscription";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
+import {InfoItemProperty} from "../info-item/info-item.component";
 
 @Component({
     selector: 'cf-workflow-info',
@@ -13,12 +14,10 @@ import {CodeMirrorModalService} from "../../shared/components/codemirror/codemir
 })
 export class WorkflowInfoComponent implements OnInit, OnDestroy {
 
-    private subscription: Subscription;
-
     // render UI based on this properties list.
     // key = the attribute on the component (i.e. execution.created_at)
     // renderType = to draw a badge, codemirror element, etc...
-    readonly properties: {key: string, display: string, renderType?: string, mode?: string}[] = [
+    static readonly Properties: {key: string, display: string, renderType?: string, mode?: string}[] = [
         {key: "workflow_name", display: "Workflow Name"},
         {key: "state", display: "State", renderType: "badge"},
         {key: "id", display: "Execution ID"},
@@ -31,13 +30,25 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         {key: "params", display: "Params", renderType: "code", mode: "json"},
     ];
 
+    private subscription: Subscription;
+
+    properties: InfoItemProperty[];
     execution: Execution;
 
     constructor(private service: MistralService, public cmModal: CodeMirrorModalService) {}
 
     ngOnInit() {
         // wait for selectedExecution to be set on the service
-        this.subscription = this.service.selectedExecution.subscribe(execution => this.execution = execution);
+        this.subscription = this.service.selectedExecution.subscribe(execution => {
+            this.execution = execution;
+            if (execution) {
+                this.properties = WorkflowInfoComponent.Properties.map(prop => {
+                    return {...prop, value: execution[prop.key]};
+                });
+            } else {
+                this.properties = [];
+            }
+        });
     }
 
     ngOnDestroy() {

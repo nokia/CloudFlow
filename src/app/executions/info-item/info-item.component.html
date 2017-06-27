@@ -1,0 +1,30 @@
+<div class="info-item show-on-hover-parent" [id]="'info-item-property-'+prop.key">
+    <div class="info-item-header">
+        <h6>{{prop.display}}:</h6>
+
+        <cf-cm-expand *ngIf="prop.renderType === 'code'" class="show-on-hover"
+                      [title]="prop.display" [input]="prop.value"
+                      [config]="{readonly: true, mode: prop.mode || 'text'}"></cf-cm-expand>
+
+        <cf-copyable [content]="prop.value" [contentType]="prop.mode || 'text'"
+                     class="show-on-hover"></cf-copyable>
+    </div>
+
+    <ng-container [ngSwitch]="prop.renderType">
+
+        <ng-container *ngSwitchCase="'badge'">
+                    <span class="badge font-weight-normal"
+                          [ngClass]="prop.value">{{prop.value}}</span>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'code'">
+            <codemirror [input]="prop.value" [config]="{readonly: true, mode: prop.mode}"
+                        class="cm-mxh-150"></codemirror>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+            {{prop.value}}
+        </ng-container>
+    </ng-container>
+
+</div>

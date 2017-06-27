@@ -1,14 +1,15 @@
 // Copyright (C) 2017 Nokia
 
-import {NgModule} from '@angular/core';
+import {NgModule} from "@angular/core";
 import {SharedModule} from "../shared/shared.module";
-import {ExecutionsListComponent} from './executions-list/executions-list.component';
+import {ExecutionsListComponent} from "./executions-list/executions-list.component";
 import {ExecutionsRouteModule} from "./executions-routing.module";
 import {ExecutionsComponent} from "./executions.component";
-import {ExecutionComponent} from './execution/execution.component';
-import { WorkflowInfoComponent } from './workflow-info/workflow-info.component';
-import { WorkflowGraphComponent } from './workflow-graph/workflow-graph.component';
-import { TaskInfoComponent } from './task-info/task-info.component';
+import {ExecutionComponent} from "./execution/execution.component";
+import {WorkflowInfoComponent} from "./workflow-info/workflow-info.component";
+import {WorkflowGraphComponent} from "./workflow-graph/workflow-graph.component";
+import {TaskInfoComponent} from "./task-info/task-info.component";
+import {InfoItemComponent} from "./info-item/info-item.component";
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { TaskInfoComponent } from './task-info/task-info.component';
         ExecutionComponent,
         WorkflowInfoComponent,
         WorkflowGraphComponent,
-        TaskInfoComponent
+        TaskInfoComponent,
+        InfoItemComponent
     ],
     exports: [
         ExecutionsComponent

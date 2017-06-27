@@ -9,6 +9,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {MistralServiceMock} from "../../engines/mistral/mistral.service.mock";
 import {CodeMirrorComponent} from "../../shared/components/codemirror/codemirror.component";
+import {InfoItemComponent} from "../info-item/info-item.component";
 
 
 describe('WorkflowInfoComponent', () => {
@@ -18,10 +19,10 @@ describe('WorkflowInfoComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [SharedModule, NgbModule.forRoot()],
-            declarations: [WorkflowInfoComponent],
+            declarations: [WorkflowInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useValue: MistralServiceMock}]
         })
-            .compileComponents();
+            // .compileComponents();
     }));
 
     beforeEach(() => {
@@ -41,15 +42,15 @@ describe('WorkflowInfoComponent', () => {
         });
 
         it('should display some properties', () => {
-           const workflow_id = fixture.debugElement.query(By.css("#workflow-execution-property-workflow_id")).nativeElement;
+           const workflow_id = fixture.debugElement.query(By.css("#info-item-property-workflow_id")).nativeElement;
            expect(workflow_id.textContent).toContain("abcd-efg");
 
-           const execution_id = fixture.debugElement.query(By.css("#workflow-execution-property-id")).nativeElement;
+           const execution_id = fixture.debugElement.query(By.css("#info-item-property-id")).nativeElement;
            expect(execution_id.textContent).toContain("xyz-uvw");
         });
 
         it('should display codemirror instance for "code" objects', () => {
-            const input = fixture.debugElement.query(By.css("#workflow-execution-property-input"));
+            const input = fixture.debugElement.query(By.css("#info-item-property-input"));
             const codeMirrorElement = input.query(By.directive(CodeMirrorComponent));
             const codeMirrorInstance = codeMirrorElement.injector.get(CodeMirrorComponent) as CodeMirrorComponent;
             expect(codeMirrorInstance.input).toEqual({param1: 1});

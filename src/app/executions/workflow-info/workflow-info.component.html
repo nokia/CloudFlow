@@ -1,56 +1,7 @@
 <div class="p-3 mb-1 animated slideInLeft" *ngIf="execution">
 
     <div class="d-flex flex-column">
-        <div class="info-item show-on-hover-parent" *ngFor="let prop of properties" [id]="'workflow-execution-property-'+prop.key">
-            <div class="info-item-header">
-                <h6>{{prop.display}}:</h6>
-
-                <cf-cm-expand *ngIf="prop.renderType === 'code'" class="show-on-hover"
-                              [input]="execution[prop.key]" [config]="{readonly: true, mode: prop.mode || 'text'}"></cf-cm-expand>
-
-                <cf-copyable [content]="execution[prop.key]" [contentType]="prop.mode || 'text'"
-                             class="show-on-hover"></cf-copyable>
-            </div>
-
-            <ng-container [ngSwitch]="prop.renderType">
-
-                <ng-container *ngSwitchCase="'badge'">
-                    <span class="badge font-weight-normal"
-                          [ngClass]="execution[prop.key]">{{execution[prop.key]}}</span>
-                </ng-container>
-
-                <ng-container *ngSwitchCase="'code'">
-                    <codemirror [input]="execution[prop.key]" [config]="{readonly: true, mode: prop.mode}"
-                                class="cm-mxh-150"></codemirror>
-                </ng-container>
-
-                <ng-container *ngSwitchDefault>
-                    {{execution[prop.key]}}
-                </ng-container>
-            </ng-container>
-
-        </div>
+        <cf-info-item *ngFor="let prop of properties" [prop]="prop"></cf-info-item>
     </div>
 
-
-    <!-- TODO: bring back 'grouped' view -->
-    <!--<div class="d-flex flex-row">-->
-        <!--<div class="info-item flex-1-1-auto show-on-hover-parent">-->
-            <!--<div class="info-item-header">-->
-                <!--<h6>Started:</h6>-->
-                <!--<cf-copyable [content]="execution.created_at" class="show-on-hover"></cf-copyable>-->
-            <!--</div>-->
-
-            <!--{{execution.created_at}}-->
-        <!--</div>-->
-
-        <!--<div class="info-item flex-1-1-auto show-on-hover-parent">-->
-            <!--<div class="info-item-header">-->
-                <!--<h6>Ended:</h6>-->
-                <!--<cf-copyable [content]="execution.updated_at" class="show-on-hover"></cf-copyable>-->
-            <!--</div>-->
-
-            <!--{{execution.updated_at}}-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
