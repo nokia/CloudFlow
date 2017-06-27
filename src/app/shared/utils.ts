@@ -40,8 +40,13 @@ export function stringToObject(content: any, mode: "json" | "yaml") {
  * @returns {string}
  */
 export function objectToString(content: any, mode: string /*json | yaml | text*/): string {
-    if (!content || typeof(content) === "string" || mode === "text") {
-        return (content || '').toString();
+    if (!content || typeof content === "string" || mode === "text") {
+        if (typeof content === "string" && mode === "json") {
+            // for json- need to parse then stringify to fix newlines parsing
+            return JSON.stringify(JSON.parse(content), null, 2);
+        } else {
+            return (content || '').toString();
+        }
     } else if (mode === "yaml") {
         return jsyaml.safeDump(content);
     } else {
