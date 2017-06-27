@@ -9,7 +9,7 @@
 
             <div>
                 <button class="btn btn-link btn-link--reset pointer p-0" title="Show task definition"
-                        (click)="codeMirrorModal(taskDef, {mode: 'yaml'})">
+                        (click)="showTaskDefinition(taskDef)">
                     <small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small>
                 </button>
                 <a class="btn btn-link btn-link--reset pointer font-24 p-0 pl-2" [routerLink]="['../../']" title="Go back to execution details">&times;</a>
@@ -51,18 +51,24 @@
         <cf-info-item [prop]="{display: 'State Info', value: task.state_info, renderType: 'code',
                                 key: 'state_info'}"></cf-info-item>
 
+        <!-- result -->
+        <cf-info-item [prop]="{display: 'Result', value: task.result, renderType: 'code',
+                                mode:'json', key: 'result'}"></cf-info-item>
+
         <!-- published -->
         <cf-info-item [prop]="{display: 'Published', value: task.published, renderType: 'code',
                                 mode: 'json', key: 'published'}"></cf-info-item>
 
-        <div *ngIf="task.isAction" class="mt-4">
+        <div *ngIf="task.isAction && actionExecutions && actionExecutions.length" class="mt-4">
             <h6>Action Executions:</h6>
-            <ngb-accordion [closeOthers]="false">
+            <ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)">
                 <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
                     <ng-template ngbPanelTitle>
                         <div class="d-flex">
                             <div class="badge-flex">
-                                <div class="badge font-weight-normal" [ngClass]="actionExecution.state">{{actionExecution.state}}</div>
+                                <div class="badge font-weight-normal" [ngClass]="actionExecution.state">
+                                    {{actionExecution.state}}
+                                </div>
                             </div>
                             <div class="flex-1-1-auto">{{actionExecution.name}}</div>
 
@@ -83,7 +89,7 @@
             </ngb-accordion>
         </div>
 
-        <div *ngIf="task.isWorkflow" class="mt-4">
+        <div *ngIf="task.isWorkflow && subWfExecutions && subWfExecutions.length" class="mt-4">
             <h6>Workflow Executions:</h6>
             <ngb-accordion [closeOthers]="false">
                 <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">

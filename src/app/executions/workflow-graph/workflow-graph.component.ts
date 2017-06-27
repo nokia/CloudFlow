@@ -1,9 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {
-    AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output,
-    ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
 import {TaskExec} from "../../shared/models/taskExec";
 import {Graph} from "../../engines/graph/graph";
 import {toGraphData} from "../../engines/graph/translator";

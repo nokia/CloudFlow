@@ -1,11 +1,9 @@
 // Copyright (C) 2017 Nokia
 
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MistralService} from "../../engines/mistral/mistral.service";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Execution} from "../../shared/models/execution";
-import {TaskExec} from "../../shared/models/taskExec";
-import {WorkflowDef} from "../../shared/models/workflow";
+import {MistralService} from "../../engines/mistral/mistral.service";
+import {Execution, TaskExec, WorkflowDef} from "../../shared/models/";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/toPromise";
 

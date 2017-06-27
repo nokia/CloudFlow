@@ -3,17 +3,14 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {Execution} from "../../shared/models/execution";
-import {TaskExec} from "../../shared/models/taskExec"
-import {WorkflowDef} from "../../shared/models/workflow";
+import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution} from "../../shared/models";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {TaskDef} from "../../shared/models/task";
 import {toUrlParams} from "../../shared/utils";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import "rxjs/add/observable/forkJoin";
-import {ActionExecution} from "../../shared/models/action";
+import "rxjs/add/observable/of";
 
 
 @Injectable()
@@ -85,6 +82,35 @@ export class MistralService {
             .map(res => res.json())
             .map(res => new WorkflowDef(res.definition, res.name))
             .catch(e => this.handleError(e));
+    }
+
+    /**
+     * url: /tasks/<taskExecId>
+     * This call will patch the "missing" 'result' value on a task execution.
+     */
+    patchTaskExecutionResult(taskExec: TaskExec) {
+        if (taskExec.result != null) {
+            return Observable.of(taskExec);
+        } else {
+            return this.http.get(this.prefix + `tasks/${taskExec.id}`)
+                .map(res => res.json())
+                .map(res => {
+                    taskExec.setResult(res.result);
+                    return taskExec;
+                })
+                .catch(e => this.handleError(e));
+        }
+    }
+
+    patchActionExecutionOutput(actionExecution: ActionExecution) {
+        if (actionExecution.output != null) {
+            return Observable.of(actionExecution);
+        } else {
+            return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
+                .map(res => res.json())
+                .map(res => actionExecution.output = res.output)
+                .catch(e => this.handleError(e));
+        }
     }
 
     /**

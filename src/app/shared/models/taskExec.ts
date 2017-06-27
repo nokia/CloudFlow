@@ -10,7 +10,7 @@ export interface RuntimeContext {
     }[];
 }
 
-export interface JStackExec extends CommonFields {
+export interface JTaskExec extends CommonFields {
     name: string;
     runtime_context: string | object;
     workflow_name: string;
@@ -21,6 +21,7 @@ export interface JStackExec extends CommonFields {
     processed: boolean;
     published: string | object;
     type: "ACTION" | "WORKFLOW";
+    result: null | object;
 }
 
 export interface TaskDrawing {
@@ -28,7 +29,7 @@ export interface TaskDrawing {
     left: number;
 }
 
-export class TaskExec implements JStackExec, TaskDrawing {
+export class TaskExec implements JTaskExec, TaskDrawing {
     name: string;
     runtime_context: string | RuntimeContext;
     workflow_name: string;
@@ -43,16 +44,22 @@ export class TaskExec implements JStackExec, TaskDrawing {
     updated_at: string;
     duration: string;
     state_info: string;
+    result: null | object;
 
     // used to set position after graph calculation
     top = 0;
     left = 0;
+    className = '';
 
-    constructor(other: JStackExec) {
+    constructor(other: JTaskExec) {
         Object.assign(this, other);
         this.published = stringToObject(this.published, "json");
         this.runtime_context = stringToObject(this.runtime_context, "json");
         this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
+    }
+
+    setResult(result: string) {
+        this.result = stringToObject(result, "json");
     }
 
     get isAction() {
