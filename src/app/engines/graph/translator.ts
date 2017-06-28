@@ -7,8 +7,27 @@ import {RuntimeContext, TaskExec} from "../../shared/models/taskExec";
  * @param event
  * @returns {string}
  */
-export function toStateName(event: string) {
+function toStateName(event: string) {
     return event.split("-")[1].toUpperCase();
+}
+
+function _toGraphNodes(tasks: TaskExec[]) {
+    return tasks;
+}
+
+function _toGraphEdges(tasks: TaskExec[]) {
+    return tasks
+        .filter(task => Object.keys(task.runtime_context).length)
+        .map(task => {
+                const context: RuntimeContext = task.runtime_context as RuntimeContext;
+                return context.triggered_by.map(trigger => ({
+                        source: trigger.task_id,
+                        target: task.id,
+                        state: toStateName(trigger.event)
+                    })
+                )
+            }
+        ).reduce((a, b) => a.concat(b), []);
 }
 
 /**
@@ -17,15 +36,7 @@ export function toStateName(event: string) {
  */
 export function toGraphData(tasks: TaskExec[]) {
     return {
-        nodes: tasks,
-        edges: tasks.filter(task => Object.keys(task.runtime_context).length)
-            .map(task => {
-                const context: RuntimeContext = task.runtime_context as RuntimeContext;
-                return {
-                    source: context.triggered_by[0].task_id,
-                    target: task.id,
-                    state: toStateName(context.triggered_by[0].event)
-                }
-            })
+        nodes: _toGraphNodes(tasks),
+        edges: _toGraphEdges(tasks)
     };
 }
