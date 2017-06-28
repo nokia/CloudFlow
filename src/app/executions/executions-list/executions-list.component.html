@@ -6,9 +6,9 @@
     </div>
 
     <div class="row pb-1 m-0 text-muted">
-      <div class="col-1">State</div>
-      <div class="col-8">Workflow</div>
-      <div class="col-3">Created At</div>
+      <div class="col-sm-1 col-3">State</div>
+      <div class="col-sm-8 col-4">Workflow</div>
+      <div class="col-sm-3 col-5">Created At</div>
     </div>
 
   </div>
@@ -17,11 +17,11 @@
 <div class="container search-results">
   <div class="" id="executions-list">
     <div class="row py-3 m-0 execution-list-item pointer" *ngFor="let execution of executions;" [routerLink]="[execution.id]">
-      <div class="col-1">
+      <div class="col-sm-1 col-3">
         <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
       </div>
-      <div class="col-8">{{execution.workflow_name}}</div>
-      <div class="col-3">{{execution.created_at}}</div>
+      <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
+      <div class="col-sm-3 col-5">{{execution.created_at}}</div>
     </div>
   </div>
 </div>
