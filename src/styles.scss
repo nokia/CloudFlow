@@ -86,6 +86,11 @@ body {
   word-break: break-all;
 }
 
+.text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 pre {
   white-space: pre-wrap;
   @extend .word-break-all;

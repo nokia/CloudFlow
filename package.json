@@ -8,6 +8,7 @@
     "build": "ng build --aot --prod --extract-css",
     "test": "ng test",
     "test-ci": "ng test --singleRun",
+    "test-coverage": "ng test --singleRun --code-coverage --reporters=coverage-istanbul",
     "lint": "ng lint --type-check",
     "e2e": "ng e2e",
     "ci": "npm run lint && npm run test-ci && npm run build"

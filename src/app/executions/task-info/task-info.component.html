@@ -5,7 +5,7 @@
         <div class="d-flex flex-row justify-content-between mb-4">
 
             <!-- task name -->
-            <cf-info-item [prop]="{display: 'Task', value: task.name}"></cf-info-item>
+            <cf-info-item [prop]="{display: 'Task', value: task.name, key: 'name'}"></cf-info-item>
 
             <div>
                 <button class="btn btn-link btn-link--reset pointer p-0" title="Show task definition"
@@ -18,7 +18,7 @@
         </div>
 
         <!-- state -->
-        <cf-info-item [prop]="{display: 'State', value: task.state, key:'state', renderType: 'badge'}"></cf-info-item>
+        <cf-info-item [prop]="{display: 'State', value: task.state, key:'state', renderType: 'badge', key: 'state'}"></cf-info-item>
 
         <!-- action / workflow name -->
         <cf-info-item *ngIf="task.isAction"
@@ -100,7 +100,7 @@
                                 <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
                             </div>
 
-                            <div class="flex-1-1-auto">
+                            <div class="flex-1-1-auto text-ellipsis">
                                 {{e.workflow_name}}
                             </div>
 
