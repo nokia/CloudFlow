@@ -14,14 +14,12 @@ import {TaskDef, TaskExec} from "../../shared/models/";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
+import {SubworkflowExecutionsInfoComponent} from "./subworkflow-executions-info/subworkflow-executions-info.component";
+import {ActionExecutionsInfoComponent} from "./action-executions-info/action-executions-info.component";
 
 @Injectable()
 class MistralServiceMock {
     selectedTask = new BehaviorSubject<{task: TaskExec, taskDef: TaskDef}>(null);
-
-    wfExecutionsByTaskExecutionId(...args) {
-        return Observable.of(null);
-    }
 
     patchTaskExecutionResult(...args) {
         return Observable.of(null);
@@ -36,7 +34,7 @@ describe('TaskInfoComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [NgbModule.forRoot(), SharedModule, RouterTestingModule],
-            declarations: [TaskInfoComponent, InfoItemComponent],
+            declarations: [TaskInfoComponent, SubworkflowExecutionsInfoComponent, ActionExecutionsInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useClass: MistralServiceMock}]
         })
             // .compileComponents();

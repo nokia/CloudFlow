@@ -5,9 +5,10 @@ import {Component, Input} from "@angular/core";
 export interface InfoItemProperty {
     key: string;
     display: string;
-    value: any;
+    value?: any;
     renderType?: string;
     mode?: string;
+    instance?: string;
 }
 
 @Component({

@@ -17,7 +17,7 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
     // render UI based on this properties list.
     // key = the attribute on the component (i.e. execution.created_at)
     // renderType = to draw a badge, codemirror element, etc...
-    static readonly Properties: {key: string, display: string, renderType?: string, mode?: string}[] = [
+    static readonly Properties: InfoItemProperty[] = [
         {key: "workflow_name", display: "Workflow Name"},
         {key: "state", display: "State", renderType: "badge"},
         {key: "id", display: "Execution ID"},
@@ -32,7 +32,7 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
 
-    properties: InfoItemProperty[];
+    properties: {[key: string]: InfoItemProperty} = {};
     execution: Execution;
 
     constructor(private service: MistralService, public cmModal: CodeMirrorModalService) {}
@@ -42,11 +42,11 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         this.subscription = this.service.selectedExecution.subscribe(execution => {
             this.execution = execution;
             if (execution) {
-                this.properties = WorkflowInfoComponent.Properties.map(prop => {
-                    return {...prop, value: execution[prop.key]};
+                WorkflowInfoComponent.Properties.forEach(prop => {
+                    this.properties[prop.key] = {...prop, value: execution[prop.key]};
                 });
             } else {
-                this.properties = [];
+                this.properties = {};
             }
         });
     }

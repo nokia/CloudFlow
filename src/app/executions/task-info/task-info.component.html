@@ -5,7 +5,7 @@
         <div class="d-flex flex-row justify-content-between mb-4">
 
             <!-- task name -->
-            <cf-info-item [prop]="{display: 'Task', value: task.name, key: 'name'}"></cf-info-item>
+            <cf-info-item [prop]="properties['name']"></cf-info-item>
 
             <div>
                 <button class="btn btn-link btn-link--reset pointer p-0" title="Show task definition"
@@ -17,112 +17,45 @@
 
         </div>
 
-        <!-- state -->
-        <cf-info-item [prop]="{display: 'State', value: task.state, key:'state', renderType: 'badge', key: 'state'}"></cf-info-item>
-
         <!-- action / workflow name -->
-        <cf-info-item *ngIf="task.isAction"
-                      [prop]="{display: 'Action', value: taskDef.action, key: 'action'}"></cf-info-item>
+        <cf-info-item *ngIf="task.isAction" [prop]="properties['action']"></cf-info-item>
 
-        <cf-info-item *ngIf="task.isWorkflow"
-                      [prop]="{display: 'Workflow', value: taskDef.workflow, key: 'workflow'}"></cf-info-item>
+        <cf-info-item *ngIf="task.isWorkflow" [prop]="properties['workflow']"></cf-info-item>
+
+        <div class="d-flex flex-row mb-4">
+            <!-- state -->
+            <cf-info-item class="flex-0-0-15" [prop]="properties['state']"></cf-info-item>
+
+            <!-- state info -->
+            <cf-info-item class="flex-1-1-auto mnw-0" [prop]="properties['state_info']"></cf-info-item>
+        </div>
 
         <div class="d-flex flex-row">
 
             <!-- created -->
-            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Started', value: task.created_at,
-                                                            key: 'created_at'}"></cf-info-item>
+            <cf-info-item class="flex-1-1-auto" [prop]="properties['created_at']"></cf-info-item>
 
             <!-- updated -->
-            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Updated', value: task.updated_at,
-                                                            key: 'updated_at'}"></cf-info-item>
+            <cf-info-item class="flex-1-1-auto" [prop]="properties['updated_at']"></cf-info-item>
 
             <!-- duration -->
-            <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Duration', value: task.duration,
-                                                            key: 'duration'}"></cf-info-item>
+            <cf-info-item class="flex-1-1-auto" [prop]="properties['duration']"></cf-info-item>
         </div>
 
         <!-- with-items -->
-        <cf-info-item *ngIf="taskDef['with-items']"
-                      [prop]="{display: 'With Items', value: taskDef['with-items'], key: 'with-items'}"></cf-info-item>
-
-
-        <!-- state info -->
-        <cf-info-item [prop]="{display: 'State Info', value: task.state_info, renderType: 'code',
-                                key: 'state_info'}"></cf-info-item>
+        <cf-info-item *ngIf="taskDef['with-items']" [prop]="properties['with-items']"></cf-info-item>
 
         <!-- result -->
-        <cf-info-item [prop]="{display: 'Result', value: task.result, renderType: 'code',
-                                mode:'json', key: 'result'}"></cf-info-item>
+        <cf-info-item [prop]="properties['result']"></cf-info-item>
 
         <!-- published -->
-        <cf-info-item [prop]="{display: 'Published', value: task.published, renderType: 'code',
-                                mode: 'json', key: 'published'}"></cf-info-item>
+        <cf-info-item [prop]="properties['published']"></cf-info-item>
 
-        <div *ngIf="task.isAction && actionExecutions && actionExecutions.length" class="mt-4">
-            <h6>Action Executions:</h6>
-            <ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)">
-                <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
-                    <ng-template ngbPanelTitle>
-                        <div class="d-flex">
-                            <div class="badge-flex">
-                                <div class="badge font-weight-normal" [ngClass]="actionExecution.state">
-                                    {{actionExecution.state}}
-                                </div>
-                            </div>
-                            <div class="flex-1-1-auto">{{actionExecution.name}}</div>
+        <!-- when task is action: show action executions -->
+        <cf-action-executions-info *ngIf="task.isAction" class="mt-4" [taskExecutionId]="task.id"></cf-action-executions-info>
 
-                        </div>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-
-                        <!-- input -->
-                        <cf-info-item [prop]="{display: 'Input', value: actionExecution.input, renderType: 'code',
-                                                mode: 'json', key: 'action-'+i+'-input'}"></cf-info-item>
-
-                        <!-- output -->
-                        <cf-info-item [prop]="{display: 'Output', value: actionExecution.output, renderType: 'code',
-                                                mode: 'json', key: 'action-'+i+'-output'}"></cf-info-item>
-
-                    </ng-template>
-                </ngb-panel>
-            </ngb-accordion>
-        </div>
-
-        <div *ngIf="task.isWorkflow && subWfExecutions && subWfExecutions.length" class="mt-4">
-            <h6>Workflow Executions:</h6>
-            <ngb-accordion [closeOthers]="false">
-                <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">
-
-                    <ng-template ngbPanelTitle>
-                        <div class="d-flex align-items-center">
-                            <div class="badge-flex">
-                                <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
-                            </div>
-
-                            <div class="flex-1-1-auto text-ellipsis">
-                                {{e.workflow_name}}
-                            </div>
-
-                            <a class="btn btn-link pointer" [routerLink]="['/executions', e.id]" title="Go to this Workflow Execution">
-                                <i class="fa fa-sitemap"></i>
-                            </a>
-                        </div>
-                    </ng-template>
-
-                    <ng-template ngbPanelContent>
-                        <!-- input -->
-                        <cf-info-item [prop]="{display: 'Input', value: e.input, renderType: 'code',
-                                                mode: 'json', key: 'e-'+i+'-input'}"></cf-info-item>
-
-                        <!-- output -->
-                        <cf-info-item [prop]="{display: 'Output', value: e.output, renderType: 'code',
-                                                mode: 'json', key: 'e-'+i+'-output'}"></cf-info-item>
-                    </ng-template>
-
-                </ngb-panel>
-            </ngb-accordion>
-        </div>
+        <!-- when task is workflow: show subworkflow executions -->
+        <cf-subworkflow-executions-info *ngIf="task.isWorkflow" class="mt-4" [taskExecId]="task.id"></cf-subworkflow-executions-info>
 
     </div>
 </div>

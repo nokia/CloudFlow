@@ -10,6 +10,8 @@ import {WorkflowInfoComponent} from "./workflow-info/workflow-info.component";
 import {WorkflowGraphComponent} from "./workflow-graph/workflow-graph.component";
 import {TaskInfoComponent} from "./task-info/task-info.component";
 import {InfoItemComponent} from "./info-item/info-item.component";
+import {ActionExecutionsInfoComponent} from "./task-info/action-executions-info/action-executions-info.component";
+import {SubworkflowExecutionsInfoComponent} from "./task-info/subworkflow-executions-info/subworkflow-executions-info.component";
 
 @NgModule({
     imports: [
@@ -23,7 +25,9 @@ import {InfoItemComponent} from "./info-item/info-item.component";
         WorkflowInfoComponent,
         WorkflowGraphComponent,
         TaskInfoComponent,
-        InfoItemComponent
+        InfoItemComponent,
+        ActionExecutionsInfoComponent,
+        SubworkflowExecutionsInfoComponent,
     ],
     exports: [
         ExecutionsComponent

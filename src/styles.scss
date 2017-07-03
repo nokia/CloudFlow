@@ -100,6 +100,14 @@ pre {
   flex: 1 1 auto;
 }
 
+.flex-0-0-15 {
+  flex: 0 0 15%;
+}
+
+.mnw-0 {
+  min-width: 0;
+}
+
 .btn-link--reset {
   color: unset;
   &:hover, &:focus, &:active {

@@ -10,16 +10,15 @@
   position: relative;
   width: 100%;
 
-  h6 {
-    margin-bottom: .2rem;
-    color: $text-muted2;
-    font-weight: normal;
-    font-size: .9rem;
-  }
-
   .info-item-header {
     display: flex;
     align-items: baseline;
   }
 }
 
+/deep/ h6.info-item-title {
+  margin-bottom: .2rem;
+  color: $text-muted2;
+  font-weight: normal;
+  font-size: .9rem;
+}

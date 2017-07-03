@@ -1,6 +1,6 @@
 <div class="info-item show-on-hover-parent" [id]="'info-item-property-'+prop.key">
     <div class="info-item-header">
-        <h6>{{prop.display}}:</h6>
+        <h6 class="info-item-title">{{prop.display}}:</h6>
 
         <cf-cm-expand *ngIf="prop.renderType === 'code'" class="show-on-hover"
                       [title]="prop.display" [input]="prop.value"

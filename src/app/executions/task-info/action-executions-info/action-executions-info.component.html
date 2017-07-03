@@ -1,0 +1,27 @@
+<h6 class="info-item-title">Action Executions:</h6>
+<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)">
+  <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index" [id]="i">
+    <ng-template ngbPanelTitle>
+      <div class="d-flex">
+        <div class="badge-flex">
+          <div class="badge font-weight-normal" [ngClass]="actionExecution.state">
+            {{actionExecution.state}}
+          </div>
+        </div>
+        <div class="flex-1-1-auto">{{actionExecution.name}}</div>
+
+      </div>
+    </ng-template>
+    <ng-template ngbPanelContent>
+
+      <!-- input -->
+      <cf-info-item [prop]="{display: 'Input', value: actionExecution.input, renderType: 'code',
+                                                mode: 'json', key: 'action-'+i+'-input'}"></cf-info-item>
+
+      <!-- output -->
+      <cf-info-item [prop]="{display: 'Output', value: actionExecution.output, renderType: 'code',
+                                                mode: 'json', key: 'action-'+i+'-output'}"></cf-info-item>
+
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

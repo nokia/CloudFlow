@@ -2,13 +2,11 @@
 
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
-import {TaskExec, ActionExecution, TaskDef} from "../../shared/models/";
+import {TaskExec, TaskDef} from "../../shared/models/";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
+import {InfoItemProperty} from "../info-item/info-item.component";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/filter";
-import "rxjs/add/operator/toPromise";
-import "rxjs/add/operator/do";
-import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'cf-task-info',
@@ -17,82 +15,63 @@ import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 })
 export class TaskInfoComponent implements OnInit, OnDestroy {
 
+    // render UI based on this properties list.
+    // key = the attribute on the component (i.e. execution.created_at)
+    // renderType = to draw a badge, codemirror element, etc...
+    private static readonly Properties: InfoItemProperty[] = [
+        {key: 'name', display: 'Task', instance: 'taskExec'},
+        {key: 'action', display: 'Action', instance: 'taskDef'},
+        {key: 'workflow', display: 'Workflow', instance: 'taskDef'},
+        {key: 'state', display: 'State', renderType: 'badge', instance: 'taskExec'},
+        {key: 'state_info', display: 'State Info', renderType: 'code', mode: 'text', instance: 'taskExec'},
+        {key: 'created_at', display: 'Started', instance: 'taskExec'},
+        {key: 'updated_at', display: 'Updated', instance: 'taskExec'},
+        {key: 'duration', display: 'Duration', instance: 'taskExec'},
+        {key: 'with-items', display: 'With Items', instance: 'taskDef'},
+        {key: 'result', display: 'Result', renderType: 'code', mode: 'json', instance: 'taskExec'},
+        {key: 'published', display: 'Published', renderType: 'code', mode: 'json', instance: 'taskExec'}
+    ];
+
     private subscription: Subscription;
+
     task: TaskExec;
     taskDef: TaskDef;
-    actionExecutions: ActionExecution[];
-    subWfExecutions: any[];
+    properties: {[key: string]: InfoItemProperty};
 
     constructor(private service: MistralService, private codeMirrorService: CodeMirrorModalService) {
     }
 
     ngOnInit() {
         this.subscription = this.service.selectedTask
-            .do(() => {
-                this.actionExecutions = [];
-                this.subWfExecutions = [];
-            })
             .filter(task => !!task)
             .subscribe(task => {
                 this.load(task);
             });
     }
 
-    load(taskData) {
-
-        this.task = taskData.task;
-        this.taskDef = taskData.taskDef;
-
-        if (this.task.isAction) {
-            // for task of type 'action' => load action_executions
-            this.loadActionExecutions(this.task.id);
-        } else {
-            // for task of type 'workflow => load sub workflow executions
-            this.loadWfExecutionsByTaskExecutionId(this.task.id);
-        }
+    load({task, taskDef}: {task: TaskExec, taskDef: TaskDef}) {
+        this.task = task;
+        this.taskDef = taskDef;
+        this.setProperties(this.task, this.taskDef);
 
         // get the 'result' value of the task
         this.service.patchTaskExecutionResult(this.task).subscribe(() => {});
-
     }
 
     /**
-     * For task of type "ACTION"- load the action executions
-     * @param taskExecId
+     * Fill the properties values from the given task def and task execution
+     * @param {TaskExec} task
+     * @param {TaskDef} taskDef
      */
-    private async loadActionExecutions(taskExecId: string) {
-        return this.actionExecutions = await this.service.actionExecutions(taskExecId).toPromise();
+    private setProperties(task: TaskExec, taskDef: TaskDef): void {
+        this.properties = {};
+        TaskInfoComponent.Properties.forEach(prop => {
+            this.properties[prop.key] = {...prop, value: (prop.instance === 'taskExec' ? task : taskDef)[prop.key]};
+        });
     }
 
-    /**
-     * For task of type "Workflow"- load the sub workflow executions
-     * @param taskExecId
-     */
-    private async loadWfExecutionsByTaskExecutionId(taskExecId: string) {
-        return this.subWfExecutions = await this.service.wfExecutionsByTaskExecutionId(taskExecId).toPromise();
-    }
-
-    /**
-     * Fetch the 'output' value of the given action execution
-     * @param actionExecution
-     */
-    private patchActionExecutionOutput(actionExecution: ActionExecution) {
-        this.service.patchActionExecutionOutput(actionExecution).subscribe(() => {});
-    }
-
-    showTaskDefinition(taskDef: TaskDef) {
+    showTaskDefinition(taskDef: TaskDef): void {
         this.codeMirrorService.open(taskDef, {mode: 'yaml'}, 'Task Definition');
-    }
-
-    /**
-     * When opening an action execution tab, fetch the missing info of the action
-     * @param {Number} panelId - index of the action execution
-     * @param {Boolean} nextState - is the panel opened (true) or closed (false)
-     */
-    panelChanged({panelId, nextState}: NgbPanelChangeEvent) {
-        if (nextState /* panel opened */) {
-            this.patchActionExecutionOutput(this.actionExecutions[panelId]);
-        }
     }
 
     ngOnDestroy() {
