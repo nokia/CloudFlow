@@ -7,6 +7,7 @@ import {CodeMirrorModalService} from "../../shared/components/codemirror/codemir
 import {InfoItemProperty} from "../info-item/info-item.component";
 import {Subscription} from "rxjs/Subscription";
 import "rxjs/add/operator/filter";
+import "rxjs/add/operator/distinctUntilChanged";
 
 @Component({
     selector: 'cf-task-info',
@@ -43,9 +44,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscription = this.service.selectedTask
-            .filter(task => !!task)
-            .subscribe(task => {
-                this.load(task);
+            .filter(taskData => !!taskData)
+            .distinctUntilChanged((prevId, currId) => prevId === currId, taskData => taskData.task.id)
+            .subscribe(taskData => {
+                this.load(taskData);
             });
     }
 
