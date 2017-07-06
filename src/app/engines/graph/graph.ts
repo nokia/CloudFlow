@@ -20,8 +20,11 @@ export class Graph {
                 detachable: false,
                 anchors: Graph.Anchors,
                 endpointStyle: Graph.EndpointStyle,
-                paintStyle: {strokeWidth: 2},
+                paintStyle: {strokeWidth: 3},
                 cssClass: `edge edge-${edge.state} inPath`,
+                overlays: [
+                    ["Label", {label: edge.state, id: "state-label", cssClass: `edge-overlay ${edge.state}`}]
+                ]
             })
         }
     }
@@ -77,7 +80,7 @@ export class Graph {
      */
     private layout(elements) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({marginx: 50, marginy: 10, nodesep: 50});
+        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100});
         g.setDefaultEdgeLabel(() => ({}));
 
         // set nodes
@@ -114,13 +117,18 @@ export class Graph {
     }
 
     /**
-     * Toggle 'inPath' class for all connections (edges) depending their presence in the edges set.
-     * @param {Set<String>} edges
+     * Toggle 'inPath' class for all connections (edges) depending their presence in the edges set (or if set is empty).
+     * Toggle visibility of edge's label- show only when there is a node selected.
+     * @param {Set} edges
      */
     highlightPath(edges: Set<string>): void {
         this.p.getConnections().forEach(connection => {
+            // toggle 'inPath' class for edge
             const action = (edges.size === 0 || edges.has(connection.id)) ? "add" : "remove";
             connection[`${action}Class`]('inPath');
+
+            // toggle visibility of label
+            connection.getOverlay("state-label")[edges.size > 0 && action === "add" ? 'show' : 'hide']();
         });
     }
 }

@@ -17,12 +17,12 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
   position: absolute;
   border-radius: 4px;
   transition: border-color .2s ease-in-out, box-shadow .25s ease-in-out;
-  will-change: border-color, box-shadow;
+  //will-change: border-color, box-shadow;
 
   .task-content {
     padding: .5rem;
     transition: filter .2s ease-in-out, opacity .2s ease-in-out, background-color .2s ease-in-out;
-    will-change: filter, opacity, background-color;
+    //will-change: filter, opacity, background-color;
   }
 
   .task-name {
@@ -79,5 +79,26 @@ $state-colors: (SUCCESS: $entity-success, ERROR: $entity-error, COMPLETE: $entit
   /deep/svg.jtk-connector.edge-#{$state} path {
     stroke: $color;
     stroke-width: 2px;
+  }
+}
+
+/deep/.jtk-overlay.edge-overlay {
+  padding: 2px 5px;
+  font-size: 10px;
+  color: #fff;
+  border-radius: 3px;
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+
+  &:not(.inPath) {
+    //opacity: 0;
+    filter: grayscale(1) brightness(1.8);
+  }
+}
+
+// edge overlays (label)
+@each $state, $color in $state-colors {
+  /deep/.jtk-overlay.edge-overlay.#{$state} {
+    background-color: $color;
   }
 }
