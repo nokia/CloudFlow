@@ -7,3 +7,14 @@
 .jtk-endpoint {
   z-index: 1;
 }
+
+svg.jtk-connector.edge path {
+  transition: stroke .2s ease-in-out, opacity .2s ease-in-out;
+  will-change: stroke, opacity;
+
+}
+
+svg.jtk-connector.edge:not(.inPath) path {
+  opacity: .4;
+  stroke: #BCBCBC;
+}

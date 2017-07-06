@@ -26,7 +26,7 @@ const routes: Routes = [
                         component: WorkflowInfoComponent
                     },
                     {
-                        path: 'tasks/:taskid',
+                        path: 'tasks/:taskId',
                         component: TaskInfoComponent
                     }
                 ]

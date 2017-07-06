@@ -3,7 +3,7 @@
 <div #graphContainer id="graph-container">
   <div class="task"
        *ngFor="let task of tasks"
-       [ngClass]="[task.state, task.type]"
+       [ngClass]="[task.state, task.type, 'inPath__' + task.inPath]"
        [id]="task.id"
        [style.left.px]="task.left" [style.top.px]="task.top"
        (click)="taskSelected(task)"

@@ -27,6 +27,7 @@ export interface JTaskExec extends CommonFields {
 export interface TaskDrawing {
     top: number;
     left: number;
+    inPath: boolean;
 }
 
 export class TaskExec implements JTaskExec, TaskDrawing {
@@ -49,7 +50,7 @@ export class TaskExec implements JTaskExec, TaskDrawing {
     // used to set position after graph calculation
     top = 0;
     left = 0;
-    className = '';
+    inPath = true;
 
     constructor(other: JTaskExec) {
         Object.assign(this, other);

@@ -1,21 +1,28 @@
 // Copyright (C) 2017 Nokia
 
 import {RuntimeContext, TaskExec} from "../../shared/models/taskExec";
+import {ExecutionState} from "../../shared/models/common";
+
+export interface GraphEdge {
+    source: string;
+    target: string;
+    state: ExecutionState;
+}
 
 /**
  * Convert on-<x> events to match state values (i.e. on-success -> SUCCESS)
  * @param event
  * @returns {string}
  */
-function toStateName(event: string) {
-    return event.split("-")[1].toUpperCase();
+function toStateName(event: string): ExecutionState {
+    return event.split("-")[1].toUpperCase() as ExecutionState;
 }
 
 function _toGraphNodes(tasks: TaskExec[]) {
     return tasks;
 }
 
-function _toGraphEdges(tasks: TaskExec[]) {
+function _toGraphEdges(tasks: TaskExec[]): GraphEdge[] {
     return tasks
         .filter(task => Object.keys(task.runtime_context).length)
         .map(task => {

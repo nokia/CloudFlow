@@ -3,6 +3,7 @@
 import jsPlumb from 'jsplumb/dist/js/jsplumb';
 import * as dagre from "dagre";
 import Zoom from "./zoom";
+import {GraphEdge} from "./translator";
 
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
@@ -11,7 +12,7 @@ export class Graph {
     private p = jsPlumb.jsPlumb;
     private zoom: Zoom;
 
-    private connectAll(edges: any) {
+    private connectAll(edges: GraphEdge[]) {
         for (const edge of edges) {
             this.p.connect({
                 source: edge.source,
@@ -19,13 +20,13 @@ export class Graph {
                 detachable: false,
                 anchors: Graph.Anchors,
                 endpointStyle: Graph.EndpointStyle,
-                paintStyle: {strokeWidth: 3},
-                cssClass: `edge-${edge.state}`,
+                paintStyle: {strokeWidth: 2},
+                cssClass: `edge edge-${edge.state} inPath`,
             })
         }
     }
 
-    constructor(container: any, elements: any, zoomContainer: any) {
+    constructor(container: any, private elements: any, zoomContainer: any) {
         this.p.ready(() => {
             this.p.importDefaults({
                 Connector: ["Flowchart", {cornerRadius: 10, midpoint: .9}]
@@ -40,15 +41,21 @@ export class Graph {
         });
     }
 
-    destroy(elements) {
-        elements.nodes.forEach(node => {
+    destroy() {
+        this.elements.nodes.forEach(node => {
             this.p.removeAllEndpoints(node.id);
             this.p.remove(node.id);
         });
         this.zoom.destroy();
     }
 
-    private setZoom(zoom: number) {
+    /**
+     * Helper function to set the zoom levels of the graph.
+     * This function uses css 'transform' by setting a 'scale' value, and also calls setZoom on jsPlumb.
+     * (Adopted from: https://jsplumbtoolkit.com/community/doc/zooming.html)
+     * @param {Number} zoom
+     */
+    private setZoom(zoom: number): void {
         const transformOrigin = [0.5, 0.5];
         const container = this.p.getContainer();
         const prefixes = ["-webkit-", "-moz-", "-ms-", "-o-", ""],
@@ -63,9 +70,14 @@ export class Graph {
         this.p.setZoom(zoom);
     };
 
+    /**
+     * Calculate the layout of the graph. Calculation result it {top, left} css values and those are
+     *  set for each node.
+     * @param elements
+     */
     private layout(elements) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({marginx: 50, marginy: 10});
+        g.setGraph({marginx: 50, marginy: 10, nodesep: 50});
         g.setDefaultEdgeLabel(() => ({}));
 
         // set nodes
@@ -88,5 +100,27 @@ export class Graph {
         });
 
         setTimeout(() => this.p.repaintEverything());
+    }
+
+    /**
+     * Get connection objects
+     * @param {Object} param - filter by:
+     *              param = {"source": nodeId} - get all connection of which nodeId is the source of a connection
+     *              param = {"target": nodeId} - get all connection of which nodeId is the target of a connection
+     * @returns {any|void}
+     */
+    getConnections(param: object): any[] {
+        return this.p.getConnections(param);
+    }
+
+    /**
+     * Toggle 'inPath' class for all connections (edges) depending their presence in the edges set.
+     * @param {Set<String>} edges
+     */
+    highlightPath(edges: Set<string>): void {
+        this.p.getConnections().forEach(connection => {
+            const action = (edges.size === 0 || edges.has(connection.id)) ? "add" : "remove";
+            connection[`${action}Class`]('inPath');
+        });
     }
 }
