@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="author" content="Nokia">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="../src/favicon.ico">
 
     <style>
         html, body {
@@ -23,19 +24,19 @@
     </style>
 </head>
 <body>
-    <iframe id="iframe"
-            frameborder="0"
-            scrolling="no"
-            sandbox="allow-scripts allow-same-origin"
-            src="http://yaqluator.com:8000"></iframe>
+<iframe id="iframe"
+        frameborder="0"
+        scrolling="no"
+        sandbox="allow-scripts allow-same-origin"
+        src="http://yaqluator.com:8000"></iframe>
 
-    <script>
-        const frame = document.getElementById("iframe");
-        window.addEventListener("resize", function() {
-            frame.setAttribute("height", document.body.clientHeight);
-            frame.setAttribute("width", document.body.clientWidth);
-        });
-        window.addEventListener("load", function() {window.dispatchEvent(new CustomEvent("resize"));});
-    </script>
+<script>
+    const frame = document.getElementById("iframe");
+    window.addEventListener("resize", function() {
+        frame.setAttribute("height", document.body.clientHeight);
+        frame.setAttribute("width", document.body.clientWidth);
+    });
+    window.addEventListener("load", function() {window.dispatchEvent(new CustomEvent("resize"));});
+</script>
 </body>
 </html>

@@ -1,12 +1,24 @@
 # CloudFlow
 A workflow visualization tool for OpenStack Mistral (https://github.com/openstack/mistral)
 
+## Live Demo
+http://rawgit.com/nokia/CloudFlow/master/docs/index.html
+
+## Features
+* Visualize the flow of workflow executions
+* Identify the execution path of a single task in huge workflows
+* Easily distinguish between simple task (an action) and a sub workflow execution
+* Follow tasks with a `retry` and/or `with-items`
+* 1-click to copy task's input/output/publish/params values
+* See complete workflow definition and per task definition YAML
+* And more...
+
 ## Limitations
 
 ### OpenStack Pike only
 This branch supports OpenStack **Pike** only, as we rely on [new runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks) added to Mistral Pike.
 
-### Non-secured Mistral
+### Authentication-less
 Currently there is no support for authentication (like password, KeyStone, etc.).
 
 Make sure your Mistral does not require authentication to perform REST API requests, by setting the following in `/etc/mistral/mistral.conf`:
@@ -51,4 +63,4 @@ A Dockerfile will be provided in future release.
 * The artifacts will be stored in `dist` folder.
 
 
-![CloudFlow](Demo/main.png "CloudFlow in action")
+![CloudFlow](docs/main.png "CloudFlow in action")
