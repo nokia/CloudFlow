@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CloudFlow</title>
+    <meta name="description" content="CloudFlow - Mistral Workflow Execution Visualization">
+    <META NAME="ROBOTS" CONTENT="INDEX, NOFOLLOW">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="author" content="Nokia">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            height: 100vh;
+            width: 100vw;
+        }
+        #iframe {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="iframe"
+            frameborder="0"
+            scrolling="no"
+            sandbox="allow-scripts allow-same-origin"
+            src="http://yaqluator.com:8000"></iframe>
+
+    <script>
+        const frame = document.getElementById("iframe");
+        window.addEventListener("resize", function() {
+            frame.setAttribute("height", document.body.clientHeight);
+            frame.setAttribute("width", document.body.clientWidth);
+        });
+        window.addEventListener("load", function() {window.dispatchEvent(new CustomEvent("resize"));});
+    </script>
+</body>
+</html>
