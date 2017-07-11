@@ -22,7 +22,7 @@
  https://github.com/cytoscape/cytoscape.js-panzoom
  */
 
-import $ from "jquery";
+import * as $ from "jquery";
 
 const defaults = {
     zoomFactor: 0.05, // zoom factor per zoom tick
@@ -73,6 +73,14 @@ export default class Zoom {
         this.init();
     }
 
+    resetZoom(e: any = {}) {
+        this.zoom = 1;
+        this.doZoom(1);
+        // TODO: reset zoom and pan
+
+        return false;
+    }
+
     private startZooming() {
         this.zooming = true;
     }
@@ -95,18 +103,6 @@ export default class Zoom {
         });
 
         this.$window.on(evt, fn);
-    }
-
-    private reset(e) {
-        if (e.button !== 0) {
-            return;
-        }
-
-        this.zoom = 1;
-        this.doZoom(1);
-        // TODO: reset zoom and pan
-
-        return false;
     }
 
     private doZoom(factor: number) {
@@ -250,6 +246,6 @@ export default class Zoom {
         this.bindZoomButtons(this.$zoomOut, (1 - this.options.zoomFactor));
 
         // set reset zoom button (note: should also restore panning)
-        this.$reset.on("mousedown", (e) => this.reset(e));
+        this.$reset.on("mousedown", (e) => this.resetZoom(e));
     }
 }

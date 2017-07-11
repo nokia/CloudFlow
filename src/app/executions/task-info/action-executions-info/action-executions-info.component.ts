@@ -13,7 +13,7 @@ import "rxjs/add/operator/toPromise";
 })
 export class ActionExecutionsInfoComponent implements OnChanges {
     @Input() taskExecutionId: string;
-    actionExecutions = [];
+    actionExecutions: ActionExecution[] = [];
 
     constructor(private service: MistralService) {
     }
@@ -31,18 +31,23 @@ export class ActionExecutionsInfoComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.actionExecutions = [];
         this.loadActionExecutions(changes['taskExecutionId'].currentValue);
     }
 
     /**
-     * When opening an action execution tab, fetch the missing info of the action
-     * @param {Number} panelId - index of the action execution
+     * When opening a sub-workflow execution tab, fetch the missing info of the execution.
+     * @param {Number} panelId - index of the sub-workflow execution
      * @param {Boolean} nextState - is the panel opened (true) or closed (false)
      */
     panelChanged({panelId, nextState}: NgbPanelChangeEvent) {
         if (nextState /* panel opened */) {
             this.patchActionExecutionOutput(this.actionExecutions[panelId]);
         }
+    }
+
+    executionTrackBy(index: number, actionExecution: ActionExecution) {
+        return actionExecution.id;
     }
 
 }

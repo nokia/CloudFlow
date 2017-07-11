@@ -16,7 +16,7 @@
 
 <div class="container search-results">
   <div class="" id="executions-list">
-    <div class="row py-3 m-0 execution-list-item pointer" *ngFor="let execution of executions;" [routerLink]="[execution.id]">
+    <div class="row py-3 m-0 execution-list-item pointer" *ngFor="let execution of executions; trackBy: execTrackBy" [routerLink]="[execution.id]">
       <div class="col-sm-1 col-3">
         <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
       </div>

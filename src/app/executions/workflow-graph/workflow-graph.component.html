@@ -2,11 +2,12 @@
 
 <div #graphContainer id="graph-container">
   <div class="task"
-       *ngFor="let task of tasks"
+       *ngFor="let task of tasks; trackBy: trackby"
        [ngClass]="[task.state, task.type, 'inPath__' + task.inPath]"
        [id]="task.id"
        [style.left.px]="task.left" [style.top.px]="task.top"
        (click)="taskSelected(task)"
+       (dblclick)="focus(task)"
        [routerLink]="['tasks', task.id]"
        [routerLinkActive]="'selected'">
 

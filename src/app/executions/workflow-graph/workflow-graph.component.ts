@@ -5,6 +5,7 @@ import {TaskExec} from "../../shared/models/taskExec";
 import {Graph} from "../../engines/graph/graph";
 import {GraphEdge, toGraphData} from "../../engines/graph/translator";
 import {GraphUtils} from "../../engines/graph/graphUtils";
+import * as $ from 'jquery';
 
 @Component({
     selector: 'cf-workflow-graph',
@@ -37,14 +38,27 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        setTimeout(() => {
-            this.graph = new Graph(this.container.nativeElement, this.graphElements, this.zoomContainer.nativeElement);
-        });
+        this.graph = new Graph(this.container.nativeElement, this.graphElements, this.zoomContainer.nativeElement);
     }
 
     taskSelected(task: TaskExec|null) {
         this.taskSelect.emit(task);
         this.highlightPath(task ? task.id : null);
+    }
+
+    focus(task: TaskExec) {
+        // reset the zoom
+        this.graph.resetZoom();
+
+        // scroll selected task to middle of screen
+        const $task = $("#" + task.id),
+              {top, left} = $task.position(),
+              taskHeight = $task.outerHeight(),
+              taskWidth = $task.outerWidth(),
+              scrollableArea = $(this.container.nativeElement).parents('split-area'),
+              scrollLeft = left - scrollableArea.width() / 2 + taskWidth,
+              scrollTop =  top - scrollableArea.height() / 2 + taskHeight;
+            setTimeout(() => scrollableArea.animate({scrollLeft, scrollTop}, 'ease-in-out'), 100);
     }
 
     /**
@@ -55,6 +69,7 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         let nodes: Set<string>, edges: Set<string>;
 
         if (taskId !== null) {
+            // collect all nodes and edges in the task's execution path
             const {nodes: ancestors, edges: ancestorEdges} = GraphUtils.findAncestors(this.graph, taskId);
             const {nodes: descendants, edges: descendantsEdges} = GraphUtils.findDescendants(this.graph, taskId);
             nodes = new Set([...Array.from(ancestors), ...Array.from(descendants)]);
@@ -75,6 +90,10 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.graph.destroy();
+    }
+
+    trackby(index: number, task: TaskExec) {
+        return `${task.id}_${task.state}`;
     }
 
 }

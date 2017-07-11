@@ -20,4 +20,8 @@ export class ExecutionsListComponent implements OnInit {
             .subscribe(executions => this.executions = executions.filter(exec => !exec.task_execution_id));
     }
 
+    execTrackBy(index: number, item: Execution) {
+        return `${item.id}_${item.state}`;
+    }
+
 }

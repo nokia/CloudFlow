@@ -5,6 +5,15 @@
 $WF-shadow: 3px -3px #c0c0c0;
 $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
 
+@mixin transitions($attributes...) {
+  $transitions: "";
+  @each $attr in $attributes {
+    $transitions: $transitions + $attr + " .25s ease-in-out, ";
+  }
+
+  transition: unquote($transitions);
+}
+
 #graph-container {
   position: relative;
 }
@@ -16,13 +25,13 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
   background-color: #fff;
   position: absolute;
   border-radius: 4px;
-  transition: border-color .2s ease-in-out, box-shadow .25s ease-in-out;
-  //will-change: border-color, box-shadow;
+  @include transitions(border-color, box-shadow);
+  will-change: border-color, box-shadow;
 
   .task-content {
     padding: .5rem;
-    transition: filter .2s ease-in-out, opacity .2s ease-in-out, background-color .2s ease-in-out;
-    //will-change: filter, opacity, background-color;
+    @include transitions(filter, opacity);
+    will-change: filter, opacity;
   }
 
   .task-name {
@@ -88,7 +97,7 @@ $state-colors: (SUCCESS: $entity-success, ERROR: $entity-error, COMPLETE: $entit
   color: #fff;
   border-radius: 3px;
   opacity: 1;
-  transition: opacity .2s ease-in-out;
+  @include transitions(opacity);
 
   &:not(.inPath) {
     //opacity: 0;

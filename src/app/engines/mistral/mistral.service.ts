@@ -102,6 +102,10 @@ export class MistralService {
         }
     }
 
+    /**
+     * url: /actions_executions/<action_execution_id>
+     * This call will patch the missing 'output' value on task action execution
+     */
     patchActionExecutionOutput(actionExecution: ActionExecution) {
         if (actionExecution.output != null) {
             return Observable.of(actionExecution);
@@ -109,6 +113,19 @@ export class MistralService {
             return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
                 .map(res => res.json())
                 .map(res => actionExecution.output = res.output)
+                .catch(e => this.handleError(e));
+        }
+    }
+
+    /**
+     * This call will patch the missing 'output' value on sub-workflow execution.
+     */
+    patchSubWorfklowExecutionOutput(subWfExecution: any) {
+        if (subWfExecution.output != null) {
+            return Observable.of(subWfExecution);
+        } else {
+            return this.execution(subWfExecution.id)
+                .map(execution => subWfExecution.output = execution.output)
                 .catch(e => this.handleError(e));
         }
     }
@@ -125,7 +142,7 @@ export class MistralService {
 
     /**
      * url: /executions/?task_execution_id=<id>
-     * retrieve the subworkflow execution details
+     * retrieve the sub-workflow execution details
      */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
         const params = toUrlParams({task_execution_id: taskExecId});

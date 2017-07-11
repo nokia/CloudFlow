@@ -33,7 +33,7 @@ export class ExecutionComponent implements AfterViewInit {
             // there is task ID in the URL
             this.setSelectedTaskFromTaskId(taskId);
         } else {
-            setTimeout(() => this.workflowGraph.taskSelected(null));
+            setTimeout(() => this.workflowGraph && this.workflowGraph.taskSelected(null));
         }
     }
 

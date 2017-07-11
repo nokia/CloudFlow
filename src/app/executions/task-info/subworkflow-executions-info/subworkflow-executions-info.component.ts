@@ -3,6 +3,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {MistralService} from "../../../engines/mistral/mistral.service";
 import "rxjs/add/operator/toPromise";
+import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'cf-subworkflow-executions-info',
@@ -11,9 +13,9 @@ import "rxjs/add/operator/toPromise";
 })
 export class SubworkflowExecutionsInfoComponent implements OnChanges {
     @Input() taskExecId: string;
-    subWfExecutions: any[];
+    subWfExecutions: any[] = [];
 
-    constructor(private service: MistralService) {
+    constructor(private service: MistralService, private router: Router) {
 
     }
 
@@ -26,7 +28,29 @@ export class SubworkflowExecutionsInfoComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        this.subWfExecutions = [];
         this.loadWfExecutionsByTaskExecutionId(changes['taskExecId'].currentValue);
+    }
+
+    executionTrackBy(index: number, execution: any) {
+        return `${execution.id}_${execution.state}`;
+    }
+
+    /**
+     * When opening an action execution tab, fetch the missing info of the action
+     * @param {Number} panelId - index of the action execution
+     * @param {Boolean} nextState - is the panel opened (true) or closed (false)
+     */
+    panelChanged({panelId, nextState}: NgbPanelChangeEvent) {
+        if (nextState /* panel opened */) {
+            this.service.patchSubWorfklowExecutionOutput(this.subWfExecutions[panelId]).subscribe(() => {});
+        }
+    }
+
+    goToExecution(e, executionId: string) {
+        e.stopPropagation();
+        this.router.navigate(['/executions', executionId]);
+        return false;
     }
 
 }

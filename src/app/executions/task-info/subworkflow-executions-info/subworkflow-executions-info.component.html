@@ -1,6 +1,6 @@
 <h6 class="info-item-title">Workflow Executions:</h6>
-<ngb-accordion [closeOthers]="false">
-  <ngb-panel *ngFor="let e of subWfExecutions; let i=index;" [id]="i">
+<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="subWfExecutions.length">
+  <ngb-panel *ngFor="let e of subWfExecutions; let i=index; trackBy: executionTrackBy" [id]="i">
 
     <ng-template ngbPanelTitle>
       <div class="d-flex align-items-center">
@@ -12,9 +12,9 @@
           {{e.workflow_name}}
         </div>
 
-        <a class="btn btn-link pointer" [routerLink]="['/executions', e.id]" title="Go to this Workflow Execution">
+        <button class="btn btn-link pointer" (click)="goToExecution($event, e.id)" title="Go to this Workflow Execution">
           <i class="fa fa-sitemap"></i>
-        </a>
+        </button>
       </div>
     </ng-template>
 
