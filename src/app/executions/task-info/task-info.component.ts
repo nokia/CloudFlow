@@ -54,10 +54,9 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     load({task, taskDef}: {task: TaskExec, taskDef: TaskDef}) {
         this.task = task;
         this.taskDef = taskDef;
-        this.setProperties(this.task, this.taskDef);
 
         // get the 'result' value of the task
-        this.service.patchTaskExecutionResult(this.task).subscribe(() => {});
+        this.service.patchTaskExecutionResult(this.task).subscribe(() => this.setProperties(this.task, this.taskDef));
     }
 
     /**
