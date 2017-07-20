@@ -36,7 +36,7 @@ describe('TaskInfoComponent', () => {
             imports: [NgbModule.forRoot(), SharedModule, RouterTestingModule],
             declarations: [TaskInfoComponent, SubworkflowExecutionsInfoComponent, ActionExecutionsInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useClass: MistralServiceMock}]
-        })
+        });
             // .compileComponents();
     }));
 

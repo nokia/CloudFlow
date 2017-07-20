@@ -163,10 +163,10 @@ export default class Zoom {
 
         // constrain to slider bounds
         if (top < min) {
-            top = min
+            top = min;
         }
         if (top > max) {
-            top = max
+            top = max;
         }
 
         this.$noZoomTick.css('top', top);

@@ -21,8 +21,7 @@ describe('WorkflowInfoComponent', () => {
             imports: [SharedModule, NgbModule.forRoot()],
             declarations: [WorkflowInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useValue: MistralServiceMock}]
-        })
-            // .compileComponents();
+        });
     }));
 
     beforeEach(() => {

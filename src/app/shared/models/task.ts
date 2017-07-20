@@ -10,5 +10,5 @@ export interface TaskDef {
     input?: {[key: string]: any};
     publish?: {[key: string]: any};
     "with-items"?: string;
-    retry?: {delay: number, count: number}
+    retry?: {delay: number, count: number};
 }

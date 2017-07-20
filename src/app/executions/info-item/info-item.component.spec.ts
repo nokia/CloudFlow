@@ -81,5 +81,5 @@ describe('InfoItemComponent', () => {
             expect(cmexpandInstance.title).toEqual('A Property');
             expect(cmexpandInstance.input).toEqual({hello: 'world'});
         });
-    })
+    });
 });

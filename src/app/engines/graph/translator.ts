@@ -32,7 +32,7 @@ function _toGraphEdges(tasks: TaskExec[]): GraphEdge[] {
                         target: task.id,
                         state: toStateName(trigger.event)
                     })
-                )
+                );
             }
         ).reduce((a, b) => a.concat(b), []);
 }

@@ -25,8 +25,7 @@ export interface JTaskExec extends CommonFields {
 }
 
 export interface TaskDrawing {
-    top: number;
-    left: number;
+    // boolean to indicate if the task is in the execution path of a selected task
     inPath: boolean;
 }
 
@@ -46,10 +45,6 @@ export class TaskExec implements JTaskExec, TaskDrawing {
     duration: string;
     state_info: string;
     result: null | object;
-
-    // used to set position after graph calculation
-    top = 0;
-    left = 0;
     inPath = true;
 
     constructor(other: JTaskExec) {

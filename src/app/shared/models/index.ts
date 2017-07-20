@@ -1,4 +1,4 @@
-export * from './workflow'
+export * from './workflow';
 export * from './task';
 export * from './taskExec';
 export * from './execution';

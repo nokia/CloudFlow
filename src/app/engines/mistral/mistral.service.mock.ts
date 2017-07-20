@@ -7,7 +7,7 @@ export const MistralServiceMock = {
 
             return {
                 unsubscribe: function(){}
-            }
+            };
         },
     }
 };

@@ -26,7 +26,7 @@ export class Graph {
                 overlays: [
                     ["Label", {label: edge.state, id: "state-label", cssClass: `edge-overlay ${edge.state}`}]
                 ]
-            })
+            });
         }
     }
 
@@ -77,7 +77,7 @@ export class Graph {
         });
 
         this.p.setZoom(zoom);
-    };
+    }
 
     /**
      * Calculate the layout of the graph. Calculation result it {top, left} css values and those are
