@@ -2,12 +2,12 @@
 
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
+import {HttpClientModule} from "@angular/common/http";
 
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpModule} from "@angular/http";
 import {ExecutionsModule} from "./executions/executions.module";
 import {MistralService} from "./engines/mistral/mistral.service";
 import {AboutComponent} from "./about/about.component";
@@ -22,7 +22,7 @@ import {AboutComponent} from "./about/about.component";
         AppRoutingModule,
         NgbModule.forRoot(),
         BrowserAnimationsModule,
-        HttpModule,
+        HttpClientModule,
         ExecutionsModule,
     ],
     providers: [

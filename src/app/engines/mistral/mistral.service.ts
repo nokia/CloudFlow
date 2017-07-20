@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Nokia
 
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution} from "../../shared/models";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
@@ -21,7 +21,7 @@ export class MistralService {
     selectedExecutionTasks = new BehaviorSubject<TaskExec[]>(null);
     selectedTask = new BehaviorSubject<{task: TaskExec, taskDef: TaskDef}>(null);
 
-    constructor(protected http: Http) {
+    constructor(protected http: HttpClient) {
     }
 
     handleError(e) {
@@ -41,8 +41,8 @@ export class MistralService {
 
         });
 
-        return this.http.get(this.prefix + "executions", {search: params})
-            .map(res => res.json().executions)
+        return this.http.get(this.prefix + "executions", {params})
+            .map(res => res["executions"])
             .catch(e => this.handleError(e));
     }
 
@@ -51,8 +51,8 @@ export class MistralService {
      */
     execution(id: string): Observable<Execution> {
         return this.http.get(this.prefix + "executions/" + id)
-            .map(res => {
-                const execution = new Execution(res.json());
+            .map((res: Execution) => {
+                const execution = new Execution(res);
                 this.selectedExecution.next(execution);
                 return execution;
             })
@@ -64,7 +64,6 @@ export class MistralService {
      */
     executionTasks(id: string): Observable<TaskExec[]> {
         return this.http.get(this.prefix + `executions/${id}/tasks`)
-            .map(res => res.json())
             .map(res => res["tasks"])
             .map(res => {
                 const tasks = res.map(task => new TaskExec(task));
@@ -79,8 +78,7 @@ export class MistralService {
      */
     workflowDef(id: string): Observable<WorkflowDef> {
         return this.http.get(this.prefix + `workflows/${id}`)
-            .map(res => res.json())
-            .map(res => new WorkflowDef(res.definition, res.name))
+            .map(res => new WorkflowDef(res["definition"], res["name"]))
             .catch(e => this.handleError(e));
     }
 
@@ -93,9 +91,8 @@ export class MistralService {
             return Observable.of(taskExec);
         } else {
             return this.http.get(this.prefix + `tasks/${taskExec.id}`)
-                .map(res => res.json())
                 .map(res => {
-                    taskExec.setResult(res.result);
+                    taskExec.setResult(res["result"]);
                     return taskExec;
                 })
                 .catch(e => this.handleError(e));
@@ -111,8 +108,7 @@ export class MistralService {
             return Observable.of(actionExecution);
         } else {
             return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
-                .map(res => res.json())
-                .map(res => actionExecution.output = res.output)
+                .map(res => actionExecution.output = res["output"])
                 .catch(e => this.handleError(e));
         }
     }
@@ -135,8 +131,7 @@ export class MistralService {
      */
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
         return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`)
-            .map(res => res.json())
-            .map(res => res.action_executions)
+            .map(res => res["action_executions"])
             .catch(e => this.handleError(e));
     }
 
@@ -146,9 +141,8 @@ export class MistralService {
      */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
         const params = toUrlParams({task_execution_id: taskExecId});
-        return this.http.get(this.prefix + "executions", {search: params})
-            .map(res => res.json())
-            .map(res => res.executions)
+        return this.http.get(this.prefix + "executions", {params})
+            .map(res => res["executions"])
             .catch(e => this.handleError(e));
     }
 }

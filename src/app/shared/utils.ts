@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {URLSearchParams} from "@angular/http";
+import {HttpParams} from "@angular/common/http";
 import * as jsyaml from 'js-yaml';
 
 /**
@@ -8,9 +8,9 @@ import * as jsyaml from 'js-yaml';
  * @param obj
  * @returns {URLSearchParams}
  */
-export function toUrlParams(obj = {}): URLSearchParams {
-    const params = new URLSearchParams();
-    Object.keys(obj).forEach(key => params.set(key, obj[key].toString()));
+export function toUrlParams(obj = {}): HttpParams {
+    let params = new HttpParams();
+    Object.keys(obj).forEach(key => params = params.append(key, obj[key].toString()));
     return params;
 }
 

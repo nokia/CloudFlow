@@ -6,7 +6,7 @@ import * as dedent from 'dedent-js';
 describe('Test utils', () => {
     describe('urlParams', () => {
         it('should return empty URLSearchParams on empty object', () => {
-            expect(toUrlParams({}).paramsMap.size).toEqual(0);
+            expect(toUrlParams({}).keys().length).toEqual(0);
         });
 
         it('should convert all values to strings', () => {

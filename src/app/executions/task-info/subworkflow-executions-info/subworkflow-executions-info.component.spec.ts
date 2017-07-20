@@ -2,6 +2,7 @@
 
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {SimpleChange} from "@angular/core";
+import {HttpClientModule} from "@angular/common/http";
 
 import {SubworkflowExecutionsInfoComponent} from './subworkflow-executions-info.component';
 import {MistralService} from "../../../engines/mistral/mistral.service";
@@ -10,7 +11,6 @@ import "rxjs/add/observable/of";
 import {SharedModule} from "../../../shared/shared.module";
 import {InfoItemComponent} from "../../info-item/info-item.component";
 import {RouterTestingModule} from "@angular/router/testing";
-import {HttpModule} from "@angular/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {By} from "@angular/platform-browser";
 
@@ -27,7 +27,7 @@ describe('SubworkflowExecutionsInfoComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, RouterTestingModule, HttpModule, NgbModule.forRoot()],
+            imports: [SharedModule, RouterTestingModule, HttpClientModule, NgbModule.forRoot()],
             declarations: [SubworkflowExecutionsInfoComponent, InfoItemComponent],
             providers: [MistralService]
         })
