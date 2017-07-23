@@ -34,9 +34,6 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         return this._tasks;
     }
 
-    constructor() {
-    }
-
     ngAfterViewInit() {
         this.graph = new Graph(this.container.nativeElement, this.graphElements, this.zoomContainer.nativeElement);
     }

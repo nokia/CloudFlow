@@ -1,5 +1,5 @@
 <h6 class="info-item-title">Workflow Executions:</h6>
-<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="subWfExecutions.length">
+<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="subWfExecutions; else contentLoading">
   <ngb-panel *ngFor="let e of subWfExecutions; let i=index; trackBy: executionTrackBy" [id]="i">
 
     <ng-template ngbPanelTitle>
@@ -30,3 +30,7 @@
 
   </ngb-panel>
 </ngb-accordion>
+
+<ng-template #contentLoading>
+  <div class="animated-background md"></div>
+</ng-template>

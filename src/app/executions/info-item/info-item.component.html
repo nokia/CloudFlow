@@ -10,21 +10,28 @@
                      class="show-on-hover"></cf-copyable>
     </div>
 
-    <ng-container [ngSwitch]="prop.renderType">
+    <ng-container *ngIf="prop.value !== undefined; else propLoading">
 
-        <ng-container *ngSwitchCase="'badge'">
-                    <span class="badge font-weight-normal"
-                          [ngClass]="prop.value">{{prop.value}}</span>
-        </ng-container>
+        <ng-container [ngSwitch]="prop.renderType">
 
-        <ng-container *ngSwitchCase="'code'">
-            <codemirror [input]="prop.value" [config]="{readonly: true, mode: prop.mode}"
-                        class="cm-mxh-150"></codemirror>
-        </ng-container>
+            <ng-container *ngSwitchCase="'badge'">
+                        <span class="badge font-weight-normal"
+                              [ngClass]="prop.value">{{prop.value}}</span>
+            </ng-container>
 
-        <ng-container *ngSwitchDefault>
-            <div class="word-break-all">{{prop.value}}</div>
+            <ng-container *ngSwitchCase="'code'">
+                <codemirror [input]="prop.value" [config]="{readonly: true, mode: prop.mode}"
+                            class="cm-mxh-150"></codemirror>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+                <div class="word-break-all">{{prop.value}}</div>
+            </ng-container>
         </ng-container>
     </ng-container>
+
+    <ng-template #propLoading>
+        <div class="animated-background sm"></div>
+    </ng-template>
 
 </div>

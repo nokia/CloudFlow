@@ -42,7 +42,13 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
     }
 
     private formatValue(value: any) {
-        return objectToString(value, this.config.mode);
+        try {
+            return objectToString(value, this.config.mode);
+        } catch (e) {
+            console.warn("objectToString error. Falling back to toString()", e);
+            return (value || '').toString();
+        }
+
     }
 
     ngAfterViewInit() {

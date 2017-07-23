@@ -23,7 +23,12 @@ export class CopyableComponent {
     @Input() contentType = "text";
 
     @Input() set content(content: any) {
-        this._content = objectToString(content, this.contentType);
+        try {
+            this._content = objectToString(content, this.contentType);
+        } catch (e) {
+            console.warn('objecToString error, falling back to toString()', e);
+            this._content = (content || '').toString();
+        }
     }
 
     get content() {

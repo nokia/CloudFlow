@@ -13,7 +13,7 @@ import "rxjs/add/operator/toPromise";
 })
 export class ActionExecutionsInfoComponent implements OnChanges {
     @Input() taskExecutionId: string;
-    actionExecutions: ActionExecution[] = [];
+    actionExecutions: ActionExecution[] = null;
 
     constructor(private service: MistralService) {
     }
@@ -31,7 +31,7 @@ export class ActionExecutionsInfoComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.actionExecutions = [];
+        this.actionExecutions = null;
         this.loadActionExecutions(changes['taskExecutionId'].currentValue);
     }
 

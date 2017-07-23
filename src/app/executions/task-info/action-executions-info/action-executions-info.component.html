@@ -1,5 +1,5 @@
 <h6 class="info-item-title">Action Executions:</h6>
-<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="actionExecutions.length">
+<ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="actionExecutions; else contentLoading">
   <ngb-panel *ngFor="let actionExecution of actionExecutions; let i=index; trackBy: executionTrackBy" [id]="i">
 
     <ng-template ngbPanelTitle>
@@ -26,3 +26,7 @@
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
+
+<ng-template #contentLoading>
+  <div class="animated-background md"></div>
+</ng-template>

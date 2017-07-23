@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 })
 export class SubworkflowExecutionsInfoComponent implements OnChanges {
     @Input() taskExecId: string;
-    subWfExecutions: any[] = [];
+    subWfExecutions: any[] = null;
 
     constructor(private service: MistralService, private router: Router) {
 
@@ -28,7 +28,7 @@ export class SubworkflowExecutionsInfoComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.subWfExecutions = [];
+        this.subWfExecutions = null;
         this.loadWfExecutionsByTaskExecutionId(changes['taskExecId'].currentValue);
     }
 

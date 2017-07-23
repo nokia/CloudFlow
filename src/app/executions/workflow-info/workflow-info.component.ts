@@ -35,9 +35,13 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
     properties: {[key: string]: InfoItemProperty} = {};
     execution: Execution;
 
-    constructor(private service: MistralService, public cmModal: CodeMirrorModalService) {}
-
     ngOnInit() {
+        // Due to https://github.com/angular/angular/issues/17473,
+        // the subscription is in the constructor.
+        // Once solved, should move it back here.
+    }
+
+    constructor(private service: MistralService, public cmModal: CodeMirrorModalService) {
         // wait for selectedExecution to be set on the service
         this.subscription = this.service.selectedExecution.subscribe(execution => {
             this.execution = execution;

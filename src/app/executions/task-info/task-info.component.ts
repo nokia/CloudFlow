@@ -54,9 +54,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     load({task, taskDef}: {task: TaskExec, taskDef: TaskDef}) {
         this.task = task;
         this.taskDef = taskDef;
+        this.setProperties(this.task, this.taskDef);
 
         // get the 'result' value of the task
-        this.service.patchTaskExecutionResult(this.task).subscribe(() => this.setProperties(this.task, this.taskDef));
+        this.service.patchTaskExecutionResult(this.task).subscribe(() => this.setrPropertyValue("result", this.task.result));
     }
 
     /**
@@ -69,6 +70,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         TaskInfoComponent.Properties.forEach(prop => {
             this.properties[prop.key] = {...prop, value: (prop.instance === 'taskExec' ? task : taskDef)[prop.key]};
         });
+    }
+
+    private setrPropertyValue(key: string, value: any) {
+        this.properties[key]['value'] = value;
     }
 
     showTaskDefinition(taskDef: TaskDef): void {

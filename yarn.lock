@@ -8,12 +8,12 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/cli@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.2.1.tgz#2b50f907c8a58b4b17a543d8da75559fb3c35309"
+"@angular/cli@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.2.3.tgz#78ec7bece9865792b99745a54401749b48ff4ea8"
   dependencies:
     "@ngtools/json-schema" "1.1.0"
-    "@ngtools/webpack" "1.5.1"
+    "@ngtools/webpack" "1.5.2"
     autoprefixer "^6.5.3"
     chalk "^1.1.3"
     common-tags "^1.3.1"
@@ -38,6 +38,7 @@
     isbinaryfile "^3.0.0"
     istanbul-instrumenter-loader "^2.0.0"
     json-loader "^0.5.4"
+    karma-source-map-support "^1.2.0"
     less "^2.7.2"
     less-loader "^4.0.2"
     license-webpack-plugin "^0.4.2"
@@ -70,7 +71,7 @@
     webpack-dev-middleware "^1.10.2"
     webpack-dev-server "~2.4.5"
     webpack-merge "^2.4.0"
-    zone.js "^0.8.4"
+    zone.js "^0.8.14"
   optionalDependencies:
     node-sass "^4.3.0"
 
@@ -148,9 +149,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
 
-"@ngtools/webpack@1.5.1":
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-1.5.1.tgz#6b00ed8bfb6706ab0672b93d294e9e15f69e19be"
+"@ngtools/webpack@1.5.2":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-1.5.2.tgz#fadef06ba6a9ac0daaf891d013dad031d6bf0c26"
   dependencies:
     enhanced-resolve "^3.1.0"
     loader-utils "^1.0.2"
@@ -2754,6 +2755,12 @@ karma-jasmine@^1.0.2, karma-jasmine@~1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/karma-jasmine/-/karma-jasmine-1.1.0.tgz#22e4c06bf9a182e5294d1f705e3733811b810acf"
 
+karma-source-map-support@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/karma-source-map-support/-/karma-source-map-support-1.2.0.tgz#1bf81e7bb4b089627ab352ec4179e117c406a540"
+  dependencies:
+    source-map-support "^0.4.1"
+
 karma@~1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/karma/-/karma-1.7.0.tgz#6f7a1a406446fa2e187ec95398698f4cee476269"
@@ -4523,7 +4530,7 @@ source-map-loader@^0.2.0:
     loader-utils "~0.2.2"
     source-map "~0.1.33"
 
-source-map-support@^0.4.0, source-map-support@^0.4.2, source-map-support@~0.4.0:
+source-map-support@^0.4.0, source-map-support@^0.4.1, source-map-support@^0.4.2, source-map-support@~0.4.0:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.15.tgz#03202df65c06d2bd8c7ec2362a193056fef8d3b1"
   dependencies:
@@ -5414,6 +5421,6 @@ yn@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
 
-zone.js@^0.8.4:
+zone.js@^0.8.14, zone.js@^0.8.4:
   version "0.8.14"
   resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.14.tgz#0c4db24b178232274ccb43f78c99db7f3642b6cf"
