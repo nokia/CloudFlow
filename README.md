@@ -7,7 +7,8 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 ## Features
 * Visualize the flow of workflow executions
 * Identify the execution path of a single task in huge workflows
-* Easily distinguish between simple task (an action) and a sub workflow execution
+* Easily distinguish between simple task (an action) and a sub workflow
+  execution
 * Follow tasks with a `retry` and/or `with-items`
 * 1-click to copy task's input/output/publish/params values
 * See complete workflow definition and per task definition YAML
@@ -16,12 +17,16 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 ## Limitations
 
 ### OpenStack Pike only
-This branch supports OpenStack **Pike** only, as we rely on [new runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks) added to Mistral Pike.
+This branch supports OpenStack **Pike** only, as we rely on
+[new runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks)
+added to Mistral Pike.
 
 ### Authentication-less
-Currently there is no support for authentication (like password, KeyStone, etc.).
+Currently there is no support for authentication (like password, KeyStone,
+etc.).
 
-Make sure your Mistral does not require authentication to perform REST API requests, by setting the following in `/etc/mistral/mistral.conf`:
+Make sure your Mistral does not require authentication to perform REST API
+requests, by setting the following in `/etc/mistral/mistral.conf`:
 
 ```
 [pecan]
@@ -32,21 +37,35 @@ Authentication features will be added in future releases.
 
     
 ## Installing on Mistral machine
-CloudFlow has no dedicated backend service and passes the API calls to Mistral via Proxy settings.
+CloudFlow has no dedicated backend service and passes the API calls to Mistral
+via Proxy settings.
 
-In the [`scripts`](scripts/) folder there are 2 configuration files: one for when using **ngnix** and one for **apache**.
+In the [`scripts`](scripts/) folder there are 2 configuration files: one for
+when using **ngnix** and one for **apache**.
 
 To run CloudFlow on your Mistral instance:
-* Head over to [releases](https://github.com/nokia/CloudFlow/releases) tab and download the latest release. Untar into a known location (i.e. `/opt`) so you'll have a `/opt/CloudFlow/` folder.
-  * There will be 2 folders in there: `dist` which holds the UI application, and `scripts` for the various web servers option.
-* Copy the appropriate configuration file to the configuration directory on your Mistral machine:
-   * nginx usually: `/etc/nginx/conf.d/http/servers/`
-   * apache2 usually: `/etc/apache2/sites-enabled/`. Note that for apache2 several modules need to be enabled. See file for more info.
-* Optionally update the path in the configuration file(s) to point to the `dist` folder (i.e. `/opt/CloudFlow/dist`)
-* Optionally update the port for which CloudFlow will be served in the browser (currently: 8000)
+* Go to [releases](https://github.com/nokia/CloudFlow/releases) tab and
+  download the latest release. Untar into a known location (i.e. `/opt`) so
+  you'll have a `/opt/CloudFlow/` folder.
+  * There will be 2 folders in there: `dist` which holds the UI application,
+    and `scripts` for the various web servers options.
+* Copy the appropriate configuration file to the configuration directory on
+   your Mistral machine:
+   * NginX. Usually: `/etc/nginx/conf.d/http/servers/`
+   * Apache2 (Note that for apache2 several modules need to be enabled. See
+     file for more info):
+      * Linux: `/etc/apache2/sites-enabled/`.
+      * Mac: `/etc/apache2/other/`. Also make sure that the environment
+        variable APACHE_LOG_DIR is set to the proper value. On Mac computers
+        it's usually `/var/log/apache2`
+* Optionally update the path in the configuration file(s) to point to the
+  `dist` folder (i.e. `/opt/CloudFlow/dist`)
+* Optionally update the port for which CloudFlow will be served in the browser
+  (currently: 8000)
 * Restart nginx/apache.
 * Open the browser and navigate to `http://<your_mistral_ip>:8000`.
-* Whenever there is an update to CloudFlow, simply download the latest version and untar in the same place.
+* Whenever there is an update to CloudFlow, simply download the latest version
+  and untar in the same place.
 
 A Dockerfile will be provided in future release.
 
