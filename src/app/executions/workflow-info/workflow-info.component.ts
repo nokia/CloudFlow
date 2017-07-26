@@ -23,7 +23,7 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         {key: "id", display: "Execution ID"},
         {key: "workflow_id", display: "Workflow ID"},
         {key: "created_at", display: "Started"},
-        {key: "updated_at", display: "Ended"},
+        {key: "updated_at", display: "Updated"},
         {key: "state_info", display: "State Info", renderType: "code", mode: "text"},
         {key: "input", display: "Input", renderType: "code", mode: "json"},
         {key: "output", display: "Output", renderType: "code", mode: "json"},
