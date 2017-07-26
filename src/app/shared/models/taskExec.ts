@@ -24,12 +24,7 @@ export interface JTaskExec extends CommonFields {
     result: null | object;
 }
 
-export interface TaskDrawing {
-    // boolean to indicate if the task is in the execution path of a selected task
-    inPath: boolean;
-}
-
-export class TaskExec implements JTaskExec, TaskDrawing {
+export class TaskExec implements JTaskExec {
     name: string;
     runtime_context: string | RuntimeContext;
     workflow_name: string;
@@ -45,7 +40,6 @@ export class TaskExec implements JTaskExec, TaskDrawing {
     duration: string;
     state_info: string;
     result: null | object;
-    inPath = true;
 
     constructor(other: JTaskExec) {
         Object.assign(this, other);

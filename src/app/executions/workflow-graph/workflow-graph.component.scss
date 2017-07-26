@@ -42,7 +42,7 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
   }
 }
 
-.task.inPath__false .task-content {
+.task:not(.inPath) .task-content {
   filter: grayscale(1);
   opacity: .4;
   background-color: #C2C2C2;

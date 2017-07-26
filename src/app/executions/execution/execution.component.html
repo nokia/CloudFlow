@@ -30,8 +30,7 @@
 
           <ng-template ngbTabContent>
 
-            <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"
-                         (taskSelect)="setSelectedTask($event)"></cf-workflow-graph>
+            <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"></cf-workflow-graph>
 
           </ng-template>
         </ngb-tab>

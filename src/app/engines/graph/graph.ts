@@ -127,13 +127,14 @@ export class Graph {
      * @param {Set} edges
      */
     highlightPath(edges: Set<string>): void {
+        const isNodeSelected: boolean = edges.size > 0;
         this.p.getConnections().forEach(connection => {
             // toggle 'inPath' class for edge
-            const action = (edges.size === 0 || edges.has(connection.id)) ? "add" : "remove";
+            const action = (!isNodeSelected || edges.has(connection.id)) ? "add" : "remove";
             connection[`${action}Class`]('inPath');
 
             // toggle visibility of label
-            connection.getOverlay("state-label")[edges.size > 0 && action === "add" ? 'show' : 'hide']();
+            connection.getOverlay("state-label")[isNodeSelected && action === "add" ? 'show' : 'hide']();
         });
     }
 }

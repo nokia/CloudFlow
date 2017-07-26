@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 import {TaskExec} from "../../shared/models/taskExec";
 import {Graph} from "../../engines/graph/graph";
 import {GraphEdge, toGraphData} from "../../engines/graph/translator";
@@ -20,8 +20,6 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
     @ViewChild("graphContainer") private container: ElementRef;
     @ViewChild("zoomContainer") private zoomContainer: ElementRef;
 
-    @Output() taskSelect = new EventEmitter<TaskExec>();
-
     private graph: Graph = null;
 
     @Input()
@@ -38,9 +36,8 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         this.graph = new Graph(this.container.nativeElement, this.graphElements, this.zoomContainer.nativeElement);
     }
 
-    taskSelected(task: TaskExec|null) {
-        this.taskSelect.emit(task);
-        this.highlightPath(task ? task.id : null);
+    taskSelected(taskId: string|null) {
+        this.highlightPath(taskId);
     }
 
     focus(task: TaskExec) {
@@ -77,8 +74,10 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         }
 
         // highlight nodes
+        const noNodeSelected: boolean = nodes.size === 0;
         this._tasks.forEach(task => {
-            task.inPath = nodes.size === 0 || nodes.has(task.id);
+            const action = noNodeSelected || nodes.has(task.id) ? 'add' : 'remove';
+            $("#" + task.id)[`${action}Class`]('inPath');
         });
 
         // highlight edges
