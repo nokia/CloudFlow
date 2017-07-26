@@ -17,6 +17,9 @@
 
         </div>
 
+        <!-- task ID -->
+        <cf-info-item [prop]="properties['id']"></cf-info-item>
+
         <!-- action / workflow name -->
         <cf-info-item *ngIf="task.isAction" [prop]="properties['action']"></cf-info-item>
 

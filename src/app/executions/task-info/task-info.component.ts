@@ -21,6 +21,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     // renderType = to draw a badge, codemirror element, etc...
     private static readonly Properties: InfoItemProperty[] = [
         {key: 'name', display: 'Task', instance: 'taskExec'},
+        {key: 'id', display: 'Task ID', instance: 'taskExec'},
         {key: 'action', display: 'Action', instance: 'taskDef'},
         {key: 'workflow', display: 'Workflow', instance: 'taskDef'},
         {key: 'state', display: 'State', renderType: 'badge', instance: 'taskExec'},
