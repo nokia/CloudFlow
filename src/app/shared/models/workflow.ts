@@ -25,18 +25,18 @@ export interface IWorkflowDef {
 
 
 export class WorkflowDef {
+    private workflowName: string;
     definition: IWorkflowDef;
 
     constructor(definition: string, workflowName: string) {
-        const asJson = jsyaml.safeLoad(definition);
+        this.definition = jsyaml.safeLoad(definition);
 
-        if (workflowName in asJson) {
-            this.definition = asJson[workflowName];
-        } else {
+        if (!(workflowName in this.definition)) {
             // workflow name may describe nested wf (contains dots)
-            const normalizeName = workflowName.split(".");
-            const actualName = normalizeName[normalizeName.length - 1];
-            this.definition = asJson[actualName];
+            const normalizedName = workflowName.split(".");
+            this.workflowName = normalizedName[normalizedName.length - 1];
+        } else {
+            this.workflowName = workflowName;
         }
     }
 
@@ -46,6 +46,6 @@ export class WorkflowDef {
      * @returns {TaskDef[]}
      */
     getTaskDef(taskName: string): TaskDef {
-        return this.definition.tasks[taskName];
+        return this.definition[this.workflowName].tasks[taskName];
     }
 }

@@ -19,7 +19,7 @@
             <small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small> Definition
           </ng-template>
           <ng-template ngbTabContent>
-            <codemirror [input]="workflowDef" [config]="{mode: 'yaml', readonly: true, fullHeight: true}"></codemirror>
+            <codemirror [input]="workflowDef.definition" [config]="{mode: 'yaml', readonly: true, fullHeight: true}"></codemirror>
           </ng-template>
         </ngb-tab>
 
