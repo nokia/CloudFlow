@@ -2,7 +2,8 @@
 
 import {Component, Injectable, Input} from "@angular/core";
 import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {CodeMirrorConfig} from "./codemirror.component";
+import {CodeMirrorConfig as _CodeMirrorConfig} from "./codemirror.component";
+type CodeMirrorConfig = _CodeMirrorConfig; // https://github.com/angular/angular-cli/issues/2034
 
 @Component({
     selector: '', /*tslint:disable-line */

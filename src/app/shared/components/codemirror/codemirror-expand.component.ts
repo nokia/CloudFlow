@@ -2,7 +2,8 @@
 
 import {CodeMirrorModalService} from "./codemirror-modal.service";
 import {Component, Input} from "@angular/core";
-import {CodeMirrorConfig} from "./codemirror.component";
+import {CodeMirrorConfig as _CodeMirrorConfig} from "./codemirror.component";
+type CodeMirrorConfig = _CodeMirrorConfig; // https://github.com/angular/angular-cli/issues/2034
 
 @Component({
     selector: 'cf-cm-expand',
