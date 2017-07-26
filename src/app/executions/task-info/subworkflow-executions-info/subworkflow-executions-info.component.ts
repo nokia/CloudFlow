@@ -5,6 +5,7 @@ import {MistralService} from "../../../engines/mistral/mistral.service";
 import "rxjs/add/operator/toPromise";
 import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
+import {SubWorkflowExecution} from "../../../shared/models";
 
 @Component({
     selector: 'cf-subworkflow-executions-info',
@@ -13,7 +14,7 @@ import {Router} from "@angular/router";
 })
 export class SubworkflowExecutionsInfoComponent implements OnChanges {
     @Input() taskExecId: string;
-    subWfExecutions: any[] = null;
+    subWfExecutions: SubWorkflowExecution[] = null;
 
     constructor(private service: MistralService, private router: Router) {
 

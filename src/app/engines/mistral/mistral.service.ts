@@ -3,7 +3,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution} from "../../shared/models";
+import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution, SubWorkflowExecution} from "../../shared/models";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {toUrlParams} from "../../shared/utils";
 import "rxjs/add/operator/map";
@@ -116,7 +116,7 @@ export class MistralService {
     /**
      * This call will patch the missing 'output' value on sub-workflow execution.
      */
-    patchSubWorfklowExecutionOutput(subWfExecution: any) {
+    patchSubWorfklowExecutionOutput(subWfExecution: SubWorkflowExecution) {
         if (subWfExecution.output != null) {
             return Observable.of(subWfExecution);
         } else {
