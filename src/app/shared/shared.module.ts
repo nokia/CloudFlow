@@ -8,6 +8,7 @@ import {AngularSplitModule} from "angular-split";
 import {CodeMirrorModule} from "./components/codemirror/codemirror.module";
 import {ClipboardModule} from "ngx-clipboard/dist";
 import {CopyableComponent} from "./components/copyable.component";
+import {SearchPipe} from './filters/search.pipe';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import {CopyableComponent} from "./components/copyable.component";
     ],
     declarations: [
         CopyableComponent,
+        SearchPipe,
     ],
     exports: [
         CommonModule,
@@ -28,7 +30,8 @@ import {CopyableComponent} from "./components/copyable.component";
         AngularSplitModule,
         CodeMirrorModule,
         ClipboardModule,
-        CopyableComponent
+        CopyableComponent,
+        SearchPipe,
     ]
 })
 export class SharedModule {

@@ -12,7 +12,6 @@ describe('Test utils', () => {
         it('should convert all values to strings', () => {
             const params = toUrlParams({id: 30});
             expect(params.get("id")).toEqual("30");
-            expect(params.get("id")).not.toEqual(30);
         });
     });
 

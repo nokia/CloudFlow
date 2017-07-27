@@ -11,6 +11,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ExecutionsModule} from "./executions/executions.module";
 import {MistralService} from "./engines/mistral/mistral.service";
 import {AboutComponent} from "./about/about.component";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import {AboutComponent} from "./about/about.component";
         BrowserAnimationsModule,
         HttpClientModule,
         ExecutionsModule,
+        FormsModule,
     ],
     providers: [
         MistralService

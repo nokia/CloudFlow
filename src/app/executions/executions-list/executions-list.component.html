@@ -1,27 +1,29 @@
 <div class="bg-white d-flex search-header header-shadow">
   <div class="container d-flex flex-column justify-content-around">
     <div class="pt-2">
-      <p><input type="text" class="form-control" placeholder="Search workflows"></p>
-      <p><strong>Showing {{executions.length}} Executions</strong></p>
+      <p><input type="text" class="form-control" placeholder="Search workflows" [(ngModel)]="search"></p>
+      <!--<p><strong>Showing {{executions.length}} Executions</strong></p>-->
     </div>
 
     <div class="row pb-1 m-0 text-muted">
       <div class="col-sm-1 col-3">State</div>
       <div class="col-sm-8 col-4">Workflow</div>
-      <div class="col-sm-3 col-5">Created At</div>
+      <div class="col-sm-3 col-5"><i class="fa fa-caret-down"></i> Created At</div>
     </div>
 
   </div>
 </div>
 
 <div class="container search-results">
-  <div class="" id="executions-list">
-    <div class="row py-3 m-0 execution-list-item pointer" *ngFor="let execution of executions; trackBy: execTrackBy" [routerLink]="[execution.id]">
-      <div class="col-sm-1 col-3">
-        <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+  <div id="executions-list">
+    <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
+      <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
+        <div class="col-sm-1 col-3">
+          <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+        </div>
+        <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
+        <div class="col-sm-3 col-5">{{execution.created_at}}</div>
       </div>
-      <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
-      <div class="col-sm-3 col-5">{{execution.created_at}}</div>
-    </div>
+    </ng-container>
   </div>
 </div>

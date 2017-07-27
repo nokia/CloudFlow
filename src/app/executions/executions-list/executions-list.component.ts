@@ -11,6 +11,7 @@ import {Execution} from "../../shared/models/execution";
 })
 export class ExecutionsListComponent implements OnInit {
     executions: Execution[] = [];
+    search: string;
 
     constructor(private service: MistralService) {}
 
