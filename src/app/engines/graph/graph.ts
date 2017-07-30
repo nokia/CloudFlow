@@ -86,8 +86,8 @@ export class Graph {
      */
     private layout(elements) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100});
-        g.setDefaultEdgeLabel(() => ({}));
+        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100} as any);
+        g.setDefaultEdgeLabel(() => ({}) as any);
 
         // set nodes
         // width and height must match the CSS values
