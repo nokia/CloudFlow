@@ -16,6 +16,7 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {SubworkflowExecutionsInfoComponent} from "./subworkflow-executions-info/subworkflow-executions-info.component";
 import {ActionExecutionsInfoComponent} from "./action-executions-info/action-executions-info.component";
+import {CopyableModule} from "../../shared/components/copyable/copyable.module";
 
 @Injectable()
 class MistralServiceMock {
@@ -33,7 +34,7 @@ describe('TaskInfoComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [NgbModule.forRoot(), SharedModule, RouterTestingModule],
+            imports: [NgbModule.forRoot(), SharedModule, RouterTestingModule, CopyableModule],
             declarations: [TaskInfoComponent, SubworkflowExecutionsInfoComponent, ActionExecutionsInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useClass: MistralServiceMock}]
         });

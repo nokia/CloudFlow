@@ -78,7 +78,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     }
 
     showTaskDefinition(taskDef: TaskDef): void {
-        this.codeMirrorService.open(taskDef, {mode: 'yaml'}, 'Task Definition');
+        this.codeMirrorService.open(taskDef, {mode: 'yaml', readonly: true}, `${this.task.name} Task Definition`);
     }
 
     ngOnDestroy() {

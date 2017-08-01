@@ -6,9 +6,8 @@ import {FormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {AngularSplitModule} from "angular-split";
 import {CodeMirrorModule} from "./components/codemirror/codemirror.module";
-import {ClipboardModule} from "ngx-clipboard/dist";
-import {CopyableComponent} from "./components/copyable.component";
 import {SearchPipe} from './filters/search.pipe';
+import {CopyableModule} from "./components/copyable/copyable.module";
 
 @NgModule({
     imports: [
@@ -17,10 +16,9 @@ import {SearchPipe} from './filters/search.pipe';
         NgbModule,
         AngularSplitModule,
         CodeMirrorModule,
-        ClipboardModule,
+        CopyableModule,
     ],
     declarations: [
-        CopyableComponent,
         SearchPipe,
     ],
     exports: [
@@ -29,8 +27,6 @@ import {SearchPipe} from './filters/search.pipe';
         NgbModule,
         AngularSplitModule,
         CodeMirrorModule,
-        ClipboardModule,
-        CopyableComponent,
         SearchPipe,
     ]
 })

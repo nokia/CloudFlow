@@ -10,6 +10,7 @@ import {MistralService} from "../../engines/mistral/mistral.service";
 import {MistralServiceMock} from "../../engines/mistral/mistral.service.mock";
 import {CodeMirrorComponent} from "../../shared/components/codemirror/codemirror.component";
 import {InfoItemComponent} from "../info-item/info-item.component";
+import {CopyableModule} from "../../shared/components/copyable/copyable.module";
 
 
 describe('WorkflowInfoComponent', () => {
@@ -18,7 +19,7 @@ describe('WorkflowInfoComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, NgbModule.forRoot()],
+            imports: [SharedModule, NgbModule.forRoot(), CopyableModule],
             declarations: [WorkflowInfoComponent, InfoItemComponent],
             providers: [{provide: MistralService, useValue: MistralServiceMock}]
         });

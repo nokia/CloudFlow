@@ -2,6 +2,7 @@
 
 import {NgModule} from "@angular/core";
 import {SharedModule} from "../shared/shared.module";
+import {CopyableModule} from "../shared/components/copyable/copyable.module";
 import {ExecutionsListComponent} from "./executions-list/executions-list.component";
 import {ExecutionsRouteModule} from "./executions-routing.module";
 import {ExecutionsComponent} from "./executions.component";
@@ -17,6 +18,7 @@ import {SubworkflowExecutionsInfoComponent} from "./task-info/subworkflow-execut
     imports: [
         SharedModule,
         ExecutionsRouteModule,
+        CopyableModule,
     ],
     declarations: [
         ExecutionsComponent,

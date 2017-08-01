@@ -6,8 +6,9 @@ import {InfoItemComponent} from "./info-item.component";
 import {SharedModule} from "../../shared/shared.module";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {By} from "@angular/platform-browser";
-import {CopyableComponent} from "../../shared/components/copyable.component";
 import {CodeMirrorExpandComponent} from "../../shared/components/codemirror/codemirror-expand.component";
+import {CopyableModule} from "../../shared/components/copyable/copyable.module";
+import {CopyableComponent} from "../../shared/components/copyable/copyable.component";
 
 describe('InfoItemComponent', () => {
     let component: InfoItemComponent;
@@ -15,7 +16,7 @@ describe('InfoItemComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, NgbModule.forRoot()],
+            imports: [SharedModule, NgbModule.forRoot(), CopyableModule],
             declarations: [InfoItemComponent]
         })
             .compileComponents();

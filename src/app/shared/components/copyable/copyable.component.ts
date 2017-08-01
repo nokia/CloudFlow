@@ -1,7 +1,7 @@
 // Copyright (C) 2017 Nokia
 
 import {Component, Input} from '@angular/core';
-import {objectToString} from "../utils";
+import {objectToString} from "../../utils";
 
 @Component({
     selector: 'cf-copyable',

@@ -9,6 +9,7 @@ import {MistralService} from "../../../engines/mistral/mistral.service";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import {SharedModule} from "../../../shared/shared.module";
+import {CopyableModule} from "../../../shared/components/copyable/copyable.module";
 import {InfoItemComponent} from "../../info-item/info-item.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -27,7 +28,7 @@ describe('SubworkflowExecutionsInfoComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, RouterTestingModule, HttpClientModule, NgbModule.forRoot()],
+            imports: [SharedModule, RouterTestingModule, HttpClientModule, NgbModule.forRoot(), CopyableModule],
             declarations: [SubworkflowExecutionsInfoComponent, InfoItemComponent],
             providers: [MistralService]
         })

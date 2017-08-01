@@ -15,6 +15,10 @@ type CodeMirrorConfig = _CodeMirrorConfig; // https://github.com/angular/angular
             </button>
         </div>
         <div class="modal-body">
+            <div class="text-right copy-to-clipboard-header px-2">
+                Copy to Clipboard:
+                <cf-copyable [content]="input" [contentType]="config.mode"></cf-copyable>
+            </div>
             <codemirror [input]="input" [config]="config"></codemirror>
         </div>
     `
