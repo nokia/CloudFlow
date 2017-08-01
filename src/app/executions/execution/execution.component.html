@@ -13,13 +13,19 @@
   <split direction="horizontal" >
 
     <split-area [size]="75" class="graph-container-overflow">
-      <ngb-tabset type="pills" activeId="graph" [destroyOnHide]="true">
+      <ngb-tabset type="pills" activeId="graph" [destroyOnHide]="false">
         <ngb-tab id="definition">
           <ng-template ngbTabTitle>
             <small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small> Definition
           </ng-template>
           <ng-template ngbTabContent>
+            <ng-container *ngIf="workflowDef && workflowDef.definition">
+            <div class="text-right px-2 copy-to-clipboard-header" >
+              Copy to Clipboard:
+              <cf-copyable [content]="workflowDef.definition" contentType="yaml"></cf-copyable>
+            </div>
             <codemirror [input]="workflowDef.definition" [config]="{mode: 'yaml', readonly: true, fullHeight: true}"></codemirror>
+            </ng-container>
           </ng-template>
         </ngb-tab>
 
