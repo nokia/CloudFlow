@@ -25,6 +25,7 @@ function _toGraphNodes(tasks: TaskExec[]) {
 function _toGraphEdges(tasks: TaskExec[]): GraphEdge[] {
     return tasks
         .filter(task => Object.keys(task.runtime_context).length)
+        .filter(task => task.runtime_context.hasOwnProperty("triggered_by"))
         .map(task => {
                 const context: RuntimeContext = task.runtime_context as RuntimeContext;
                 return context.triggered_by.map(trigger => ({
