@@ -2,15 +2,22 @@
 
 @import "../../../styles/colors";
 
-$header-size: 38px;
 $search-header: 130px;
 
+:host{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .search-header {
-  height: $search-header;
+  flex: 0 0 $search-header;
 }
 
 .search-results {
-  height: calc(100vh - #{$header-size} - #{$search-header} - 10px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
 }
 
@@ -20,7 +27,7 @@ h2.card-title {
 
 #executions-list {
   overflow-y: auto;
-  height: 100%;
+  flex: 1;
 }
 
 .execution-list-item {

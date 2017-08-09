@@ -1,7 +1,18 @@
 // Copyright (C) 2017 Nokia
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.execution-header {
+  flex: 0;
+}
+
 .execution-content {
-  height: calc(100vh - 38px - 81px - 3px); // 100vh - (header) - (sub header) - (sub header bottom border)
+  flex: 1;
+  overflow: auto;
 }
 
 .graph-container-overflow {

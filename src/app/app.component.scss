@@ -1,13 +1,18 @@
 // Copyright (C) 2017 Nokia
 
-$navbar-height: 38px;
+:host {
+  display: flex;
+  flex-direction: column;
+}
 
 nav.navbar {
   padding: 0.1rem .5rem;
-  height: $navbar-height;
-  flex: 0 0 $navbar-height;
+  flex: 0 0 auto;
 }
 
-/deep/ .height-100-fix {
-  height: calc(100vh - #{$navbar-height});
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
 }
