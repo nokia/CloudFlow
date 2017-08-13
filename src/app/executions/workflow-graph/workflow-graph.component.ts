@@ -77,7 +77,7 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
         const noNodeSelected: boolean = nodes.size === 0;
         this._tasks.forEach(task => {
             const action = noNodeSelected || nodes.has(task.id) ? 'add' : 'remove';
-            $("#" + task.id)[`${action}Class`]('inPath');
+            document.getElementById(task.id).classList[action]('inPath');
         });
 
         // highlight edges

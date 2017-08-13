@@ -2,7 +2,6 @@
 
 import jsPlumb from 'jsplumb/dist/js/jsplumb';
 import * as dagre from "dagre";
-import * as $ from "jquery";
 import Zoom from "./zoom";
 import {GraphEdge} from "./translator";
 
@@ -104,7 +103,9 @@ export class Graph {
             const n = g.node(node.id);
             const top = Math.round(n.y - (n.height / 2));
             const left = Math.round(n.x - (n.width / 2));
-            $("#" + node.id).css('left', left).css('top', top);
+            const element = document.getElementById(node.id);
+            element.style.left = `${left}px`;
+            element.style.top = `${top}px`;
         });
 
         setTimeout(() => this.p.repaintEverything());
