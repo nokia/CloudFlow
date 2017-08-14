@@ -25,6 +25,18 @@ h2.card-title {
   padding: 1.5rem;
 }
 
+#workflow-search {
+  $border-radius: 15px;
+  & .input-group-addon {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+  & input {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+}
+
 #executions-list {
   overflow-y: auto;
   flex: 1;

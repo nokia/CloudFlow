@@ -1,21 +1,30 @@
 <div class="bg-white d-flex search-header header-shadow">
   <div class="container d-flex flex-column justify-content-around">
     <div class="pt-2">
-      <p><input type="text" class="form-control" placeholder="Search workflows" [(ngModel)]="search"></p>
+      <div class="input-group" id="workflow-search">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <input type="text" class="form-control" placeholder="Search workflows" [(ngModel)]="search" aria-describedby="workflow-search">
+      </div>
       <!--<p><strong>Showing {{executions.length}} Executions</strong></p>-->
     </div>
 
     <div class="row pb-1 m-0 text-muted">
       <div class="col-sm-1 col-3">State</div>
       <div class="col-sm-8 col-4">Workflow</div>
-      <div class="col-sm-3 col-5"><i class="fa fa-caret-down"></i> Created At</div>
+      <div class="col-sm-2 col-4"><i class="fa fa-caret-down"></i> Created At</div>
+      <div class="col-sm-1 col-1 text-right">
+          <button class="btn btn-light btn-sm" title="Refresh" (click)="refresh()">
+              <i class="fa fa-refresh" [class.fa-spin]="loading"></i>
+          </button>
+      </div>
     </div>
 
   </div>
 </div>
 
 <div class="container search-results">
-  <div id="executions-list">
+
+  <div id="executions-list" #executionsList [@listAnimation]="executions.length">
     <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
       <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
         <div class="col-sm-1 col-3">

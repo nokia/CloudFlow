@@ -9,6 +9,28 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-<cf-root></cf-root>
+<cf-root>
+    <style scoped>
+        .main-loader {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            //background: linear-gradient(to bottom, rgb(0,86,163) 0%,rgb(37,141,200) 100%);
+            flex-direction: column;
+            align-items: center;
+        }
+
+    </style>
+
+    <div class="main-loader">
+        <img src="assets/icon256.svg" width="256">
+    </div>
+
+</cf-root>
 </body>
 </html>
