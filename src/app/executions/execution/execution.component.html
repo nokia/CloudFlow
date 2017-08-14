@@ -1,10 +1,13 @@
 <div class="execution-header bg-white header-shadow" *ngIf="execution">
   <div class="p-3">
     <h4>{{execution.workflow_name}}</h4>
-    <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
-    <span [title]="'Created At: ' + execution.created_at" class="text-muted2 ml-2">
-      <i class="fa fa-clock-o"></i> {{execution.created_at}}
-    </span>
+    <div class="d-flex flex-row align-items-baseline">
+      <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+      <span [title]="'Created At: ' + execution.created_at" class="text-muted2 ml-2">
+        <i class="fa fa-clock-o"></i> {{execution.created_at}}
+      </span>
+      <cf-countdown class="ml-3" *ngIf="!execution.done"></cf-countdown>
+    </div>
   </div>
 </div>
 

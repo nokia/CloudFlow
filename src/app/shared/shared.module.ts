@@ -8,6 +8,7 @@ import {AngularSplitModule} from "angular-split";
 import {CodeMirrorModule} from "./components/codemirror/codemirror.module";
 import {SearchPipe} from './filters/search.pipe';
 import {CopyableModule} from "./components/copyable/copyable.module";
+import {CountdownComponent} from './components/countdown/countdown.component';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import {CopyableModule} from "./components/copyable/copyable.module";
     ],
     declarations: [
         SearchPipe,
+        CountdownComponent,
     ],
     exports: [
         CommonModule,
@@ -28,6 +30,7 @@ import {CopyableModule} from "./components/copyable/copyable.module";
         AngularSplitModule,
         CodeMirrorModule,
         SearchPipe,
+        CountdownComponent,
     ]
 })
 export class SharedModule {

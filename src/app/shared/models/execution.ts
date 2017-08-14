@@ -29,11 +29,18 @@ export class Execution implements JExecution {
     created_at: string;
     updated_at: string;
 
+    /**
+     * Denote if execution run has finished
+     * @type {boolean}
+     */
+    done = false;
+
     constructor(other: JExecution) {
         Object.assign(this, other);
         this.params = stringToObject(this.params, "json");
         this.output = stringToObject(this.output, "json");
         this.input = stringToObject(this.input, "json");
+        this.done = !["PAUSED", "IDLE", "RUNNING"].includes(this.state);
     }
 
 }

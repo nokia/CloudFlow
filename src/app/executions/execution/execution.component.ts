@@ -5,8 +5,12 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution, TaskExec, WorkflowDef} from "../../shared/models/";
 import {WorkflowGraphComponent} from "../workflow-graph/workflow-graph.component";
-import "rxjs/add/operator/toPromise";
 import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/interval";
+import "rxjs/add/observable/timer";
+import "rxjs/add/operator/take";
+import {CountdownComponent} from "../../shared/components/countdown/countdown.component";
 
 @Component({
     selector: 'cf-execution',
@@ -17,6 +21,8 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private executionId = "";
     private subscriptions: Subscription[] = [];
     @ViewChild(WorkflowGraphComponent) private workflowGraph: WorkflowGraphComponent;
+    @ViewChild(CountdownComponent) private countdown: CountdownComponent;
+    private interval = null;
 
     execution: Execution = null;
     tasks: TaskExec[] = [];
@@ -74,6 +80,9 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+        if (this.interval) {
+            this.interval.unsubscribe();
+        }
     }
 
     async load(executionId: string) {
@@ -90,6 +99,20 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
         // init the selected task given in URL
         this.setSelectedTaskFromNavigation();
+
+        if (!this.execution.done) {
+            this.autoReload(this.execution);
+        }
+    }
+
+    private autoReload(execution: Execution) {
+        const interval = 30;
+        this.countdown.setInitValue(interval);
+        this.interval = Observable.timer(0, 1000).take(interval + 1).map(i => interval - i).subscribe(
+            (i) => this.countdown.setValue(i),
+            () => {},
+            () => this.load(execution.id)
+        );
     }
 
     private emitSelectedTask(taskId: string|null) {
