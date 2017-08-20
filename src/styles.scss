@@ -102,11 +102,16 @@ html, body, cf-root {
 .text-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 pre {
   white-space: pre-wrap;
   @extend .word-break-all;
+}
+
+.flex-1 {
+  flex: 1;
 }
 
 .flex-1-1-auto {
@@ -139,6 +144,18 @@ pre {
 .copy-to-clipboard-header {
   color: #999;
   background-color: #ebebeb;
+}
+
+div[role="tab"].card-header {
+  .card-header-content:after {
+    content: "\f078"; // fa-chevron-down
+    font-family: FontAwesome;
+  }
+
+  &.active .card-header-content:after {
+    content: "\f077"; // fa-chevron-up
+    font-family: FontAwesome;
+  }
 }
 
 /***************************

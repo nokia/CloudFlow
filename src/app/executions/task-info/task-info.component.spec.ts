@@ -22,7 +22,7 @@ import {CopyableModule} from "../../shared/components/copyable/copyable.module";
 class MistralServiceMock {
     selectedTask = new BehaviorSubject<{task: TaskExec, taskDef: TaskDef}>(null);
 
-    patchTaskExecutionResult(...args) {
+    patchTaskExecutionData(...args) {
         return Observable.of(null);
     }
 }

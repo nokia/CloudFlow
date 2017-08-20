@@ -3,16 +3,16 @@
   <ngb-panel *ngFor="let e of subWfExecutions; let i=index; trackBy: executionTrackBy" [id]="i">
 
     <ng-template ngbPanelTitle>
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center card-header-content">
         <div class="badge-flex">
           <div class="badge font-weight-normal" [ngClass]="e.state">{{e.state}}</div>
         </div>
 
-        <div class="flex-1-1-auto text-ellipsis">
+        <div class="flex-1 text-ellipsis">
           {{e.workflow_name}}
         </div>
 
-        <button class="btn btn-link pointer" (click)="goToExecution($event, e.id)" title="Go to this Workflow Execution">
+        <button class="btn btn-light mr-1 pointer" (click)="goToExecution($event, e.id)" title="Go to this Workflow Execution">
           <i class="fa fa-sitemap"></i>
         </button>
       </div>

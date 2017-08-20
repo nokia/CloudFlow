@@ -41,9 +41,6 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     properties: {[key: string]: InfoItemProperty};
 
     constructor(private service: MistralService, private codeMirrorService: CodeMirrorModalService) {
-    }
-
-    ngOnInit() {
         this.subscription = this.service.selectedTask
             .filter(taskData => !!taskData)
             .distinctUntilChanged((prevId, currId) => prevId === currId, taskData => taskData.task.id)
@@ -52,13 +49,22 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
             });
     }
 
+    ngOnInit() {
+        // Due to https://github.com/angular/angular/issues/17473,
+        // the subscription is in the constructor.
+        // Once closed, the code in CTOR should move it back here.
+    }
+
     load({task, taskDef}: {task: TaskExec, taskDef: TaskDef}) {
         this.task = task;
         this.taskDef = taskDef;
         this.setProperties(this.task, this.taskDef);
 
         // get the 'result' value of the task
-        this.service.patchTaskExecutionResult(this.task).subscribe(() => this.setrPropertyValue("result", this.task.result));
+        this.service.patchTaskExecutionData(this.task).subscribe(() => {
+            this.setPropertyValue("result", this.task.result);
+            this.setPropertyValue("published", this.task.published);
+        });
     }
 
     /**
@@ -73,7 +79,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    private setrPropertyValue(key: string, value: any) {
+    private setPropertyValue(key: string, value: any) {
         this.properties[key]['value'] = value;
     }
 

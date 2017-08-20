@@ -15,7 +15,7 @@ import "rxjs/add/observable/of";
 
 @Injectable()
 export class MistralService {
-    private prefix = "api/";
+    protected prefix = "api/";
 
     selectedExecution = new BehaviorSubject<Execution>(null);
     selectedExecutionTasks = new BehaviorSubject<TaskExec[]>(null);
@@ -63,7 +63,11 @@ export class MistralService {
      * url: /executions/<id>/tasks
      */
     executionTasks(id: string): Observable<TaskExec[]> {
-        return this.http.get(this.prefix + `executions/${id}/tasks`)
+        const fields = ["state_info", "created_at", "name", "runtime_context", "workflow_name", "state",
+            "updated_at", "workflow_execution_id", "workflow_id", "type"].join(",");
+        const params = toUrlParams({fields});
+
+        return this.http.get(this.prefix + `executions/${id}/tasks`, {params})
             .map(res => res["tasks"])
             .map(res => {
                 const tasks = res.map(task => new TaskExec(task));
@@ -86,13 +90,14 @@ export class MistralService {
      * url: /tasks/<taskExecId>
      * This call will patch the "missing" 'result' value on a task execution.
      */
-    patchTaskExecutionResult(taskExec: TaskExec) {
+    patchTaskExecutionData(taskExec: TaskExec) {
         if (taskExec.result != null) {
             return Observable.of(taskExec);
         } else {
             return this.http.get(this.prefix + `tasks/${taskExec.id}`)
                 .map(res => {
                     taskExec.setResult(res["result"]);
+                    taskExec.setPublished(res["published"]);
                     return taskExec;
                 })
                 .catch(e => this.handleError(e));
@@ -108,7 +113,10 @@ export class MistralService {
             return Observable.of(actionExecution);
         } else {
             return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
-                .map(res => actionExecution.output = res["output"])
+                .map(res => {
+                    actionExecution.input = res["input"];
+                    actionExecution.output = res["output"];
+                })
                 .catch(e => this.handleError(e));
         }
     }
@@ -121,7 +129,10 @@ export class MistralService {
             return Observable.of(subWfExecution);
         } else {
             return this.execution(subWfExecution.id)
-                .map(execution => subWfExecution.output = execution.output)
+                .map(execution => {
+                    subWfExecution.input = execution.input;
+                    subWfExecution.output = execution.output;
+                })
                 .catch(e => this.handleError(e));
         }
     }
@@ -130,7 +141,8 @@ export class MistralService {
      * url: /tasks/<taskExecutionId>/action_executions
      */
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
-        return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`)
+        const params = toUrlParams({fields: "name,state"});
+        return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`, {params})
             .map(res => res["action_executions"])
             .catch(e => this.handleError(e));
     }
@@ -140,7 +152,7 @@ export class MistralService {
      * retrieve the sub-workflow execution details
      */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
-        const params = toUrlParams({task_execution_id: taskExecId});
+        const params = toUrlParams({task_execution_id: taskExecId, fields: "state,workflow_name"});
         return this.http.get(this.prefix + "executions", {params})
             .map(res => res["executions"])
             .catch(e => this.handleError(e));

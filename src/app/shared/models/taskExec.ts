@@ -43,13 +43,16 @@ export class TaskExec implements JTaskExec {
 
     constructor(other: JTaskExec) {
         Object.assign(this, other);
-        this.published = stringToObject(this.published, "json");
         this.runtime_context = stringToObject(this.runtime_context, "json");
         this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
     }
 
     setResult(result: string) {
         this.result = stringToObject(result, "json");
+    }
+
+    setPublished(result: string) {
+        this.published = stringToObject(result, "json");
     }
 
     get isAction() {
