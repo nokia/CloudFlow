@@ -22,7 +22,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private subscriptions: Subscription[] = [];
     @ViewChild(WorkflowGraphComponent) private workflowGraph: WorkflowGraphComponent;
     @ViewChild(CountdownComponent) private countdown: CountdownComponent;
-    private interval = null;
+    private interval: Subscription = null;
 
     execution: Execution = null;
     tasks: TaskExec[] = [];
@@ -87,7 +87,14 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     async load(executionId: string) {
         this.tasks = [];
+        this.execution = null;
+        this.tasks = [];
         this.executionId = executionId;
+
+        if (this.interval){
+            this.interval.unsubscribe();
+        }
+
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();
             this.tasks = await this.service.executionTasks(this.executionId).toPromise();
