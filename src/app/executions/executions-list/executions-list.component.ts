@@ -3,22 +3,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution} from "../../shared/models/execution";
-import {trigger, style, transition, animate, query, stagger} from '@angular/animations';
 
 @Component({
     selector: 'cf-executions-list',
     templateUrl: './executions-list.component.html',
     styleUrls: ['./executions-list.component.scss'],
-    animations: [
-        trigger('listAnimation', [
-            transition('* => *', [
-                query(':enter', style({opacity: 0}), {optional: true}),
-                query(':enter', stagger('80ms', [
-                    animate('.15s ease-in', style({opacity: 1}))
-                ]), {optional: true})
-            ])
-        ])
-    ]
 })
 export class ExecutionsListComponent implements OnInit {
     @ViewChild("executionsList") private executionsList: ElementRef;

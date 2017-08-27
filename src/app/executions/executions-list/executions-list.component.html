@@ -1,9 +1,9 @@
 <div class="bg-white d-flex search-header header-shadow">
-  <div class="container d-flex flex-column justify-content-around">
-    <div class="pt-2">
+  <div class="container d-flex flex-column justify-content-between">
+    <div class="pt-4 px-3">
       <div class="input-group" id="workflow-search">
-        <span class="input-group-addon"><i class="fa fa-search"></i></span>
         <input type="text" class="form-control" placeholder="Search workflows" [(ngModel)]="search" aria-describedby="workflow-search">
+        <span class="input-group-addon"><i class="fa fa-search"></i></span>
       </div>
       <!--<p><strong>Showing {{executions.length}} Executions</strong></p>-->
     </div>
@@ -24,7 +24,7 @@
 
 <div class="container search-results">
 
-  <div id="executions-list" #executionsList [@listAnimation]="executions.length">
+  <div id="executions-list" #executionsList>
     <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
       <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
         <div class="col-sm-1 col-3">

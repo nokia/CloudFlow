@@ -2,8 +2,6 @@
 
 @import "../../../styles/colors";
 
-$search-header: 130px;
-
 :host{
   height: 100%;
   display: flex;
@@ -11,7 +9,7 @@ $search-header: 130px;
 }
 
 .search-header {
-  flex: 0 0 $search-header;
+  flex: 0 0 115px;
 }
 
 .search-results {
@@ -25,17 +23,6 @@ h2.card-title {
   padding: 1.5rem;
 }
 
-#workflow-search {
-  $border-radius: 15px;
-  & .input-group-addon {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
-  }
-  & input {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
-  }
-}
 
 #executions-list {
   overflow-y: auto;
