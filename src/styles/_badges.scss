@@ -17,7 +17,7 @@
   &.RUNNING {
     background: $entity-running;
   }
-  &.PAUSED, &.DELAYED, &.IDLE {
+  &.PAUSED, &.DELAYED, &.IDLE, &.WAITING {
     background: gray;
   }
 }

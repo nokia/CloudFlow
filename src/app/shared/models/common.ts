@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-export type ExecutionState = "SUCCESS" | "ERROR" | "IDLE" | "RUNNING" | "PAUSED" | "CANCELLED";
+export type ExecutionState = "SUCCESS" | "ERROR" | "IDLE" | "RUNNING" | "PAUSED" | "CANCELLED" | "WAITING";
 
 export interface CommonFields {
     id: string;
