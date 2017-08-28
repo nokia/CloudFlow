@@ -26,7 +26,7 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
   position: absolute;
   border-radius: 4px;
   @include transitions(border-color, box-shadow);
-  will-change: border-color, box-shadow;
+  will-change: border-color, box-shadow, top, left;
 
   .task-content {
     padding: .5rem;

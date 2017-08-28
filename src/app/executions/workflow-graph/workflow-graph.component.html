@@ -5,7 +5,6 @@
        *ngFor="let task of tasks; trackBy: trackby"
        [ngClass]="[task.state, task.type]"
        [id]="task.id"
-       (dblclick)="focus(task)"
        [routerLink]="['tasks', task.id]"
        [routerLinkActive]="'selected'">
 

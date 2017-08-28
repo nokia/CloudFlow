@@ -38,21 +38,26 @@ export class WorkflowGraphComponent implements AfterViewInit, OnDestroy {
 
     taskSelected(taskId: string|null) {
         this.highlightPath(taskId);
+        this.focus(taskId);
     }
 
-    focus(task: TaskExec) {
+    focus(taskId: string) {
         // reset the zoom
         this.graph.resetZoom();
 
+        if (!taskId) {
+            return;
+        }
+
         // scroll selected task to middle of screen
-        const $task = $("#" + task.id),
+        const $task = $("#" + taskId),
               {top, left} = $task.position(),
               taskHeight = $task.outerHeight(),
               taskWidth = $task.outerWidth(),
               scrollableArea = $(this.container.nativeElement).parents('split-area'),
               scrollLeft = left - scrollableArea.width() / 2 + taskWidth,
               scrollTop =  top - scrollableArea.height() / 2 + taskHeight;
-            setTimeout(() => scrollableArea.animate({scrollLeft, scrollTop}, 'ease-in-out'), 100);
+            setTimeout(() => scrollableArea.animate({scrollLeft, scrollTop}, 'ease-in-out'), 0);
     }
 
     /**

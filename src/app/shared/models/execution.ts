@@ -40,7 +40,7 @@ export class Execution implements JExecution {
         this.params = stringToObject(this.params, "json");
         this.output = stringToObject(this.output, "json");
         this.input = stringToObject(this.input, "json");
-        this.done = !["PAUSED", "IDLE", "RUNNING"].includes(this.state);
+        this.done = ["SUCCESS", "ERROR", "CANCELLED" ].includes(this.state);
     }
 
 }

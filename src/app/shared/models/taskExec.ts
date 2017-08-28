@@ -44,7 +44,15 @@ export class TaskExec implements JTaskExec {
     constructor(other: JTaskExec) {
         Object.assign(this, other);
         this.runtime_context = stringToObject(this.runtime_context, "json");
-        this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
+        this.calculateDuration();
+    }
+
+    private calculateDuration() {
+        if (this.updated_at && this.created_at) {
+            this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
+        } else {
+            this.duration = "";
+        }
     }
 
     setResult(result: string) {

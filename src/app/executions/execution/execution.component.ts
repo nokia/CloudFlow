@@ -91,7 +91,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         this.tasks = [];
         this.executionId = executionId;
 
-        if (this.interval){
+        if (this.interval) {
             this.interval.unsubscribe();
         }
 
