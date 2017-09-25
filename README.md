@@ -16,8 +16,8 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 
 ## Limitations
 
-### OpenStack Pike only
-This branch supports OpenStack **Pike** only, as we rely on
+### OpenStack >= Pike
+This branch supports OpenStack **Pike** or greater, as we rely on
 [new runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks)
 added to Mistral Pike.
 
@@ -51,19 +51,21 @@ To run CloudFlow on your Mistral instance:
     and `scripts` for the various web servers options.
 * Copy the appropriate configuration file to the configuration directory on
    your Mistral machine:
-   * NginX. Usually: `/etc/nginx/conf.d/http/servers/`
-   * Apache2 (Note that for apache2 several modules need to be enabled. See
-     file for more info):
+   * nginx: usually: `/etc/nginx/conf.d/http/servers/`
+   * Apache2:
       * Linux: `/etc/apache2/sites-enabled/`.
       * Mac: `/etc/apache2/other/`. Also make sure that the environment
         variable APACHE_LOG_DIR is set to the proper value. On Mac computers
-        it's usually `/var/log/apache2`
+        it's usually `/var/log/apache2`.
+      * Note that for apache2 several modules need to be enabled. See
+           file for more info.
 * Optionally update the path in the configuration file(s) to point to the
   `dist` folder (i.e. `/opt/CloudFlow/dist`)
 * Optionally update the port for which CloudFlow will be served in the browser
   (currently: 8000)
+* Optionally enable HTTPS in the configuration file.
 * Restart nginx/apache.
-* Open the browser and navigate to `http://<your_mistral_ip>:8000`.
+* Open the browser and navigate to `http[s]://<your_mistral_ip>:8000`.
 * Whenever there is an update to CloudFlow, simply download the latest version
   and untar in the same place.
 
