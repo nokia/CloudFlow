@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import jsPlumb from 'jsplumb/dist/js/jsplumb';
+import jsplumb from 'jsplumb';
 import * as dagre from "dagre";
 import Zoom from "./zoom";
 import {GraphEdge} from "./translator";
@@ -8,8 +8,7 @@ import {GraphEdge} from "./translator";
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
     private static readonly EndpointStyle = {radius: 6, fill: "#456"};
-
-    private p = jsPlumb.jsPlumb;
+    private p = jsplumb.jsPlumb;
     private zoom: Zoom;
 
     private connectAll(edges: GraphEdge[]) {
@@ -85,7 +84,7 @@ export class Graph {
      */
     private layout(elements) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100} as any);
+        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100});
         g.setDefaultEdgeLabel(() => ({}) as any);
 
         // set nodes
