@@ -1,4 +1,5 @@
 // Copyright (C) 2017 Nokia
+@import "../../../styles/colors";
 
 :host {
   display: flex;
@@ -7,7 +8,76 @@
 }
 
 .execution-header {
-  flex: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  z-index: 40;
+
+  & > div {
+    padding: .75rem;
+  }
+
+  .execution-header-icon {
+    flex: 0 0 auto;
+    width: 100px;
+    border-right: 1px solid #e0e0e0;
+    text-align: center;
+
+    i.fa:before {
+      font-family: 'FontAwesome';
+    }
+
+    i.fa.SUCCESS:before {
+      content: '\f058';
+      color: $entity-success;
+    }
+
+    i.fa.ERROR:before {
+      content: '\f06a';
+      color: $entity-error;
+    }
+
+    i.fa.RUNNING:before {
+      content: '\f01d';
+      color: $entity-running;
+    }
+
+    i.fa.IDLE:before {
+      content: "\f017";
+      color: $text-muted2;
+    }
+
+    i.fa.WAITING:before {
+      content: "\f251";
+      color: $text-muted2;
+    }
+
+    i.fa.CANCELLED:before {
+      content: "\f05e";
+      color: $text-muted2;
+    }
+
+    i.fa.PAUSED:before {
+      content: "\f28c";
+      color: $text-muted2;
+    }
+  }
+
+  .execution-header-content {
+    flex: 1 1 auto;
+  }
+
+  .execution-header-definition {
+    flex: 0 0 auto;
+    color: rgba(0, 0, 0, .7);
+    transition: background .45s;
+    cursor: pointer;
+    border-right: 1px solid #e0e0e0;
+    padding-top: 1.3rem; // fix position to match execution-header-icon...
+
+    &:hover {
+      background: rgba(158, 158, 158, 0.2);
+    }
+  }
 }
 
 .execution-content {

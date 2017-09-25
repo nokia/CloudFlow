@@ -77,19 +77,8 @@ html, body, cf-root {
 }
 
 .header-shadow {
-  //z-index: 1;
-  //position: relative; // to make the shadow appear above
-  //box-shadow: 0 4px 8px -3px rgba(17, 17, 17, .06);
-  border-bottom: 3px solid rgba(17, 17, 17, .08);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24);
 }
-
-/*.header-shadow::after {
-  display: block;
-  box-shadow: inset 0 4px 8px -3px rgba(17, 17, 17, .06);
-  content: "";
-  height: 5px;
-  z-index: 2050;
-}*/
 
 .word-break-all {
   word-break: break-all;
@@ -120,6 +109,13 @@ pre {
 
 .flex-1-1-0 {
   flex: 1 1 0;
+}
+
+.flex-center {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .mnw-0 {
@@ -163,11 +159,9 @@ div[role="tab"].card-header {
   }
 
   & .show-on-hover {
-    //display: none;
     opacity: 0;
   }
   &:hover .show-on-hover {
-    //display: initial;
     opacity: 1;
   }
 }

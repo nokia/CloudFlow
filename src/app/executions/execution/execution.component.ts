@@ -11,6 +11,7 @@ import "rxjs/add/observable/interval";
 import "rxjs/add/observable/timer";
 import "rxjs/add/operator/take";
 import {CountdownComponent} from "../../shared/components/countdown/countdown.component";
+import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 
 @Component({
     selector: 'cf-execution',
@@ -30,7 +31,8 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     constructor(protected service: MistralService,
                 protected route: ActivatedRoute,
-                private router: Router) {
+                private router: Router,
+                private codeMirrorService: CodeMirrorModalService) {
     }
 
     /**
@@ -110,6 +112,10 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         if (!this.execution.done) {
             this.autoReload(this.execution);
         }
+    }
+
+    showWorkflowDefinition(workflowDef: WorkflowDef) {
+        this.codeMirrorService.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
     }
 
     private autoReload(execution: Execution) {
