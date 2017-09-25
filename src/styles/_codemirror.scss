@@ -19,6 +19,13 @@ codemirror.cm-mxh-150 {
   }
 }
 
+// when code mirror is in modal:
+//  * assume no other components are in that modal
+//  * set the codemirror height to fill almost all of available screen space
+.modal-body codemirror .CodeMirror {
+  height: calc(100vh - 175px) !important;
+}
+
 .CodeMirror {
   border: 1px solid $border;
 }

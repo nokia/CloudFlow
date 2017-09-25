@@ -1,4 +1,4 @@
-<div class="p-3 mb-1 animated slideInLeft" *ngIf="task">
+<div class="p-3 mb-1" *ngIf="task">
 
     <div class="d-flex flex-column" *ngIf="properties">
 
@@ -10,7 +10,7 @@
             <div>
                 <button class="btn btn-link btn-link--reset pointer p-0" title="Show task definition"
                         (click)="showTaskDefinition(taskDef)">
-                    <small><i class="fa fa-chevron-left"></i>&nbsp;<i class="fa fa-chevron-right"></i></small>
+                    <i class="fa fa-book"></i>
                 </button>
                 <a class="btn btn-link btn-link--reset pointer font-24 p-0 pl-2" [routerLink]="['../../']" title="Go back to execution details">&times;</a>
             </div>

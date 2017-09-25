@@ -1,4 +1,4 @@
-<div class="info-item show-on-hover-parent" [id]="'info-item-property-'+prop.key">
+<div class="info-item show-on-hover-parent" [id]="'info-item-property-'+prop.key" *ngIf="prop">
     <div class="info-item-header">
         <h6 class="info-item-title">{{prop.display}}:</h6>
 
