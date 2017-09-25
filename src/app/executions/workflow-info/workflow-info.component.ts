@@ -47,7 +47,9 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
             this.execution = execution;
             if (execution) {
                 WorkflowInfoComponent.Properties.forEach(prop => {
-                    this.properties[prop.key] = {...prop, value: execution[prop.key]};
+                    // deffer drawing of 'code' components (due to UI excessive redraws)
+                    setTimeout(() => this.properties[prop.key] = {...prop, value: execution[prop.key]},
+                        prop.renderType === 'code' ? 500 : 0);
                 });
             } else {
                 this.properties = {};

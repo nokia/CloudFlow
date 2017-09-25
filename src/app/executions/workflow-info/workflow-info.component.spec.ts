@@ -12,6 +12,7 @@ import {CodeMirrorComponent} from "../../shared/components/codemirror/codemirror
 import {InfoItemComponent} from "../info-item/info-item.component";
 import {CopyableModule} from "../../shared/components/copyable/copyable.module";
 
+const origTimeout = window.setTimeout;
 
 describe('WorkflowInfoComponent', () => {
     let component: WorkflowInfoComponent;
@@ -24,6 +25,14 @@ describe('WorkflowInfoComponent', () => {
             providers: [{provide: MistralService, useValue: MistralServiceMock}]
         });
     }));
+
+    beforeAll(() => {
+        window.setTimeout = (f, t) => f();
+    });
+
+    afterAll(() => {
+        window.setTimeout = origTimeout;
+    });
 
     beforeEach(() => {
         fixture = TestBed.createComponent(WorkflowInfoComponent);
