@@ -11,6 +11,7 @@ import {Execution} from "../../shared/models/execution";
 })
 export class ExecutionsListComponent implements OnInit {
     @ViewChild("executionsList") private executionsList: ElementRef;
+    private sort = {by: 'created_at', dir: 'desc'};
     executions: Execution[] = [];
     search: string;
     loading = false;
@@ -21,9 +22,29 @@ export class ExecutionsListComponent implements OnInit {
         this.refresh();
     }
 
+    /**
+     * Set the field name to sort by.
+     * Optionally set the sort direction (or flip the current direction).
+     * @param {string} by
+     * @param {"desc" | "asc"} dir
+     */
+    changeSort(by: string, dir?: 'desc'|'asc') {
+        const direction = dir ? dir : (this.sort.dir === 'desc' ? 'asc' : 'desc');
+        this.sort = {by, dir: direction};
+        this.refresh();
+    }
+
+    getSortClass(attr: string) {
+        if (this.sort.by === attr) {
+            return `attr-sort-${this.sort.dir}`;
+        } else {
+            return 'attr-sortable';
+        }
+    }
+
     refresh() {
         this.loading = true;
-        this.service.executions()
+        this.service.executions(this.sort.by, this.sort.dir)
             .subscribe(
                 executions => {
                     // only display "root" executions (that have no 'task_execution_id' value)

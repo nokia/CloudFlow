@@ -1,8 +1,7 @@
 // Copyright (C) 2017 Nokia
-
 @import "../../../styles/colors";
 
-:host{
+:host {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -10,6 +9,25 @@
 
 .search-header {
   flex: 0 0 115px;
+
+  .attr-sortable:before {
+    font-family: "FontAwesome";
+    content: "\f0dc";
+    margin-right: 5px;
+    color: #ddd;
+  }
+
+  .attr-sort-desc:before {
+    font-family: "FontAwesome";
+    content: "\f0dd";
+    margin-right: 5px;
+  }
+
+  .attr-sort-asc:before {
+    font-family: "FontAwesome";
+    content: "\f0de";
+    margin-right: 5px;
+  }
 }
 
 .search-results {
@@ -22,7 +40,6 @@
 h2.card-title {
   padding: 1.5rem;
 }
-
 
 #executions-list {
   overflow-y: auto;

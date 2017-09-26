@@ -32,13 +32,12 @@ export class MistralService {
     /**
      * url: /executions?<query_params>
      */
-    executions(): Observable<Execution[]> {
+    executions(sortBy="created_at", sortByDir="desc"): Observable<Execution[]> {
         const params = toUrlParams({
             limit: 1000,
             fields: "workflow_name,created_at,state,task_execution_id",
-            sort_keys: "created_at,name",
-            sort_dirs: "desc"
-
+            sort_keys: `${sortBy},name`,
+            sort_dirs: `${sortByDir}`
         });
 
         return this.http.get(this.prefix + "executions", {params})
