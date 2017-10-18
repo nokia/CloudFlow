@@ -69,16 +69,18 @@ CloudFlow supports the [OpenID Connect](http://openid.net/connect/) protocol
 (and was tested against [KeyCloak](http://www.keycloak.org/)).
 
 If your Mistral requires authentication and uses the OpenID Connect protocol,
-create the following `auth.json` file under the `assets/` folder:
+create the following `auth.json` file under the `assets/` folder (i.e. `assets/auth.json`):
 
 ```json
 {
   "_type": "openid-connect",
-  "issuer": "<Url of the Identity Provider>", // i.e. https://1.1.1.1/auth/realms/somename
-  "loginUrl": "<Url for login endpoint>", // i.e. https://1.1.1.1/auth/realms/somename/protocol/openid-connect/auth
+  "issuer": "<Url of the Identity Provider>",
+  "loginUrl": "<Url for login endpoint>",
   "clientId": "<Client Identifier valid at the Authorization Server>"
 }
 ```
+
+You can obtain all the URLs by examining the output of `https://<openid-server-ip>:<port>/auth/realms/<realm>/.well-known/openid-configuration`
 
 ### No Authentication 
 If you want to work w/o authentication, make sure your Mistral does not require authentication to perform REST API
@@ -89,7 +91,7 @@ requests, by setting the following in `/etc/mistral/mistral.conf`:
 auth_enable=False
 ```
 
-Also, make sure there is no `auth.json` file under the `assets/` directory.
+Also, make sure there is **no** `auth.json` file under the `assets/` directory.
 
 ## Development
 * Clone this repo
