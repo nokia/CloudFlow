@@ -14,29 +14,21 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 * See complete workflow definition and per task definition YAML
 * And more...
 
+## Table of Contents
+* [Limitations](#limitations)
+* [Installation](#installing-cloudflow-on-the-mistral-machine)
+* [Authentication](#authentication)
+* [Development and Building](#development)
+
 ## Limitations
 
-### OpenStack >= Pike
-This branch supports OpenStack **Pike** or greater, as we rely on
-[new runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks)
+### Mistral >= Pike
+CloudFlow requires Mistral **Pike** or greater, as we rely on
+new [runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks)
 added to Mistral Pike.
 
-### Authentication-less
-Currently there is no support for authentication (like password, KeyStone,
-etc.).
-
-Make sure your Mistral does not require authentication to perform REST API
-requests, by setting the following in `/etc/mistral/mistral.conf`:
-
-```
-[pecan]
-auth_enable=False
-```
-
-Authentication features will be added in future releases.
-
     
-## Installing on Mistral machine
+## Installing CloudFlow on the Mistral machine
 CloudFlow has no dedicated backend service and passes the API calls to Mistral
 via Proxy settings.
 
@@ -44,12 +36,12 @@ In the [`scripts`](scripts/) folder there are 2 configuration files: one for
 when using **ngnix** and one for **apache**.
 
 To run CloudFlow on your Mistral instance:
-* Go to [releases](https://github.com/nokia/CloudFlow/releases) tab and
-  download the latest release. Untar into a known location (i.e. `/opt`) so
-  you'll have a `/opt/CloudFlow/` folder.
-  * There will be 2 folders in there: `dist` which holds the UI application,
-    and `scripts` for the various web servers options.
-* Copy the appropriate configuration file to the configuration directory on
+1. Go to [releases](https://github.com/nokia/CloudFlow/releases) tab and
+   download the latest release. Extract into a known location (i.e. `/opt`) so
+   you'll have a `/opt/CloudFlow/` folder.
+   * There will be 2 folders in there: `dist` which holds the UI application,
+     and `scripts` for the various web servers options.
+2. Copy the appropriate configuration file to the configuration directory on
    your Mistral machine:
    * nginx: usually: `/etc/nginx/conf.d/http/servers/`
    * Apache2:
@@ -59,22 +51,51 @@ To run CloudFlow on your Mistral instance:
         it's usually `/var/log/apache2`.
       * Note that for apache2 several modules need to be enabled. See
            file for more info.
-* Optionally update the path in the configuration file(s) to point to the
+3. Optionally update the path in the configuration file(s) to point to the
   `dist` folder (i.e. `/opt/CloudFlow/dist`)
-* Optionally update the port for which CloudFlow will be served in the browser
+4. Optionally update the port for which CloudFlow will be served in the browser
   (currently: 8000)
-* Optionally enable HTTPS in the configuration file.
-* Restart nginx/apache.
-* Open the browser and navigate to `http[s]://<your_mistral_ip>:8000`.
-* Whenever there is an update to CloudFlow, simply download the latest version
-  and untar in the same place.
+5. Optionally enable HTTPS in the configuration file.
+6. Restart nginx/apache.
+7. Open the browser and navigate to `http[s]://<your_mistral_ip>:8000`.
+8. Whenever there is an update to CloudFlow, simply download the latest version
+  and extract it in the same place.
 
 A Dockerfile will be provided in future release.
+
+## Authentication
+### OpenID Connect
+CloudFlow supports the [OpenID Connect](http://openid.net/connect/) protocol
+(and was tested against [KeyCloak](http://www.keycloak.org/)).
+
+If your Mistral requires authentication and uses the OpenID Connect protocol,
+create the following `auth.json` file under the `assets/` folder:
+
+```json
+{
+  "_type": "openid-connect",
+  "issuer": "<Url of the Identity Provider>", // i.e. https://1.1.1.1/auth/realms/somename
+  "loginUrl": "<Url for login endpoint>", // i.e. https://1.1.1.1/auth/realms/somename/protocol/openid-connect/auth
+  "clientId": "<Client Identifier valid at the Authorization Server>"
+}
+```
+
+### No Authentication 
+If you want to work w/o authentication, make sure your Mistral does not require authentication to perform REST API
+requests, by setting the following in `/etc/mistral/mistral.conf`:
+
+```
+[pecan]
+auth_enable=False
+```
+
+Also, make sure there is no `auth.json` file under the `assets/` directory.
 
 ## Development
 * Clone this repo
 * `yarn install` (preferred) or `npm install`
 * Edit [`proxy.conf.json`](proxy.conf.json) to point your Mistral instance.
+* Edit the `auth.json` file (if needed)
 * `npm run start`
 
 ## Building
