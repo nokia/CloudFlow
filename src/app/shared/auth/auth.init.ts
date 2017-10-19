@@ -28,7 +28,7 @@ export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
                 oauthService.setupAutomaticSilentRefresh();
 
                 // debug
-                oauthService.events.subscribe(e => console.log(e));
+                // oauthService.events.subscribe(e => console.log(e));
 
                 oauthService.tryLogin().then(() => {
                     if (!oauthService.hasValidAccessToken()) {
