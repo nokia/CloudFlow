@@ -17,9 +17,6 @@ export class Graph {
                 source: edge.source,
                 target: edge.target,
                 detachable: false,
-                anchors: Graph.Anchors,
-                endpointStyle: Graph.EndpointStyle,
-                paintStyle: {strokeWidth: 3},
                 cssClass: `edge edge-${edge.state} inPath`,
                 overlays: [
                     ["Label", {label: edge.state, id: "state-label", cssClass: `edge-overlay ${edge.state}`}]
@@ -31,7 +28,10 @@ export class Graph {
     constructor(container: any, private elements: any, zoomContainer: any) {
         this.p.ready(() => {
             this.p.importDefaults({
-                Connector: ["Flowchart", {cornerRadius: 10, midpoint: .9}]
+                Connector: ["Flowchart", {cornerRadius: 10, midpoint: 0.1}],
+                Anchors: Graph.Anchors,
+                EndpointStyle: Graph.EndpointStyle,
+                PaintStyle: {strokeWidth: 3}
             });
             this.p.setContainer(container);
             this.p.batch(() => {
@@ -84,7 +84,7 @@ export class Graph {
      */
     private layout(elements) {
         const g = new dagre.graphlib.Graph();
-        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 100});
+        g.setGraph({marginx: 50, marginy: 10, ranksep: 100, nodesep: 50});
         g.setDefaultEdgeLabel(() => ({}) as any);
 
         // set nodes
