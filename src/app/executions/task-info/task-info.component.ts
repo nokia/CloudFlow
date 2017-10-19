@@ -24,6 +24,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         {key: 'id', display: 'Task ID', instance: 'taskExec'},
         {key: 'action', display: 'Action', instance: 'taskDef'},
         {key: 'workflow', display: 'Workflow', instance: 'taskDef'},
+        {key: 'workflow_execution_id', display: "Workflow Execution ID", instance: 'taskExec'},
         {key: 'state', display: 'State', renderType: 'badge', instance: 'taskExec'},
         {key: 'state_info', display: 'State Info', renderType: 'code', mode: 'text', instance: 'taskExec'},
         {key: 'created_at', display: 'Created', instance: 'taskExec'},
