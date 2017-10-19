@@ -75,6 +75,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         // watch for changes in task id value
         const eventsSubscription = this.router.events
             .filter(e => e instanceof NavigationEnd)
+            .filter(() => this.execution && this.route.snapshot.queryParamMap.get("id") !== this.execution.id)
             .subscribe(() =>  this.setSelectedTaskFromNavigation());
 
         this.subscriptions = [paramsSubscription, eventsSubscription];
