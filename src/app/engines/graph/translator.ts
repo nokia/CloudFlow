@@ -9,29 +9,39 @@ export interface GraphEdge {
     state: ExecutionState;
 }
 
+const OnEvent = /^on-(.*)/;
+
 /**
  * Convert on-<x> events to match state values (i.e. on-success -> SUCCESS)
  * @param event
  * @returns {string}
  */
-function toStateName(event: string): ExecutionState {
-    return event.split("-")[1].toUpperCase() as ExecutionState;
+function eventToStateName(event: string): ExecutionState {
+    return event.match(OnEvent)[1].toUpperCase() as ExecutionState;
 }
 
 function _toGraphNodes(tasks: TaskExec[]) {
     return tasks;
 }
 
+function hasValidRuntimeContext(task: TaskExec): boolean {
+    return Object.keys(task.runtime_context).length > 0 &&
+        task.runtime_context.hasOwnProperty("triggered_by");
+}
+
+function hasValidEvent(triggerItem): boolean {
+    return triggerItem.event && OnEvent.test(triggerItem.event);
+}
+
 function _toGraphEdges(tasks: TaskExec[]): GraphEdge[] {
     return tasks
-        .filter(task => Object.keys(task.runtime_context).length)
-        .filter(task => task.runtime_context.hasOwnProperty("triggered_by"))
+        .filter(hasValidRuntimeContext)
         .map(task => {
                 const context: RuntimeContext = task.runtime_context as RuntimeContext;
-                return context.triggered_by.map(trigger => ({
+                return context.triggered_by.filter(hasValidEvent).map(trigger => ({
                         source: trigger.task_id,
                         target: task.id,
-                        state: toStateName(trigger.event)
+                        state: eventToStateName(trigger.event)
                     })
                 );
             }
