@@ -19,7 +19,8 @@ export class Graph {
                 detachable: false,
                 cssClass: `edge edge-${edge.state} inPath`,
                 overlays: [
-                    ["Label", {label: edge.state, id: "state-label", cssClass: `edge-overlay ${edge.state}`}]
+                    ["Label", {label: edge.state, id: "state-label", cssClass: `edge-overlay ${edge.state}`}],
+                    ["PlainArrow", {width: 11, length: 11, location: -5}]
                 ]
             });
         }
@@ -28,7 +29,7 @@ export class Graph {
     constructor(container: any, private elements: any, zoomContainer: any) {
         this.p.ready(() => {
             this.p.importDefaults({
-                Connector: ["Flowchart", {cornerRadius: 10, midpoint: 0.1}],
+                Connector: ["Flowchart", {cornerRadius: 10, midpoint: 0}],
                 Anchors: Graph.Anchors,
                 EndpointStyle: Graph.EndpointStyle,
                 PaintStyle: {strokeWidth: 3}

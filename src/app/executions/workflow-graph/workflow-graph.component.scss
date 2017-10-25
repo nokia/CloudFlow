@@ -44,7 +44,7 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
 
 .task:not(.inPath) .task-content {
   filter: grayscale(1);
-  opacity: .4;
+  opacity: .35;
   background-color: #C2C2C2;
 }
 
@@ -85,9 +85,17 @@ $state-colors: (SUCCESS: $entity-success, ERROR: $entity-error, COMPLETE: $entit
 
 // edges colors - currently disabled due to https://github.com/jsplumb/jsPlumb/issues/647
 @each $state, $color in $state-colors {
-  /deep/svg.jtk-connector.edge-#{$state} path {
-    stroke: $color;
-    stroke-width: 2px;
+  /deep/svg.jtk-connector.edge-#{$state} {
+    path:nth-child(1) {
+      // edge path
+      stroke: $color;
+      stroke-width: 2px;
+    }
+
+    path:nth-child(2) {
+      // arrow
+      fill: $color;
+    }
   }
 }
 

@@ -14,7 +14,17 @@ svg.jtk-connector.edge path {
 
 }
 
-svg.jtk-connector.edge:not(.inPath) path {
+svg.jtk-connector.edge:not(.inPath) {
   opacity: .4;
-  stroke: #BCBCBC;
+  z-index: -2;
+
+  path:nth-child(1) {
+    // edge path
+    stroke: #BCBCBC !important;
+  }
+
+  path:nth-child(2) {
+    // arrow
+    fill: #BCBCBC !important;
+  }
 }
