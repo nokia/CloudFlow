@@ -8,6 +8,10 @@
 nav.navbar {
   padding: 0.1rem .5rem;
   flex: 0 0 auto;
+
+  i.fa-list {
+    opacity: .9;
+  }
 }
 
 .main-container {
