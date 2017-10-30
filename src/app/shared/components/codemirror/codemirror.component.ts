@@ -45,7 +45,7 @@ export class CodeMirrorComponent implements AfterViewInit, OnChanges {
         try {
             return objectToString(value, this.config.mode);
         } catch (e) {
-            console.warn("objectToString error. Falling back to toString()", e);
+            console.warn(`objectToString error. Falling back to toString() (${e.message})`);
             return (value || '').toString();
         }
 

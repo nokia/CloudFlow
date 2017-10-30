@@ -26,7 +26,7 @@ export class CopyableComponent {
         try {
             this._content = objectToString(content, this.contentType);
         } catch (e) {
-            console.warn('objecToString error, falling back to toString()', e);
+            console.warn(`objectToString error, falling back to toString() (${e.message})`);
             this._content = (content || '').toString();
         }
     }
