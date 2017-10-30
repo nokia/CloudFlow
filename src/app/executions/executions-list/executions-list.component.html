@@ -24,15 +24,27 @@
 
 <div class="container search-results">
 
-  <div id="executions-list" #executionsList>
-    <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
-      <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
-        <div class="col-sm-1 col-3">
-          <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+  <div id="executions-list" #executionsList [ngClass]="{'d-flex align-items-center justify-content-center': !executions || executions.length === 0}">
+    <ng-container *ngIf="executions && executions.length > 0; else noExecutions">
+      <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
+        <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
+          <div class="col-sm-1 col-3">
+            <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
+          </div>
+          <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
+          <div class="col-sm-3 col-5">{{execution.created_at}}</div>
         </div>
-        <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
-        <div class="col-sm-3 col-5">{{execution.created_at}}</div>
-      </div>
+      </ng-container>
     </ng-container>
+
+    <ng-template #noExecutions>
+      <div *ngIf="!executions">
+        <i class="fa fa-spin fa-refresh fa-3x"></i>
+      </div>
+      <div class="text-center" *ngIf="executions && executions.length === 0">
+        <h2><em>No executions found on this Mistral server</em></h2>
+        <h5>It's time to create one and explore its run with CloudFlow!</h5>
+      </div>
+    </ng-template>
   </div>
 </div>

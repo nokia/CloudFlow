@@ -12,7 +12,7 @@ import {Execution} from "../../shared/models/execution";
 export class ExecutionsListComponent implements OnInit {
     @ViewChild("executionsList") private executionsList: ElementRef;
     private sort = {by: 'created_at', dir: 'desc'};
-    executions: Execution[] = [];
+    executions: Execution[] = null;
     search: string;
     loading = false;
 
