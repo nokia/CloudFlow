@@ -56,7 +56,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         // Once closed, the code in CTOR should move it back here.
     }
 
-    load({task, taskDef}: {task: TaskExec, taskDef: TaskDef}) {
+    load({task, taskDef}: {task: TaskExec, taskDef: TaskDef | undefined}) {
         this.task = task;
         this.taskDef = taskDef;
         this.setProperties(this.task, this.taskDef);
@@ -73,10 +73,14 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
      * @param {TaskExec} task
      * @param {TaskDef} taskDef
      */
-    private setProperties(task: TaskExec, taskDef: TaskDef): void {
+    private setProperties(task: TaskExec, taskDef: TaskDef | undefined): void {
         this.properties = {};
+
+        const getValue = (prop: InfoItemProperty) =>
+            (prop.instance === 'taskExec' ? task : (taskDef || {}))[prop.key] || 'N/A';
+
         TaskInfoComponent.Properties.forEach(prop => {
-            this.properties[prop.key] = {...prop, value: (prop.instance === 'taskExec' ? task : taskDef)[prop.key]};
+            this.properties[prop.key] = {...prop, value: getValue(prop)};
         });
     }
 

@@ -12,6 +12,8 @@ import "rxjs/add/observable/timer";
 import "rxjs/add/operator/take";
 import {CountdownComponent} from "../../shared/components/countdown/countdown.component";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
+import {AlertsService} from "../../shared/services/alerts.service";
+import * as AlertMessages from "../../shared/services/alert-messages";
 
 @Component({
     selector: 'cf-execution',
@@ -29,10 +31,11 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     tasks: TaskExec[] = [];
     workflowDef: WorkflowDef = null;
 
-    constructor(protected service: MistralService,
-                protected route: ActivatedRoute,
-                private router: Router,
-                private codeMirrorService: CodeMirrorModalService) {
+    constructor(protected readonly service: MistralService,
+                protected readonly route: ActivatedRoute,
+                protected readonly router: Router,
+                protected readonly codeMirrorService: CodeMirrorModalService,
+                protected readonly alerts: AlertsService) {
     }
 
     /**
@@ -61,8 +64,9 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         if (task) {
             setTimeout(() => this.workflowGraph.taskSelected(taskId));
         } else {
-            console.warn(`Invalid task id given in URL: ${taskId}`);
-            this.router.navigate(['/executions', this.execution.id]);
+            const {msg, confirmButtonText} = AlertMessages.taskNotFound(taskId);
+            this.alerts.notFound(msg, {confirmButtonText})
+                .then(() => this.router.navigate(['/executions', this.execution.id]));
         }
     }
 
@@ -101,10 +105,19 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();
             this.tasks = await this.service.executionTasks(this.executionId).toPromise();
+        } catch (e) {
+            const {msg, confirmButtonText} = AlertMessages.executionNotFound(this.executionId);
+            this.alerts.notFound(msg, {confirmButtonText})
+                .then(() => this.router.navigate(['/executions']));
+            return;
+        }
+
+        try {
             this.workflowDef = await this.service.workflowDef(this.execution.workflow_id).toPromise();
         } catch (e) {
-            console.warn(`Execution ID ${executionId} not found!`);
-            this.router.navigate(['/executions']);
+            this.workflowDef = WorkflowDef.FromEmpty();
+            // const {msg, title} = AlertMessages.workflowDefinitionNotFound(this.execution.workflow_id);
+            // this.alerts.notFound(msg, {title});
         }
 
         // init the selected task given in URL

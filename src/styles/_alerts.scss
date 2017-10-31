@@ -1,0 +1,13 @@
+// Copyright (C) 2017 Nokia
+
+/*******************
+*** Sweet Alerts ***
+********************/
+.swal2-modal {
+  box-shadow: 2px 2px 10px rgba(0, 0 ,0 , .4);
+}
+
+img.swal2-image.swal-notfound {
+  height: 96px;
+  filter: grayscale(1);
+}

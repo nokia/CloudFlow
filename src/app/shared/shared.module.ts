@@ -9,6 +9,7 @@ import {CodeMirrorModule} from "./components/codemirror/codemirror.module";
 import {SearchPipe} from './filters/search.pipe';
 import {CopyableModule} from "./components/copyable/copyable.module";
 import {CountdownComponent} from './components/countdown/countdown.component';
+import {AlertsService} from "./services/alerts.service";
 
 @NgModule({
     imports: [
@@ -31,6 +32,9 @@ import {CountdownComponent} from './components/countdown/countdown.component';
         CodeMirrorModule,
         SearchPipe,
         CountdownComponent,
+    ],
+    providers: [
+        AlertsService
     ]
 })
 export class SharedModule {

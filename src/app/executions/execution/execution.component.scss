@@ -70,9 +70,12 @@
     flex: 0 0 auto;
     color: rgba(0, 0, 0, .7);
     transition: background .45s;
-    cursor: pointer;
     border-right: 1px solid #e0e0e0;
     padding-top: 1.3rem; // fix position to match execution-header-icon...
+
+    & > span {
+      text-decoration: underline;
+    }
 
     &:hover {
       background: rgba(158, 158, 158, 0.2);
@@ -87,4 +90,13 @@
 
 .graph-container-overflow {
   overflow-x: auto !important;
+}
+
+/deep/.info-panel-header {
+  height: 35px;
+  background-color: $background-color;
+  padding: 10px;
+  border-radius: 50px;;
+  line-height: 15px;
+  font-style: italic;
 }

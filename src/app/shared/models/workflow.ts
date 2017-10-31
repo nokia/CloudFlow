@@ -25,8 +25,13 @@ export interface IWorkflowDef {
 
 
 export class WorkflowDef {
+    private static readonly EMPTY_DEF = "__empty__";
     private workflowName: string;
     definition: IWorkflowDef;
+
+    get isEmpty() {
+        return this.workflowName === WorkflowDef.EMPTY_DEF;
+    }
 
     constructor(definition: string, workflowName: string) {
         this.definition = jsyaml.safeLoad(definition);
@@ -38,6 +43,10 @@ export class WorkflowDef {
         } else {
             this.workflowName = workflowName;
         }
+    }
+
+    static FromEmpty() {
+        return new WorkflowDef(`__empty__:\n  tasks: {}`, WorkflowDef.EMPTY_DEF);
     }
 
     /**

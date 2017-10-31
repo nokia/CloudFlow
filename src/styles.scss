@@ -23,6 +23,10 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 /* animate.css */
 @import "../node_modules/animate.css/animate.min.css";
 
+/* sweetalert */
+@import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
+@import "styles/_alerts.scss";
+
 html {
   font-size: 14px;
 }
@@ -80,6 +84,10 @@ html, body, cf-root {
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24);
 }
 
+.word-break-word {
+  word-wrap: break-word;
+}
+
 .word-break-all {
   word-break: break-all;
 }
@@ -131,6 +139,11 @@ pre {
 
 .font-24 {
   font-size: 24px;
+}
+
+// reset tooltip font size
+ngb-tooltip-window.tooltip.show {
+  font-size: 1rem;
 }
 
 .copy-to-clipboard-header {
