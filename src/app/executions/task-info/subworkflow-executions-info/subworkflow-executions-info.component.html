@@ -1,4 +1,9 @@
 <h6 class="info-item-title">Workflow Executions:</h6>
+
+<span *ngIf="subWfExecutions && subWfExecutions.length === 0">
+  <em>No child executions are associated with this task execution.</em>
+</span>
+
 <ngb-accordion [closeOthers]="false" (panelChange)="panelChanged($event)" *ngIf="subWfExecutions; else contentLoading">
   <ngb-panel *ngFor="let e of subWfExecutions; let i=index; trackBy: executionTrackBy" [id]="i">
 
