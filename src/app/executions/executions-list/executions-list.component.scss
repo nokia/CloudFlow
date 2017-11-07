@@ -43,7 +43,8 @@ h2.card-title {
 
 #executions-list {
   overflow-y: auto;
-  flex: 1;
+  flex: 1 0 auto;
+  height: 0;
 }
 
 .execution-list-item {

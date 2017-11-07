@@ -130,6 +130,10 @@ pre {
   min-width: 0;
 }
 
+.h-0 {
+  height: 0 !important;
+}
+
 .btn-link--reset {
   color: unset;
   &:hover, &:focus, &:active {
