@@ -2,12 +2,16 @@
     <div class="info-item-header">
         <h6 class="info-item-title">{{prop.display}}:</h6>
 
-        <cf-cm-expand *ngIf="prop.renderType === 'code'" class="show-on-hover"
-                      [title]="prop.display" [input]="prop.value"
-                      [config]="{readonly: true, mode: prop.mode || 'text'}"></cf-cm-expand>
+        <ng-container *ngIf="prop.value !== undefined">
 
-        <cf-copyable [content]="prop.value" [contentType]="prop.mode || 'text'"
-                     class="show-on-hover"></cf-copyable>
+            <cf-cm-expand *ngIf="prop.renderType === 'code'" class="show-on-hover"
+                          [title]="prop.display" [input]="prop.value"
+                          [config]="{readonly: true, mode: prop.mode || 'text'}"></cf-cm-expand>
+
+            <cf-copyable [content]="prop.value" [contentType]="prop.mode || 'text'"
+                         class="show-on-hover"></cf-copyable>
+
+        </ng-container>
     </div>
 
     <ng-container *ngIf="prop.value !== undefined; else propLoading">
