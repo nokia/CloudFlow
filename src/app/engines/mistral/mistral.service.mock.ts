@@ -6,7 +6,7 @@ export const MistralServiceMock = {
             next({workflow_id: "abcd-efg", id: "xyz-uvw", input: {param1: 1}});
 
             return {
-                unsubscribe: function(){}
+                unsubscribe: function() {}
             };
         },
     }
