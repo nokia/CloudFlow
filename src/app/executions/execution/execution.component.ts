@@ -6,10 +6,8 @@ import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution, TaskExec, WorkflowDef} from "../../shared/models/";
 import {WorkflowGraphComponent} from "../workflow-graph/workflow-graph.component";
 import {Subscription} from "rxjs/Subscription";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/interval";
-import "rxjs/add/observable/timer";
-import "rxjs/add/operator/take";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
+import {take, map, filter} from "rxjs/operators";
 import {CountdownComponent} from "../../shared/components/countdown/countdown.component";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {AlertsService} from "../../shared/services/alerts.service";
@@ -77,10 +75,10 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         });
 
         // watch for changes in task id value
-        const eventsSubscription = this.router.events
-            .filter(e => e instanceof NavigationEnd)
-            .filter(() => this.execution && this.route.snapshot.queryParamMap.get("id") !== this.execution.id)
-            .subscribe(() =>  this.setSelectedTaskFromNavigation());
+        const eventsSubscription = this.router.events.pipe(
+            filter(e => e instanceof NavigationEnd),
+            filter(() => this.execution && this.route.snapshot.queryParamMap.get("id") !== this.execution.id)
+        ).subscribe(() => this.setSelectedTaskFromNavigation());
 
         this.subscriptions = [paramsSubscription, eventsSubscription];
     }
@@ -94,8 +92,6 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     async load(executionId: string) {
         this.tasks = [];
-        this.execution = null;
-        this.tasks = [];
         this.executionId = executionId;
 
         if (this.interval) {
@@ -105,6 +101,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();
             this.tasks = await this.service.executionTasks(this.executionId).toPromise();
+            this.service.setParentExecutionId(this.execution);
         } catch (e) {
             const {msg, confirmButtonText} = AlertMessages.executionNotFound(this.executionId);
             this.alerts.notFound(msg, {confirmButtonText})
@@ -122,7 +119,6 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
         // init the selected task given in URL
         this.setSelectedTaskFromNavigation();
-
         if (!this.execution.done) {
             this.autoReload(this.execution);
         }
@@ -135,11 +131,15 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private autoReload(execution: Execution) {
         const interval = 30;
         this.countdown.setInitValue(interval);
-        this.interval = Observable.timer(0, 1000).take(interval + 1).map(i => interval - i).subscribe(
-            (i) => this.countdown.setValue(i),
-            () => {},
-            () => this.load(execution.id)
-        );
+        this.interval = new TimerObservable(0, 1000)
+            .pipe(
+                take(interval + 1),
+                map(i => interval - i))
+            .subscribe(
+                (i) => this.countdown.setValue(i),
+                () => {},
+                () => this.load(execution.id)
+            );
     }
 
     private emitSelectedTask(taskId: string|null) {

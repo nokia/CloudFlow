@@ -3,17 +3,16 @@
 import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 import {By} from "@angular/platform-browser";
 import {RouterTestingModule} from "@angular/router/testing";
-
 import {Injectable} from "@angular/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {of as ObservableOf} from "rxjs/observable/of";
+
 import {SharedModule} from "../../shared/shared.module";
 import {TaskInfoComponent} from "./task-info.component";
 import {InfoItemComponent} from "../info-item/info-item.component";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {TaskDef, TaskExec} from "../../shared/models/";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/of";
 import {SubworkflowExecutionsInfoComponent} from "./subworkflow-executions-info/subworkflow-executions-info.component";
 import {ActionExecutionsInfoComponent} from "./action-executions-info/action-executions-info.component";
 import {CopyableModule} from "../../shared/components/copyable/copyable.module";
@@ -23,7 +22,7 @@ class MistralServiceMock {
     selectedTask = new BehaviorSubject<{task: TaskExec, taskDef: TaskDef}>(null);
 
     patchTaskExecutionData(...args) {
-        return Observable.of(null);
+        return ObservableOf(null);
     }
 }
 

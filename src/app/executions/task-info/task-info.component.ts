@@ -6,8 +6,7 @@ import {TaskExec, TaskDef} from "../../shared/models/";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {InfoItemProperty} from "../info-item/info-item.component";
 import {Subscription} from "rxjs/Subscription";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/distinctUntilChanged";
+import {filter, distinctUntilChanged} from "rxjs/operators";
 
 @Component({
     selector: 'cf-task-info',
@@ -43,9 +42,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
 
     constructor(private service: MistralService, private codeMirrorService: CodeMirrorModalService) {
         this.subscription = this.service.selectedTask
-            .filter(taskData => !!taskData)
-            .distinctUntilChanged((prevId, currId) => prevId === currId, taskData => taskData.task.id)
-            .subscribe(taskData => {
+            .pipe(
+                filter(taskData => !!taskData),
+                distinctUntilChanged((prevId, currId) => prevId === currId, taskData => taskData.task.id)
+            ).subscribe(taskData => {
                 this.load(taskData);
             });
     }

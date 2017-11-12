@@ -14,12 +14,23 @@
 
   & > div {
     padding: .75rem;
+
+    &.pointer {
+      color: rgba(0, 0, 0, .7);
+      transition: background .45s;
+      &:hover {
+        color: rgba(0, 0, 0, .9);
+        background: rgba(158, 158, 158, 0.2);
+      }
+    }
+
+    &:not(:last-child) {
+      border-right: 1px solid #e0e0e0;
+    }
   }
 
   .execution-header-icon {
-    flex: 0 0 auto;
     width: 100px;
-    border-right: 1px solid #e0e0e0;
     text-align: center;
 
     i.fa:before {
@@ -66,21 +77,6 @@
     flex: 1 1 auto;
   }
 
-  .execution-header-definition {
-    flex: 0 0 auto;
-    color: rgba(0, 0, 0, .7);
-    transition: background .45s;
-    border-right: 1px solid #e0e0e0;
-    padding-top: 1.3rem; // fix position to match execution-header-icon...
-
-    & > span {
-      text-decoration: underline;
-    }
-
-    &:hover {
-      background: rgba(158, 158, 158, 0.2);
-    }
-  }
 }
 
 .execution-content {

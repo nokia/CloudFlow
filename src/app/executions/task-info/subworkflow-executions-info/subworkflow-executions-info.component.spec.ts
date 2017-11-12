@@ -3,17 +3,16 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {SimpleChange} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
-
-import {SubworkflowExecutionsInfoComponent} from './subworkflow-executions-info.component';
-import {MistralService} from "../../../engines/mistral/mistral.service";
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import {SharedModule} from "../../../shared/shared.module";
-import {CopyableModule} from "../../../shared/components/copyable/copyable.module";
-import {InfoItemComponent} from "../../info-item/info-item.component";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {By} from "@angular/platform-browser";
+import {of as ObservableOf} from "rxjs/observable/of";
+
+import {SubworkflowExecutionsInfoComponent} from './subworkflow-executions-info.component';
+import {MistralService} from "../../../engines/mistral/mistral.service";
+import {SharedModule} from "../../../shared/shared.module";
+import {CopyableModule} from "../../../shared/components/copyable/copyable.module";
+import {InfoItemComponent} from "../../info-item/info-item.component";
 
 describe('SubworkflowExecutionsInfoComponent', () => {
     let component: SubworkflowExecutionsInfoComponent;
@@ -38,7 +37,7 @@ describe('SubworkflowExecutionsInfoComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(SubworkflowExecutionsInfoComponent);
         spyOn(fixture.debugElement.injector.get(MistralService), 'wfExecutionsByTaskExecutionId')
-            .and.returnValue(Observable.of(response));
+            .and.returnValue(ObservableOf(response));
         component = fixture.componentInstance;
         component.taskExecId = "_task_id_";
         component.ngOnChanges({'taskExecId': {previousValue: '', currentValue: component.taskExecId} as SimpleChange});

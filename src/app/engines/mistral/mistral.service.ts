@@ -3,15 +3,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution, SubWorkflowExecution} from "../../shared/models";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {toUrlParams} from "../../shared/utils";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/catch";
-import "rxjs/add/observable/throw";
-import "rxjs/add/observable/forkJoin";
-import "rxjs/add/observable/of";
+import {catchError, map} from "rxjs/operators";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+import {of as ObservableOf} from "rxjs/observable/of";
 
+import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution, SubWorkflowExecution} from "../../shared/models";
+import {toUrlParams} from "../../shared/utils";
 
 @Injectable()
 export class MistralService {
@@ -26,7 +24,7 @@ export class MistralService {
 
     handleError(e) {
         console.error(e);
-        return Observable.throw(e);
+        return ErrorObservable.create(e);
     }
 
     /**
@@ -41,8 +39,10 @@ export class MistralService {
         });
 
         return this.http.get(this.prefix + "executions", {params})
-            .map(res => res["executions"])
-            .catch(e => this.handleError(e));
+            .pipe(
+                map(res => res["executions"]),
+                catchError(e => this.handleError(e))
+            );
     }
 
     /**
@@ -50,12 +50,14 @@ export class MistralService {
      */
     execution(id: string): Observable<Execution> {
         return this.http.get(this.prefix + "executions/" + id)
-            .map((res: Execution) => {
-                const execution = new Execution(res);
-                this.selectedExecution.next(execution);
-                return execution;
-            })
-            .catch(e => this.handleError(e));
+            .pipe(
+                map((res: Execution) => {
+                    const execution = new Execution(res);
+                    this.selectedExecution.next(execution);
+                    return execution;
+                }),
+                catchError(e => this.handleError(e))
+            );
     }
 
     /**
@@ -67,12 +69,15 @@ export class MistralService {
         const params = toUrlParams({fields});
 
         return this.http.get(this.prefix + `executions/${id}/tasks`, {params})
-            .map(res => res["tasks"])
-            .map(res => {
-                const tasks = res.map(task => new TaskExec(task));
-                this.selectedExecutionTasks.next(tasks);
-                return tasks;
-            }).catch(e => this.handleError(e));
+            .pipe(
+                map(res => res["tasks"]),
+                map(res => {
+                    const tasks = res.map(task => new TaskExec(task));
+                    this.selectedExecutionTasks.next(tasks);
+                    return tasks;
+                }),
+                catchError(e => this.handleError(e))
+            );
     }
 
     /**
@@ -81,8 +86,22 @@ export class MistralService {
      */
     workflowDef(id: string): Observable<WorkflowDef> {
         return this.http.get(this.prefix + `workflows/${id}`)
-            .map(res => new WorkflowDef(res["definition"], res["name"]))
-            .catch(e => this.handleError(e));
+            .pipe(
+                map(res => new WorkflowDef(res["definition"], res["name"])),
+                catchError(e => this.handleError(e))
+            );
+    }
+
+    setParentExecutionId(execution: Execution): void {
+        if (execution.task_execution_id) {
+            this.http.get(this.prefix + `tasks/${execution.task_execution_id}`)
+                .pipe(
+                    map((res: TaskExec) => execution.parentExecutionId = res.workflow_execution_id),
+                    catchError(e => this.handleError(e))
+                )
+                .subscribe(() => {});
+
+        }
     }
 
     /**
@@ -91,15 +110,17 @@ export class MistralService {
      */
     patchTaskExecutionData(taskExec: TaskExec) {
         if (taskExec.result != null) {
-            return Observable.of(taskExec);
+            return ObservableOf(taskExec);
         } else {
             return this.http.get(this.prefix + `tasks/${taskExec.id}`)
-                .map(res => {
-                    taskExec.setResult(res["result"]);
-                    taskExec.setPublished(res["published"]);
-                    return taskExec;
-                })
-                .catch(e => this.handleError(e));
+                .pipe(
+                    map(res => {
+                        taskExec.setResult(res["result"]);
+                        taskExec.setPublished(res["published"]);
+                        return taskExec;
+                    }),
+                    catchError(e => this.handleError(e))
+                );
         }
     }
 
@@ -109,14 +130,16 @@ export class MistralService {
      */
     patchActionExecutionOutput(actionExecution: ActionExecution) {
         if (actionExecution.output != null) {
-            return Observable.of(actionExecution);
+            return ObservableOf(actionExecution);
         } else {
             return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
-                .map(res => {
-                    actionExecution.input = res["input"];
-                    actionExecution.output = res["output"];
-                })
-                .catch(e => this.handleError(e));
+                .pipe(
+                    map(res => {
+                        actionExecution.input = res["input"];
+                        actionExecution.output = res["output"];
+                    }),
+                    catchError(e => this.handleError(e))
+                );
         }
     }
 
@@ -125,14 +148,16 @@ export class MistralService {
      */
     patchSubWorfklowExecutionOutput(subWfExecution: SubWorkflowExecution) {
         if (subWfExecution.output != null) {
-            return Observable.of(subWfExecution);
+            return ObservableOf(subWfExecution);
         } else {
             return this.execution(subWfExecution.id)
-                .map(execution => {
-                    subWfExecution.input = execution.input;
-                    subWfExecution.output = execution.output;
-                })
-                .catch(e => this.handleError(e));
+                .pipe(
+                    map(execution => {
+                        subWfExecution.input = execution.input;
+                        subWfExecution.output = execution.output;
+                    }),
+                    catchError(e => this.handleError(e))
+                );
         }
     }
 
@@ -142,8 +167,10 @@ export class MistralService {
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
         const params = toUrlParams({fields: "name,state"});
         return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`, {params})
-            .map(res => res["action_executions"])
-            .catch(e => this.handleError(e));
+            .pipe(
+                map(res => res["action_executions"]),
+                catchError(e => this.handleError(e))
+            );
     }
 
     /**
@@ -153,7 +180,9 @@ export class MistralService {
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
         const params = toUrlParams({task_execution_id: taskExecId, fields: "state,workflow_name"});
         return this.http.get(this.prefix + "executions", {params})
-            .map(res => res["executions"])
-            .catch(e => this.handleError(e));
+            .pipe(
+                map(res => res["executions"]),
+                catchError(e => this.handleError(e))
+            );
     }
 }

@@ -2,7 +2,8 @@
 
 import {HttpClient} from "@angular/common/http";
 import {OAuthService} from "angular-oauth2-oidc";
-import {Observable} from "rxjs/Observable";
+import {of as ObservableOf} from "rxjs/observable/of";
+import {catchError} from "rxjs/operators";
 
 const OPENID_COMMON_CONF = {
     redirectUri: window.location.href,
@@ -15,12 +16,12 @@ const AUTH_JSON = "assets/auth.json";
 
 export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
     return () => new Promise((resolve, reject) => {
-        http.get(AUTH_JSON).catch(e => {
+        http.get(AUTH_JSON).pipe(catchError(e => {
             // when no AUTH_JSON file found, assume app has no auth methods
             console.warn(`No ${AUTH_JSON} file found. Assume no auth is needed.`);
             resolve(false);
-            return Observable.of(null);
-        }).filter(conf => !!conf)
+            return ObservableOf(null);
+        })).filter(conf => !!conf)
             .subscribe(conf => {
                 oauthService.configure({...conf, ...OPENID_COMMON_CONF});
 

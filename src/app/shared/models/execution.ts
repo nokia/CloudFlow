@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {CommonFields, ExecutionState} from "./common";
+import {CommonFields, ExecutionState, NonWaitingStates} from "./common";
 import {stringToObject} from "../utils";
 
 export interface JExecution extends CommonFields {
@@ -29,18 +29,18 @@ export class Execution implements JExecution {
     created_at: string;
     updated_at: string;
 
-    /**
-     * Denote if execution run has finished
-     * @type {boolean}
-     */
+    // Denote if execution run has finished
     done = false;
+
+    // will hold the ID of the parent execution when task_execution_id is not null
+    parentExecutionId: string | null = null;
 
     constructor(other: JExecution) {
         Object.assign(this, other);
         this.params = stringToObject(this.params, "json");
         this.output = stringToObject(this.output, "json");
         this.input = stringToObject(this.input, "json");
-        this.done = ["SUCCESS", "ERROR", "CANCELLED" ].includes(this.state);
+        this.done = NonWaitingStates.has(this.state);
     }
 
 }
