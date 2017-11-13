@@ -19,6 +19,23 @@
             </div>
         </ng-template>
         <ng-template ngbPanelContent>
+            <!-- ID -->
+            <cf-info-item [prop]="{display: 'ID', value: actionExecution.id, key: 'action-'+i+'-id'}"></cf-info-item>
+
+            <div class="d-flex flex-row">
+
+                <!-- created -->
+                <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Created', value: actionExecution.created_at,
+                                                             key: 'action-'+i+'-created'}"></cf-info-item>
+
+                <!-- updated -->
+                <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Updated', value: actionExecution.updated_at,
+                                                             key: 'action-'+i+'-updated'}"></cf-info-item>
+
+            </div>
+
+            <cf-info-item [prop]="{display: 'State Info', value: actionExecution.state_info, renderType: 'code',
+                                   key: 'action-'+i+'-state_info'}"></cf-info-item>
 
             <!-- input -->
             <cf-info-item [prop]="{display: 'Input', value: actionExecution.input, renderType: 'code',

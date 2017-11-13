@@ -2,8 +2,8 @@
 
 @import "../../../styles/colors";
 
-:host:not(:last-of-type) {
-  margin-bottom: 1.5rem;
+:host:not(:last-of-type) > div.info-item {
+  margin-bottom: 1rem;
 }
 
 .info-item {

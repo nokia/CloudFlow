@@ -24,6 +24,24 @@
     </ng-template>
 
     <ng-template ngbPanelContent>
+      <!-- id -->
+      <cf-info-item [prop]="{display: 'ID', value: e.id, key: 'e-'+i+'-id'}"></cf-info-item>
+
+      <div class="d-flex flex-row">
+
+        <!-- created -->
+        <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Created', value: e.created_at,
+                                                     key: 'e-'+i+'-created'}"></cf-info-item>
+
+        <!-- updated -->
+        <cf-info-item class="flex-1-1-auto" [prop]="{display: 'Updated', value: e.updated_at,
+                                                     key: 'e-'+i+'-updated'}"></cf-info-item>
+
+      </div>
+
+      <cf-info-item [prop]="{display: 'State Info', value: e.state_info, renderType: 'code',
+                             key: 'e-'+i+'-state_info'}"></cf-info-item>
+
       <!-- input -->
       <cf-info-item [prop]="{display: 'Input', value: e.input, renderType: 'code',
                                                 mode: 'json', key: 'e-'+i+'-input'}"></cf-info-item>

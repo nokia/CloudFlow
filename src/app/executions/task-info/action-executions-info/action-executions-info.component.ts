@@ -23,7 +23,7 @@ export class ActionExecutionsInfoComponent implements OnChanges {
     }
 
     /**
-     * Fetch the 'output' value of the given action execution
+     * Fetch the 'missing' values of the given action execution
      * @param actionExecution
      */
     private patchActionExecutionOutput(actionExecution: ActionExecution) {

@@ -44,7 +44,7 @@ export class SubworkflowExecutionsInfoComponent implements OnChanges {
      */
     panelChanged({panelId, nextState}: NgbPanelChangeEvent) {
         if (nextState /* panel opened */) {
-            this.service.patchSubWorfklowExecutionOutput(this.subWfExecutions[panelId]).subscribe(() => {});
+            this.service.patchSubWorkflowExecutionOutput(this.subWfExecutions[panelId]).subscribe(() => {});
         }
     }
 

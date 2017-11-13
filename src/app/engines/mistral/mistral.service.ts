@@ -10,6 +10,7 @@ import {of as ObservableOf} from "rxjs/observable/of";
 
 import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution, SubWorkflowExecution} from "../../shared/models";
 import {toUrlParams} from "../../shared/utils";
+import {NonWaitingStates} from "../../shared/models/common";
 
 @Injectable()
 export class MistralService {
@@ -32,7 +33,7 @@ export class MistralService {
      */
     executions(sortBy="created_at", sortByDir="desc"): Observable<Execution[]> { /*tslint:disable-line*/
         const params = toUrlParams({
-            limit: 1000,
+            limit: 10000,
             fields: "workflow_name,created_at,state,task_execution_id",
             sort_keys: `${sortBy},name`,
             sort_dirs: `${sortByDir}`
@@ -128,8 +129,9 @@ export class MistralService {
      * url: /actions_executions/<action_execution_id>
      * This call will patch the missing 'output' value on task action execution
      */
-    patchActionExecutionOutput(actionExecution: ActionExecution) {
-        if (actionExecution.output != null) {
+    patchActionExecutionOutput(actionExecution: ActionExecution): Observable<ActionExecution> {
+        if (NonWaitingStates.has(actionExecution.state) && actionExecution.output != null) {
+            // when action execution is done, no need to re-fetch its data
             return ObservableOf(actionExecution);
         } else {
             return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
@@ -137,6 +139,7 @@ export class MistralService {
                     map(res => {
                         actionExecution.input = res["input"];
                         actionExecution.output = res["output"];
+                        actionExecution.state_info = res["state_info"];
                     }),
                     catchError(e => this.handleError(e))
                 );
@@ -146,15 +149,16 @@ export class MistralService {
     /**
      * This call will patch the missing 'output' value on sub-workflow execution.
      */
-    patchSubWorfklowExecutionOutput(subWfExecution: SubWorkflowExecution) {
-        if (subWfExecution.output != null) {
+    patchSubWorkflowExecutionOutput(subWfExecution: SubWorkflowExecution) {
+        if (NonWaitingStates.has(subWfExecution.state) && subWfExecution.output != null) {
             return ObservableOf(subWfExecution);
         } else {
             return this.execution(subWfExecution.id)
                 .pipe(
                     map(execution => {
-                        subWfExecution.input = execution.input;
-                        subWfExecution.output = execution.output;
+                        subWfExecution.state_info = execution["state_info"];
+                        subWfExecution.input = execution["input"];
+                        subWfExecution.output = execution["output"];
                     }),
                     catchError(e => this.handleError(e))
                 );
@@ -165,7 +169,7 @@ export class MistralService {
      * url: /tasks/<taskExecutionId>/action_executions
      */
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
-        const params = toUrlParams({fields: "name,state"});
+        const params = toUrlParams({fields: "name,state,created_at,updated_at"});
         return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`, {params})
             .pipe(
                 map(res => res["action_executions"]),
@@ -178,7 +182,7 @@ export class MistralService {
      * retrieve the sub-workflow execution details
      */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
-        const params = toUrlParams({task_execution_id: taskExecId, fields: "state,workflow_name"});
+        const params = toUrlParams({task_execution_id: taskExecId, fields: "state,workflow_name,created_at,updated_at"});
         return this.http.get(this.prefix + "executions", {params})
             .pipe(
                 map(res => res["executions"]),

@@ -64,7 +64,7 @@ describe('SubworkflowExecutionsInfoComponent', () => {
         });
     }));
 
-    it('should render input/output items', async(() => {
+    it('should render content of info-items', async(() => {
         fixture.whenStable().then(() => {
             fixture.detectChanges();
             const headers = fixture.nativeElement.querySelector("div[role='tab'] > a > div");
@@ -72,8 +72,8 @@ describe('SubworkflowExecutionsInfoComponent', () => {
             fixture.detectChanges();
 
             const infoItems = fixture.debugElement.queryAll(By.directive(InfoItemComponent));
-            expect(infoItems.length).toEqual(2);
-            expect(infoItems[0].componentInstance.prop.renderType).toEqual("code");
+            expect(infoItems.length).toBeGreaterThan(0);
+            expect(infoItems[0].query(By.css("h6")).nativeElement.textContent).toContain("ID");
         });
     }));
 });
