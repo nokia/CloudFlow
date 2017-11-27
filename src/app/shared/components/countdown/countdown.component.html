@@ -1,0 +1,15 @@
+<span class="text-muted2">
+  <i class="fa fa-refresh pointer" title="Refresh" (click)="manualRefresh()"></i> Refresh In: {{value}}
+</span>
+
+<div ngbDropdown [autoClose]="'outside'">
+  <button class="btn btn-link" [class.text-muted2]="!paused" ngbDropdownToggle></button>
+  <div ngbDropdownMenu>
+    <form role="form">
+      <div class="form-check abc-checkbox abc-checkbox-primary">
+        <input type="checkbox" class="form-check-input" id="pause" [checked]="paused" (change)="togglePause()"/>
+        <label class="form-check-label" for="pause">{{paused ? 'Paused' : 'Pause'}}</label>
+      </div>
+    </form>
+  </div>
+</div>

@@ -4,36 +4,12 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 
 @Component({
     selector: 'cf-countdown',
-    template: `<span class="text-muted2">
-                  <i class="fa fa-refresh pointer" title="Refresh" (click)="manualRefresh()"></i> Refresh In: {{value}}
-               </span>
-            <div ngbDropdown [autoClose]="'outside'">
-                <button class="btn btn-link" [class.text-muted2]="!paused" ngbDropdownToggle></button>
-                <div ngbDropdownMenu>
-                  <form role="form">
-                    <div class="form-check abc-checkbox abc-checkbox-primary">
-                      <input type="checkbox" class="form-check-input" id="f1" [checked]="paused" (change)="togglePause()"/>
-                      <label class="form-check-label" for="f1">{{paused ? 'Paused' : 'Pause'}}</label>
-                    </div>
-                  </form>
-                </div>
-            </div>
-    `,
-    styles: [
-        `[ngbDropdownToggle] {
-            padding: 0;
-            padding-left: 3px;
-        }
-        
-        form > div {
-            margin: 0;
-            padding: .5rem 1rem;
-        }`
-    ]
+    templateUrl: "./countdown.component.html",
+    styleUrls: ['./countdown.component.scss']
 })
 export class CountdownComponent implements OnInit, OnDestroy {
     private timeout = null;
-    protected value: number = 0;
+    protected value = 0;
     private INTERVAL_SEC = 31;
     private _paused = false;
 
@@ -76,7 +52,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
         }
     }
 
-    tick() {
+    private tick() {
         if (this.value > 0) {
             this._paused = false;
             this.value--;
