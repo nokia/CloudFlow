@@ -2,7 +2,7 @@
 
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
-import {Injectable} from "@angular/core";
+import {Injectable, Injector} from "@angular/core";
 import {OAuthService} from "angular-oauth2-oidc";
 
 /**
@@ -10,10 +10,12 @@ import {OAuthService} from "angular-oauth2-oidc";
  */
 @Injectable()
 export class AuthIntercept implements HttpInterceptor {
-    constructor(private oauthService: OAuthService) {
+    oauthService: OAuthService;  // https://github.com/angular/angular/issues/18224
+    constructor(/*private oauthService: OAuthService*/ private injector: Injector) {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.oauthService = this.injector.get(OAuthService);
         const token = this.oauthService.getAccessToken() || '';
         const cloneReq = req.clone({headers: req.headers.set("X-Auth-Token", token)});
         return next.handle(cloneReq);
