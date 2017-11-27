@@ -27,6 +27,9 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 @import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
 @import "styles/_alerts.scss";
 
+/* awesome checkbox */
+@import "../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css";
+
 html {
   font-size: 14px;
 }

@@ -23,7 +23,6 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private subscriptions: Subscription[] = [];
     @ViewChild(WorkflowGraphComponent) private workflowGraph: WorkflowGraphComponent;
     @ViewChild(CountdownComponent) private countdown: CountdownComponent;
-    private interval: Subscription = null;
 
     execution: Execution = null;
     tasks: TaskExec[] = [];
@@ -85,18 +84,11 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
-        if (this.interval) {
-            this.interval.unsubscribe();
-        }
     }
 
     async load(executionId: string) {
         this.tasks = [];
         this.executionId = executionId;
-
-        if (this.interval) {
-            this.interval.unsubscribe();
-        }
 
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();
@@ -120,7 +112,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         // init the selected task given in URL
         this.setSelectedTaskFromNavigation();
         if (!this.execution.done) {
-            this.autoReload(this.execution);
+            this.autoReload();
         }
     }
 
@@ -128,18 +120,12 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         this.codeMirrorService.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
     }
 
-    private autoReload(execution: Execution) {
-        const interval = 30;
-        this.countdown.setInitValue(interval);
-        this.interval = new TimerObservable(0, 1000)
-            .pipe(
-                take(interval + 1),
-                map(i => interval - i))
-            .subscribe(
-                (i) => this.countdown.setValue(i),
-                () => {},
-                () => this.load(execution.id)
-            );
+    private autoReload() {
+        this.countdown.restart();
+    }
+
+    autoReloadEnd() {
+        this.load(this.executionId);
     }
 
     private emitSelectedTask(taskId: string|null) {

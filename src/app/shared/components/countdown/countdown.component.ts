@@ -1,27 +1,94 @@
-import {Component} from '@angular/core';
+// Copyright (C) 2017 Nokia
 
-/**
- * Temporary don't use a fancy countdown but this inline "Auto Refresh" span.
- * Most of the defined parameters here are not in use (besides 'value').
- */
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+
 @Component({
     selector: 'cf-countdown',
-    template: `<span class="countdown-text text-muted2"><i class="fa fa-refresh"></i> Auto Refresh: {{value}}</span>`,
+    template: `<span class="text-muted2">
+                  <i class="fa fa-refresh pointer" title="Refresh" (click)="manualRefresh()"></i> Refresh In: {{value}}
+               </span>
+            <div ngbDropdown [autoClose]="'outside'">
+                <button class="btn btn-link" [class.text-muted2]="!paused" ngbDropdownToggle></button>
+                <div ngbDropdownMenu>
+                  <form role="form">
+                    <div class="form-check abc-checkbox abc-checkbox-primary">
+                      <input type="checkbox" class="form-check-input" id="f1" [checked]="paused" (change)="togglePause()"/>
+                      <label class="form-check-label" for="f1">{{paused ? 'Paused' : 'Pause'}}</label>
+                    </div>
+                  </form>
+                </div>
+            </div>
+    `,
+    styles: [
+        `[ngbDropdownToggle] {
+            padding: 0;
+            padding-left: 3px;
+        }
+        
+        form > div {
+            margin: 0;
+            padding: .5rem 1rem;
+        }`
+    ]
 })
-export class CountdownComponent {
-    private initValue = 30;
-    private readonly counterCircleInit = 113; // must match the css value of stroke-dasharray attribute
+export class CountdownComponent implements OnInit, OnDestroy {
+    private timeout = null;
+    protected value: number = 0;
+    private INTERVAL_SEC = 31;
+    private _paused = false;
 
-    value = 0;
-    strokeValue = 113;
+    @Output() done = new EventEmitter<any>();
 
-    setInitValue(value: number) {
-        this.initValue = value;
+    get paused() {
+        return this._paused;
     }
 
-    setValue(tick: number) {
-        this.value = tick;
-        this.strokeValue = (this.initValue - tick) * (this.counterCircleInit / this.initValue);
+    private clearTimeout() {
+        clearTimeout(this.timeout);
+        this.timeout = null;
     }
 
+    ngOnInit() {
+        this.value = this.INTERVAL_SEC;
+        this.tick();
+    }
+
+    restart() {
+        this.clearTimeout();
+        this.value = this.INTERVAL_SEC;
+        this.tick();
+    }
+
+    ngOnDestroy() {
+        this.clearTimeout();
+    }
+
+    private pause() {
+        this._paused = true;
+        this.clearTimeout();
+    }
+
+    togglePause() {
+        if (this.paused) {
+            this.tick();
+        } else {
+            this.pause();
+        }
+    }
+
+    tick() {
+        if (this.value > 0) {
+            this._paused = false;
+            this.value--;
+            this.timeout = setTimeout(() => this.tick(), 1 * 1000);
+        } else {
+            this.manualRefresh();
+        }
+    }
+
+    manualRefresh() {
+        this.clearTimeout();
+        this.value = 0;
+        this.done.emit();
+    }
 }

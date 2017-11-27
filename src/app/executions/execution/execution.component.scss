@@ -75,6 +75,11 @@
 
   .execution-header-content {
     flex: 1 1 auto;
+
+    .extra > *:not(:last-child) {
+      border-right: 1px solid $text-muted2;
+      padding-right: .5rem;
+    }
   }
 
 }

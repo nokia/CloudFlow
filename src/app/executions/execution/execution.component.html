@@ -28,11 +28,11 @@
 
     <div class="execution-header-content d-flex flex-column justify-content-between">
         <h4>{{execution.workflow_name}}</h4>
-        <div class="d-flex flex-row align-items-baseline">
+        <div class="d-flex flex-row align-items-baseline extra">
             <span class="text-muted" [title]="'Created At: ' + execution.created_at">
                 <i class="fa fa-clock-o"></i> {{execution.created_at}}
             </span>
-            <cf-countdown class="ml-3 flex-center" *ngIf="!execution.done"></cf-countdown>
+            <cf-countdown class="ml-3 flex-center" *ngIf="!execution.done" (done)="autoReloadEnd()"></cf-countdown>
         </div>
     </div>
 </div>
