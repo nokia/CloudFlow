@@ -9,14 +9,18 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 })
 export class CountdownComponent implements OnInit, OnDestroy {
     private timeout = null;
-    protected value = 0;
-    private INTERVAL_SEC = 31;
+    private INTERVAL_SEC = 30;
     private _paused = false;
+    private _value = 0;
 
     @Output() done = new EventEmitter<any>();
 
     get paused() {
         return this._paused;
+    }
+
+    get value() {
+        return this._value;
     }
 
     private clearTimeout() {
@@ -25,13 +29,13 @@ export class CountdownComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.value = this.INTERVAL_SEC;
+        this._value = this.INTERVAL_SEC;
         this.tick();
     }
 
     restart() {
         this.clearTimeout();
-        this.value = this.INTERVAL_SEC;
+        this._value = this.INTERVAL_SEC;
         this.tick();
     }
 
@@ -55,7 +59,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
     private tick() {
         if (this.value > 0) {
             this._paused = false;
-            this.value--;
+            this._value--;
             this.timeout = setTimeout(() => this.tick(), 1 * 1000);
         } else {
             this.manualRefresh();
@@ -64,7 +68,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
     manualRefresh() {
         this.clearTimeout();
-        this.value = 0;
+        this._value = 0;
         this.done.emit();
     }
 }
