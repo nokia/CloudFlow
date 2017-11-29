@@ -27,7 +27,7 @@
   <div id="executions-list" #executionsList [ngClass]="{'d-flex align-items-center justify-content-center': !executions || executions.length === 0}">
     <ng-container *ngIf="executions && executions.length > 0; else noExecutions">
       <ng-container *ngFor="let execution of executions | search : search ; trackBy: execTrackBy">
-        <div [routerLink]="[execution.id]" class="row py-3 m-0 execution-list-item pointer">
+        <div [routerLink]="[execution.id]" class="row py-3 execution-list-item pointer">
           <div class="col-sm-1 col-3">
             <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
           </div>
@@ -47,4 +47,8 @@
       </div>
     </ng-template>
   </div>
+</div>
+
+<div class="container text-center" *ngIf="nextMarker">
+  <i class="fa" [ngClass]="{'fa-spin fa-refresh': loading, 'fa-angle-double-down': !loading && nextMarker}"></i>
 </div>

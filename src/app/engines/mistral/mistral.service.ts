@@ -31,17 +31,20 @@ export class MistralService {
     /**
      * url: /executions?<query_params>
      */
-    executions(sortBy="created_at", sortByDir="desc"): Observable<Execution[]> { /*tslint:disable-line*/
-        const params = toUrlParams({
-            limit: 10000,
+    executions(sortBy="created_at", sortByDir="desc", marker=""): Observable<{executions: Execution[], next?: string}> { /*tslint:disable-line*/
+        let params = toUrlParams({
+            limit: 100,
             fields: "workflow_name,created_at,state,task_execution_id",
             sort_keys: `${sortBy},name`,
             sort_dirs: `${sortByDir}`
         });
 
+        if (marker) {
+            params = params.append("marker", marker);
+        }
+
         return this.http.get(this.prefix + "executions", {params})
             .pipe(
-                map(res => res["executions"]),
                 catchError(e => this.handleError(e))
             );
     }

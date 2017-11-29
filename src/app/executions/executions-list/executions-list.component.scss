@@ -48,8 +48,12 @@ h2.card-title {
 }
 
 .execution-list-item {
-  border-bottom: 1px solid $border;
+  background-color: #fff;
+  margin: 0 0 5px 0;
+  box-shadow: 0 2px 3px 0 #d5d5d5;
+
   &:hover {
-    background-color: #fff;
+    background-color: $background-color;
+    box-shadow: 0 1px 3px 0 #dedede;
   }
 }
