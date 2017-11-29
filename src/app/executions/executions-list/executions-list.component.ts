@@ -26,6 +26,7 @@ export class ExecutionsListComponent implements OnInit, AfterViewInit, OnDestroy
     @ViewChild("executionsList") private executionsList: ElementRef;
     private sort = {by: 'created_at', dir: 'desc'};
     private scrollEvent: Subscription;
+    private scrollSum = 0;
 
     nextMarker = "";
     executions: Execution[] = null;
@@ -104,6 +105,7 @@ export class ExecutionsListComponent implements OnInit, AfterViewInit, OnDestroy
     refresh() {
         this.executions = null;
         this.nextMarker = '';
+        this.scrollSum = 0;
         this.getExecutions(this.sort.by, this.sort.dir)
             .subscribe(executions => {
                 this.executions = executions;
@@ -111,40 +113,35 @@ export class ExecutionsListComponent implements OnInit, AfterViewInit, OnDestroy
                 // scroll the list to top
                 this.executionsList.nativeElement.scrollTop = 0;
 
-                // see 'fillGap' documentation
-                this.fillGap();
+                /**
+                 * Today there is no way to fetch "root" executions (executions not triggered by a parent execution)
+                 * from Mistral.
+                 * So we fetch all executions (using limit query param), and filter according to task_execution_id
+                 * being null.
+                 * This may lead to a case where there are no "root" executions in the whole data set loaded.
+                 *
+                 * This check will trigger the 'listScroll' function to mimic user scroll, thus loading more
+                 * executions until we reach the initial threshold.
+                 */
+                if (this.nextMarker && this.executions.length < FILL_GAP_THRESHOLD) {
+                    this.listScroll();
+                }
             }
         );
     }
 
     /**
-     * Implement infinite scroll (with scrollEvent observable).
+     * Implement infinite scroll (called from scrollEvent observable).
      * When scrolled to end of list- fetch the next batch of executions and append to existing list.
+     * Due to the same reason above, this function will continue to fetch executions until reaching the threshold.
      */
-    listScroll() {
-        if (this.nextMarker) {
-            this.getExecutions(this.sort.by, this.sort.dir, this.nextMarker)
-                .subscribe(executions => {
-                    // concat the new executions to existing ones
-                    this.executions.push(...executions);
+    async listScroll() {
+        this.scrollSum = 0;
 
-                    // see 'fillGap' documentation
-                    this.fillGap();
-                });
-        }
-    }
-
-    /**
-     * Today there is no way to fetch "root" executions (executions not triggered by a parent execution).
-     * So we fetch all executions (using limit query param), and filter according to task_execution_id being null.
-     * This may lead to a case were there are no "root" executions in the whole data set loaded.
-     *
-     * This function is called from 'listScroll()' and 'refresh()' to keep loading more executions until we reach
-     * a minimum executions list length.
-     */
-    private fillGap() {
-        if (this.nextMarker && this.executions.length < FILL_GAP_THRESHOLD) {
-            this.listScroll();
+        while (this.nextMarker && this.scrollSum < FILL_GAP_THRESHOLD) {
+            const executions = await this.getExecutions(this.sort.by, this.sort.dir, this.nextMarker).toPromise();
+            this.scrollSum += executions.length;
+            this.executions.push(...executions);
         }
     }
 
