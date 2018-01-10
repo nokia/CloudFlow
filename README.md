@@ -7,6 +7,7 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 ## Features
 * Visualize the flow of workflow executions
 * Identify the execution path of a single task in huge workflows
+* Search by any entity ID
 * Easily distinguish between simple task (an action) and a sub workflow
   execution
 * Follow tasks with a `retry` and/or `with-items`

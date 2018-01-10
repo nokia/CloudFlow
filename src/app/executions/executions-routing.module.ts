@@ -10,7 +10,7 @@ import {TaskInfoComponent} from "./task-info/task-info.component";
 
 const routes: Routes = [
     {
-        path: 'executions',
+        path: '',
         component: ExecutionsComponent,
         children: [
             {

@@ -1,0 +1,15 @@
+<div class="container h-100 d-flex justify-content-center align-items-center flex-column">
+  <h2>Insert any entity ID:</h2>
+  <div class="input-group input-group-lg">
+    <input type="search" class="form-control" placeholder="Search by entity ID..." (keyup.enter)="search()" (keyup)="err = null" [(ngModel)]="searchInput" />
+    <span class="input-group-addon pointer" (click)="search()"><i class="fa fa-search"></i></span>
+  </div>
+
+  <div class="alert alert-warning" *ngIf="err === 'NOT_FOUND'">
+    <i class="fa fa-info-circle"></i> The given entity ID doesn't match a task, an action or a workflow execution.
+  </div>
+
+  <div class="alert alert-secondary" *ngIf="err === 'SEARCHING'">
+    <i class="fa fa-spin fa-spinner"></i>
+  </div>
+</div>
