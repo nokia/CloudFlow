@@ -1,14 +1,29 @@
 // Copyright (C) 2017 Nokia
 
-import jsplumb from 'jsplumb';
+import 'jsplumb';
 import * as dagre from "dagre";
 import Zoom from "./zoom";
 import {GraphEdge} from "./translator";
 
+declare global {
+    interface ConnectParams {
+        cssClass?: string;
+        overlays?: any [];
+    }
+
+    interface jsPlumbInstance { // tslint:disable-line
+        setContainer(p: any): void;
+        setZoom(p: number): void;
+        getConnections(p?: object): any[];
+        getAllConnections(): any[];
+    }
+}
+
+
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
     private static readonly EndpointStyle = {radius: 6, fill: "#456"};
-    private p = jsplumb.jsPlumb;
+    private p: jsPlumbInstance = jsPlumb.getInstance();
     private zoom: Zoom;
 
     private connectAll(edges: GraphEdge[]) {
@@ -65,7 +80,7 @@ export class Graph {
      */
     private setZoom(zoom: number): void {
         const transformOrigin = [0.5, 0.5];
-        const container = this.p.getContainer();
+        const container: HTMLElement = this.p.getContainer() as HTMLElement;
         const prefixes = ["-webkit-", "-moz-", "-ms-", "-o-", ""],
             scale = `scale(${zoom})`,
             transform = `${transformOrigin[0] * 100}% ${transformOrigin[1] * 100}%`;
