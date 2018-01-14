@@ -1,47 +1,53 @@
 // Copyright (C) 2018 Nokia
-import {Component, OnInit} from '@angular/core';
+
+import {Component} from '@angular/core';
+import {Router} from "@angular/router";
 import {MistralService} from "../engines/mistral/mistral.service";
 import 'rxjs/add/operator/toPromise';
-import {Router} from "@angular/router";
 
 @Component({
     selector: 'cf-search',
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
-    searchInput: string;
-    err: null | "NOT_FOUND" | "SEARCHING";
+export class SearchComponent {
+    searchInput = "";
+    err: null | "NOT_FOUND";
+    searching = false;
+    readonly uuidPattern = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 
     constructor(public readonly service: MistralService, public readonly router: Router) {
     }
 
-    ngOnInit() {
-    }
-
     async search() {
-        this.err = "SEARCHING";
+        const searchValue = this.searchInput.trim();
+        if (!searchValue || this.searching) {
+            return;
+        }
+
+        this.searching = true;
+        this.err = null;
 
         try {
-            await this.searchTaskExecution(this.searchInput);
-            return;
+            await this.searchTaskExecution(searchValue);
         } catch {
-            // ignore this: the given id is probably not a task execution.
+            // ignore this: the given id is not a task execution.
         }
 
         try {
-            await this.searchWorkflowExecution(this.searchInput);
-            return;
+            await this.searchWorkflowExecution(searchValue);
         } catch {
-            // ignore this: this given id is probably not a workflow execution
+            // ignore this: this given id is not a workflow execution
         }
 
         try {
-            await this.searchActionExecution(this.searchInput);
-            return;
+            await this.searchActionExecution(searchValue);
         } catch {
+            // the given id is also not an action execution -> show error
             this.err = "NOT_FOUND";
         }
+
+        this.searching = false;
     }
 
     private async searchTaskExecution(entityId: string) {

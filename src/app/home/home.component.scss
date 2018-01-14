@@ -14,15 +14,11 @@
   margin-top: 3rem;
 }
 
-.card:hover {
+.card {
   box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
 }
 
-.card:hover i.fa-search {
-  transform: rotate(90deg) translateX(3px);
-}
-
-.card:hover i.fa-list {
+.card:hover  i {
   transform: rotateY(180deg);
 }
 

@@ -123,7 +123,7 @@ export class Graph {
             element.style.top = `${top}px`;
         });
 
-        setTimeout(() => this.p.repaintEverything());
+        requestAnimationFrame(this.p.repaintEverything.bind(this.p));
     }
 
     /**
