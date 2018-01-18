@@ -2,7 +2,10 @@
   <div class="container d-flex flex-column justify-content-between">
     <div class="pt-4 px-3">
       <div class="input-group" id="workflow-search">
-        <input type="text" class="form-control" placeholder="Filter workflows" [(ngModel)]="search" aria-describedby="workflow-search">
+        <input type="text" class="form-control"
+               [(ngModel)]="search"
+               placeholder="Filter workflows by Name/State/Creation Time/ID"
+               aria-describedby="workflow-search">
         <span class="input-group-addon"><i class="fa fa-search"></i></span>
       </div>
       <!--<p><strong>Showing {{executions.length}} Executions</strong></p>-->

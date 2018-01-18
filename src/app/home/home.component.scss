@@ -6,6 +6,12 @@
   height: 100%;
 }
 
+:host:after {
+  @extend %page-icon-bg;
+  content: '\f015';
+  bottom: -40vh;
+}
+
 .container {
   height: 100%;
 }

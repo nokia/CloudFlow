@@ -7,6 +7,13 @@
   flex-direction: column;
 }
 
+:host:after {
+  @extend %page-icon-bg;
+  content: '\f03a';
+  bottom: -25vh;
+  transform: rotate(-20deg);
+}
+
 .search-header {
   flex: 0 0 115px;
 
@@ -48,7 +55,7 @@ h2.card-title {
 }
 
 .execution-list-item {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, .5);
   margin: 0 0 5px 0;
   box-shadow: 0 2px 3px 0 #d5d5d5;
 

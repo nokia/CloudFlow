@@ -1,5 +1,13 @@
 // Copyright (C) 2018 Nokia
 
+@import "../../styles/colors";
+
 :host {
   height: 100%;
+}
+
+:host:after {
+  @extend %page-icon-bg;
+  content: '\f002';
+  bottom: -25vh;
 }
