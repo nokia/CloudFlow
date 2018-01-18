@@ -9,17 +9,21 @@ import {FormsModule} from "@angular/forms";
 
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
+import {HomeComponent} from "./home/home.component";
 import {ExecutionsModule} from "./executions/executions.module";
 import {MistralService} from "./engines/mistral/mistral.service";
 import {AboutComponent} from "./about/about.component";
 import {OAuthModule, OAuthService} from "angular-oauth2-oidc";
 import {AuthIntercept, auth_init_app} from "./shared/auth/auth.index";
+import {SearchComponent} from './search/search.component';
 
 
 @NgModule({
     declarations: [
         AppComponent,
-        AboutComponent
+        AboutComponent,
+        HomeComponent,
+        SearchComponent,
     ],
     imports: [
         BrowserModule,

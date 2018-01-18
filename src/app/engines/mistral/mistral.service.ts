@@ -137,7 +137,7 @@ export class MistralService {
             // when action execution is done, no need to re-fetch its data
             return ObservableOf(actionExecution);
         } else {
-            return this.http.get(this.prefix + `action_executions/${actionExecution.id}`)
+            return this.getActionExecution(actionExecution.id)
                 .pipe(
                     map(res => {
                         actionExecution.input = res["input"];
@@ -189,6 +189,26 @@ export class MistralService {
         return this.http.get(this.prefix + "executions", {params})
             .pipe(
                 map(res => res["executions"]),
+                catchError(e => this.handleError(e))
+            );
+    }
+
+    /**
+     * url: /tasks/<task_id>
+     */
+    getTask(taskId: string): Observable<TaskExec> {
+        return this.http.get(this.prefix + `tasks/${taskId}`)
+            .pipe(
+                catchError(e => this.handleError(e))
+            );
+    }
+
+    /**
+     * url: /action_executions/<action_execution_id>
+     */
+    getActionExecution(actionExecutionId: string): Observable<ActionExecution> {
+        return this.http.get(this.prefix + `action_executions/${actionExecutionId}`)
+            .pipe(
                 catchError(e => this.handleError(e))
             );
     }

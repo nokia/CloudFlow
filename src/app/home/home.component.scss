@@ -1,0 +1,27 @@
+// Copyright (C) 2018 Nokia
+
+@import "../../styles/colors";
+
+:host {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+}
+
+.card h2 {
+  margin-top: 3rem;
+}
+
+.card {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .24), 0 0 2px rgba(0, 0, 0, .12);
+}
+
+.card:hover  i {
+  transform: rotateY(180deg);
+}
+
+.card i {
+  transition: transform .5s;
+}

@@ -10,23 +10,23 @@
 .search-header {
   flex: 0 0 115px;
 
-  .attr-sortable:before {
+  [class*="attr-sort"]:before {
     font-family: "FontAwesome";
-    content: "\f0dc";
+    cursor: pointer;
     margin-right: 5px;
+  }
+
+  .attr-sortable:before {
+    content: "\f0dc";
     color: #ddd;
   }
 
   .attr-sort-desc:before {
-    font-family: "FontAwesome";
     content: "\f0dd";
-    margin-right: 5px;
   }
 
   .attr-sort-asc:before {
-    font-family: "FontAwesome";
     content: "\f0de";
-    margin-right: 5px;
   }
 }
 

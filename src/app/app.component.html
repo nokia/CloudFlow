@@ -1,9 +1,23 @@
 <nav class="navbar navbar-dark bg-primary flex-row">
   <img src="assets/icon256.svg" height="32" width="32" class="mr-2" />
-  <a class="navbar-brand" [routerLink]="['/']" title="Go to executions list">
-    <i class="fa fa-list"></i> CloudFlow
+  <a class="navbar-brand mb-0 h1" [routerLink]="['']">
+    CloudFlow
   </a>
 
+  <ul class="navbar-nav flex-row">
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/search']" title="Search by entity ID">
+        <i class="fa fa-search"></i>
+      </a>
+    </li>
+
+    <li class="nav-item ml-2">
+      <a class="nav-link" [routerLink]="['/executions']" title="Browse recent executions">
+        <i class="fa fa-list"></i>
+      </a>
+    </li>
+
+  </ul>
 
   <ul class="navbar-nav ml-auto flex-row">
     <li class="nav-item">
