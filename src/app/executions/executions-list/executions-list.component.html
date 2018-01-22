@@ -6,7 +6,9 @@
                [(ngModel)]="search"
                placeholder="Filter workflows by Name/State/Creation Time/ID"
                aria-describedby="workflow-search">
-        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fa fa-search"></i></span>
+        </div>
       </div>
       <!--<p><strong>Showing {{executions.length}} Executions</strong></p>-->
     </div>

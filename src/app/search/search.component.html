@@ -11,7 +11,9 @@
            (keyup.enter)="search()"
            [pattern]="uuidPattern"
            [(ngModel)]="searchInput"/>
-    <span class="input-group-addon pointer" (click)="search()" title="or hit Enter"><i class="fa fa-search"></i></span>
+    <div class="input-group-append pointer">
+      <span class="input-group-text pointer" (click)="search()" title="or hit Enter"><i class="fa fa-search"></i></span>
+    </div>
   </div>
 
   <div class="alert alert-warning mt-2" *ngIf="err === 'NOT_FOUND'">

@@ -20,9 +20,6 @@ $fa-font-path: "../node_modules/font-awesome/fonts";
 /* Open Sans */
 @import "../node_modules/open-sans-fontface/open-sans.css";
 
-/* animate.css */
-@import "../node_modules/animate.css/animate.min.css";
-
 /* sweetalert */
 @import "../node_modules/sweetalert2/dist/sweetalert2.min.css";
 @import "styles/_alerts.scss";
@@ -135,17 +132,6 @@ pre {
 
 .h-0 {
   height: 0 !important;
-}
-
-.btn-link--reset {
-  color: unset;
-  &:hover, &:focus, &:active {
-    text-decoration: none;
-  }
-}
-
-.font-24 {
-  font-size: 24px;
 }
 
 // reset tooltip font size
