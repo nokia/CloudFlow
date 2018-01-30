@@ -7,10 +7,9 @@ import {Execution, TaskExec, WorkflowDef} from "../../shared/models/";
 import {WorkflowGraphComponent} from "../workflow-graph/workflow-graph.component";
 import {Subscription} from "rxjs/Subscription";
 import {filter} from "rxjs/operators";
-import {CountdownComponent} from "../../shared/components/countdown/countdown.component";
-import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {AlertsService} from "../../shared/services/alerts.service";
 import * as AlertMessages from "../../shared/services/alert-messages";
+import {ExecutionHeaderComponent} from "./execution-header/execution-header.component";
 
 @Component({
     selector: 'cf-execution',
@@ -21,7 +20,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private executionId = "";
     private subscriptions: Subscription[] = [];
     @ViewChild(WorkflowGraphComponent) private workflowGraph: WorkflowGraphComponent;
-    @ViewChild(CountdownComponent) private countdown: CountdownComponent;
+    @ViewChild(ExecutionHeaderComponent) private executionHeader: ExecutionHeaderComponent;
 
     execution: Execution = null;
     tasks: TaskExec[] = [];
@@ -30,7 +29,6 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     constructor(protected readonly service: MistralService,
                 protected readonly route: ActivatedRoute,
                 protected readonly router: Router,
-                protected readonly codeMirrorService: CodeMirrorModalService,
                 protected readonly alerts: AlertsService) {
     }
 
@@ -56,8 +54,8 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
      * @param {String} taskId
      */
     private setSelectedTaskFromTaskId(taskId: string) {
-        const task = this.tasks.find(_task => _task.id === taskId);
-        if (task) {
+        const selectedTask = this.tasks.find(task => task.id === taskId);
+        if (selectedTask) {
             setTimeout(() => this.workflowGraph.taskSelected(taskId));
         } else {
             const {msg, confirmButtonText} = AlertMessages.taskNotFound(taskId);
@@ -68,9 +66,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         // watch for changes in execution id value
-        const paramsSubscription = this.route.paramMap.subscribe(params => {
-            this.load(params.get("id"));
-        });
+        const paramsSubscription = this.route.paramMap.subscribe(params => this.load(params.get("id")));
 
         // watch for changes in task id value
         const eventsSubscription = this.router.events.pipe(
@@ -115,12 +111,8 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         }
     }
 
-    showWorkflowDefinition(workflowDef: WorkflowDef) {
-        this.codeMirrorService.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
-    }
-
     private autoReload() {
-        this.countdown.restart();
+        this.executionHeader.counterRestart();
     }
 
     autoReloadEnd() {

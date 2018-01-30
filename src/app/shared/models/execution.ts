@@ -1,6 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {CommonFields, ExecutionState, NonWaitingStates} from "./common";
+import {CommonFields, ExecutionState, ItemDuration, NonWaitingStates} from "./common";
 import {stringToObject} from "../utils";
 
 export interface JExecution extends CommonFields {
@@ -35,6 +35,8 @@ export class Execution implements JExecution {
     // will hold the ID of the parent execution when task_execution_id is not null
     parentExecutionId: string | null = null;
 
+    executionDuration: ItemDuration;
+
     constructor(other: JExecution) {
         Object.assign(this, other);
         this.params = stringToObject(this.params, "json");
@@ -43,4 +45,10 @@ export class Execution implements JExecution {
         this.done = NonWaitingStates.has(this.state);
     }
 
+    get duration() {
+        if (!this.executionDuration) {
+            this.executionDuration = new ItemDuration(this.created_at, this.updated_at);
+        }
+        return this.executionDuration.duration;
+    }
 }

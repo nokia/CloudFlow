@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Nokia
 
-import {CommonFields, ExecutionState} from "./common";
-import * as moment from "moment";
+import {CommonFields, ExecutionState, ItemDuration} from "./common";
 import {stringToObject} from "../utils";
 
 export interface RuntimeContext {
@@ -37,22 +36,14 @@ export class TaskExec implements JTaskExec {
     id: string;
     created_at: string;
     updated_at: string;
-    duration: string;
     state_info: string;
     result: null | object;
+
+    taskDuration: ItemDuration;
 
     constructor(other: JTaskExec) {
         Object.assign(this, other);
         this.runtime_context = stringToObject(this.runtime_context, "json");
-        this.calculateDuration();
-    }
-
-    private calculateDuration() {
-        if (this.updated_at && this.created_at) {
-            this.duration = moment.utc(moment(this.updated_at).diff(this.created_at)).format("HH:mm:ss");
-        } else {
-            this.duration = "";
-        }
     }
 
     setResult(result: string) {
@@ -69,5 +60,12 @@ export class TaskExec implements JTaskExec {
 
     get isWorkflow() {
         return this.type === "WORKFLOW";
+    }
+
+    get duration() {
+        if (!this.taskDuration) {
+            this.taskDuration = new ItemDuration(this.created_at, this.updated_at);
+        }
+        return this.taskDuration.duration;
     }
 }

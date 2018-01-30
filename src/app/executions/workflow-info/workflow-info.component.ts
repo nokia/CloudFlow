@@ -2,10 +2,10 @@
 
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
-import {Execution} from "../../shared/models/execution";
+import {Execution} from "../../shared/models";
 import {Subscription} from "rxjs/Subscription";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
-import {InfoItemProperty} from "../info-item/info-item.component";
+import {getPropTimeout, InfoItemProperty} from "../info-item/info-item.component";
 
 @Component({
     selector: 'cf-workflow-info',
@@ -24,6 +24,7 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         {key: "workflow_id", display: "Workflow ID"},
         {key: "created_at", display: "Created"},
         {key: "updated_at", display: "Updated"},
+        {key: "duration", display: "Duration"},
         {key: "state_info", display: "State Info", renderType: "code", mode: "text"},
         {key: "input", display: "Input", renderType: "code", mode: "json"},
         {key: "output", display: "Output", renderType: "code", mode: "json"},
@@ -46,15 +47,18 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         this.subscription = this.service.selectedExecution.subscribe(execution => {
             this.execution = execution;
             if (execution) {
-                WorkflowInfoComponent.Properties.forEach(prop => {
-                    // deffer drawing of 'code' components (due to UI excessive redraws)
-                    setTimeout(() => this.properties[prop.key] = {...prop, value: execution[prop.key]},
-                        prop.renderType === 'code' ? 500 : 0);
-                });
+                WorkflowInfoComponent.Properties.forEach(this.drawProp.bind(this));
             } else {
                 this.properties = {};
             }
         });
+    }
+
+    private drawProp(prop: InfoItemProperty) {
+        // defer drawing of 'code' components (due to UI excessive redraws)
+        const timeout = getPropTimeout(prop);
+
+        setTimeout(() => this.properties[prop.key] = {...prop, value: this.execution[prop.key]}, timeout);
     }
 
     ngOnDestroy() {

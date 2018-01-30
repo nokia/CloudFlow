@@ -1,0 +1,39 @@
+<div class="execution-header bg-white header-shadow" *ngIf="execution">
+  <div class="execution-header-icon header-item flex-center d-flex flex-column">
+    <i class="fa fa-3x" [ngClass]="execution.state"></i>
+    <span class="badge" [ngClass]="execution.state">{{execution.state}}</span>
+  </div>
+
+  <div *ngIf="execution.parentExecutionId" class="pointer header-item flex-center d-flex flex-column"
+       [routerLink]="['/executions', execution.parentExecutionId]"
+       ngbTooltip="Go to parent execution" placement="bottom">
+    <i class="fa fa-2x fa-arrow-circle-up"></i>
+    <span>Up</span>
+  </div>
+
+  <div class="execution-header-content header-item d-flex flex-column justify-content-between">
+    <h4>{{execution.workflow_name}}</h4>
+    <div class="d-flex flex-row align-items-baseline extra">
+            <span class="text-muted" [title]="'Created At: ' + execution.created_at">
+                <i class="fa fa-clock-o"></i> {{execution.created_at}}
+            </span>
+      <cf-countdown class="ml-3 flex-center" *ngIf="!execution.done" (done)="autoReloadEnd()"></cf-countdown>
+    </div>
+  </div>
+
+  <div *ngIf="!workflowDef?.isEmpty"
+       class="execution-header-definition header-item flex-center d-flex flex-column pointer"
+       ngbTooltip="Show workflow definition" placement="bottom"
+       (click)="showWorkflowDefinition(workflowDef)">
+    <i class="fa fa-book fa-2x"></i>
+    <span>Definition</span>
+  </div>
+
+  <div *ngIf="workflowDef?.isEmpty"
+       class="execution-header-definition header-item flex-center d-flex flex-column"
+       ngbTooltip="Workflow definition is missing" placement="bottom">
+    <i class="fa fa-warning fa-2x"></i>
+    <span>Definition</span>
+  </div>
+
+</div>

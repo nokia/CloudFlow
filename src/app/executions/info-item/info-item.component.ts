@@ -11,6 +11,15 @@ export interface InfoItemProperty {
     instance?: string;
 }
 
+export function getPropTimeout(prop: InfoItemProperty): number {
+    switch (prop.renderType) {
+        case 'code':
+            return 500;
+        default:
+            return 0;
+    }
+}
+
 @Component({
     selector: 'cf-info-item',
     templateUrl: './info-item.component.html',

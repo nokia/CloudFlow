@@ -45,9 +45,7 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
             .pipe(
                 filter(taskData => !!taskData),
                 distinctUntilChanged((prevId, currId) => prevId === currId, taskData => taskData.task.id)
-            ).subscribe(taskData => {
-                this.load(taskData);
-            });
+            ).subscribe(this.load.bind(this));
     }
 
     ngOnInit() {
@@ -68,6 +66,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         });
     }
 
+    private getPropValue(prop: InfoItemProperty, task: TaskExec, taskDef: TaskDef | undefined = {}): any {
+        return (prop.instance === 'taskExec' ? task : taskDef)[prop.key] || 'N/A';
+    }
+
     /**
      * Fill the properties values from the given task def and task execution
      * @param {TaskExec} task
@@ -76,11 +78,8 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
     private setProperties(task: TaskExec, taskDef: TaskDef | undefined): void {
         this.properties = {};
 
-        const getValue = (prop: InfoItemProperty) =>
-            (prop.instance === 'taskExec' ? task : (taskDef || {}))[prop.key] || 'N/A';
-
         TaskInfoComponent.Properties.forEach(prop => {
-            this.properties[prop.key] = {...prop, value: getValue(prop)};
+            this.properties[prop.key] = {...prop, value: this.getPropValue(prop, task, taskDef)};
         });
     }
 
