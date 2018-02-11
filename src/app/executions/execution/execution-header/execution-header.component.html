@@ -36,4 +36,13 @@
     <span>Definition</span>
   </div>
 
+  <div class="header-item flex-center d-flex flex-column"
+       ngbTooltip="Show tasks runtimes" placement="bottom"
+       [class.disabled]="!runtimesEnabled"
+       [class.pointer]="runtimesEnabled"
+       (click)="runtimesEnabled && showTasksRuntimes()">
+    <i class="fa fa-signal fa-rotate-90 fa-2x"></i>
+    <span>Runtimes</span>
+  </div>
+
 </div>

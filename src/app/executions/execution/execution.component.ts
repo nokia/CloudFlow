@@ -25,11 +25,16 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     execution: Execution = null;
     tasks: TaskExec[] = [];
     workflowDef: WorkflowDef = null;
+    runtimesOpen = false;
 
     constructor(protected readonly service: MistralService,
                 protected readonly route: ActivatedRoute,
                 protected readonly router: Router,
                 protected readonly alerts: AlertsService) {
+    }
+
+    runtimesToggle() {
+        this.runtimesOpen = !this.runtimesOpen;
     }
 
     /**
@@ -84,6 +89,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     async load(executionId: string) {
         this.tasks = [];
         this.executionId = executionId;
+        this.runtimesOpen = false;
 
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();

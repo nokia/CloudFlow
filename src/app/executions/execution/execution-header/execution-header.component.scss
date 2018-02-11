@@ -24,6 +24,11 @@
     &:not(:last-of-type) {
       border-right: 1px solid #e0e0e0;
     }
+
+    &.disabled {
+      opacity: .3;
+      cursor: not-allowed;
+    }
   }
 
   .execution-header-icon {

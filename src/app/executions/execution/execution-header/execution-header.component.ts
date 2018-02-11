@@ -13,7 +13,8 @@ import {CountdownComponent} from "../../../shared/components/countdown/countdown
 export class ExecutionHeaderComponent {
     @Input() workflowDef: WorkflowDef;
     @Input() execution: Execution;
-    @Output() autoReloadDone = new EventEmitter<any>();
+    @Output() autoReloadDone = new EventEmitter<null>();
+    @Output() showRuntimesClick = new EventEmitter<null>();
     @ViewChild(CountdownComponent) countdown: CountdownComponent;
 
     constructor(public readonly codeMirrorService: CodeMirrorModalService) {}
@@ -31,4 +32,11 @@ export class ExecutionHeaderComponent {
         this.codeMirrorService.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
     }
 
+    showTasksRuntimes() {
+        this.showRuntimesClick.emit();
+    }
+
+    get runtimesEnabled() {
+        return this.execution.done;
+    }
 }

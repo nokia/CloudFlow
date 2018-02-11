@@ -44,6 +44,7 @@ export class TaskExec implements JTaskExec {
     constructor(other: JTaskExec) {
         Object.assign(this, other);
         this.runtime_context = stringToObject(this.runtime_context, "json");
+        this.taskDuration = new ItemDuration(this.created_at, this.updated_at);
     }
 
     setResult(result: string) {
@@ -63,9 +64,6 @@ export class TaskExec implements JTaskExec {
     }
 
     get duration() {
-        if (!this.taskDuration) {
-            this.taskDuration = new ItemDuration(this.created_at, this.updated_at);
-        }
         return this.taskDuration.duration;
     }
 }
