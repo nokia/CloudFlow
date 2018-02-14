@@ -2,6 +2,7 @@
 *.iml
 node_modules
 npm-debug.log
+.npmrc
 dist/
 coverage
 src/assets/auth.json

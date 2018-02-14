@@ -7,6 +7,8 @@ import * as moment from 'moment';
 interface TaskProgress {
     id: string;
     name: string;
+    created_at: string;
+    updated_at: string;
     created_at_relative: number;
     duration_sec: number;
     barWidth: number;
@@ -81,6 +83,8 @@ export class TasksRuntimeComponent implements OnInit {
             return {
                 id: task.id,
                 name: task.name,
+                created_at: task.created_at,
+                updated_at: task.updated_at,
                 created_at_relative: timeDiff(task.created_at, workflowStarted, 'seconds'),
                 duration_sec: task.taskDuration.duration_sec,
                 duration: task.taskDuration.duration,

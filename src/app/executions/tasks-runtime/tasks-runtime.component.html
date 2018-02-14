@@ -14,7 +14,7 @@
     </thead>
     <tr *ngFor="let task of graphModel; trackBy: trackByTaskId">
       <td class="task-name">
-        <a [routerLink]="['tasks', task.id]" class="text-ellipsis" [title]="task.name">{{task.name}}</a>
+        <a [routerLink]="['tasks', task.id]" class="text-ellipsis" [title]="task.name + ' (' + task.id + ')'">{{task.name}}</a>
       </td>
       <td>
         <div class="stackedBarChart">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </td>
-      <td class="text-muted">
+      <td class="text-muted" [title]="task.created_at + '  -  ' + task.updated_at">
         {{task.duration}}
       </td>
     </tr>

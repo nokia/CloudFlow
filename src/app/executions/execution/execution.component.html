@@ -8,12 +8,12 @@
 
   <split direction="horizontal">
 
-    <split-area [size]="runtimesOpen ? 50 : 75" class="graph-container-overflow" [order]="0">
-      <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"></cf-workflow-graph>
+    <split-area [size]="25" class="task-runtimes bg-white" *ngIf="tasks && tasks.length" [order]="0" [visible]="runtimesOpen">
+      <cf-tasks-runtime [tasks]="tasks" [execution]="execution"></cf-tasks-runtime>
     </split-area>
 
-    <split-area [size]="25" class="task-runtimes bg-white" *ngIf="tasks && tasks.length" [order]="1" [visible]="runtimesOpen">
-      <cf-tasks-runtime [tasks]="tasks" [execution]="execution"></cf-tasks-runtime>
+    <split-area [size]="runtimesOpen ? 50 : 75" class="graph-container-overflow" [order]="1">
+      <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"></cf-workflow-graph>
     </split-area>
 
     <split-area [size]="25" class="bg-white" [order]="2">
