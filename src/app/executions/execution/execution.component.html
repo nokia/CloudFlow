@@ -1,18 +1,19 @@
 <cf-execution-header
     [execution]="execution"
     [workflowDef]="workflowDef"
+    [tasksRuntimeActive]="tasksRuntimeOpen"
     (autoReloadDone)="autoReloadEnd()"
-    (showRuntimesClick)="runtimesToggle()"></cf-execution-header>
+    (tasksRuntimeClicked)="tasksRunimeToggle()"></cf-execution-header>
 
 <div class="execution-content">
 
   <split direction="horizontal">
 
-    <split-area [size]="25" class="task-runtimes bg-white" *ngIf="tasks && tasks.length" [order]="0" [visible]="runtimesOpen">
+    <split-area [size]="25" class="task-runtimes bg-white" *ngIf="tasks && tasks.length" [order]="0" [visible]="tasksRuntimeOpen">
       <cf-tasks-runtime [tasks]="tasks" [execution]="execution"></cf-tasks-runtime>
     </split-area>
 
-    <split-area [size]="runtimesOpen ? 50 : 75" class="graph-container-overflow" [order]="1">
+    <split-area [size]="tasksRuntimeOpen ? 50 : 75" class="graph-container-overflow" [order]="1">
       <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"></cf-workflow-graph>
     </split-area>
 

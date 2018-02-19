@@ -5,7 +5,7 @@ import {CommonModule} from "@angular/common";
 
 import {CopyableComponent} from "./copyable.component";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {ClipboardModule} from "ngx-clipboard/dist";
+import {ClipboardModule} from "ngx-clipboard";
 
 
 @NgModule({
