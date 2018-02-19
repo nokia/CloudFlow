@@ -43,12 +43,10 @@ export class Execution implements JExecution {
         this.output = stringToObject(this.output, "json");
         this.input = stringToObject(this.input, "json");
         this.done = NonWaitingStates.has(this.state);
+        this.executionDuration = new ItemDuration(this.created_at, this.updated_at);
     }
 
     get duration() {
-        if (!this.executionDuration) {
-            this.executionDuration = new ItemDuration(this.created_at, this.updated_at);
-        }
         return this.executionDuration.duration;
     }
 }

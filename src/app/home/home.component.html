@@ -1,16 +1,22 @@
 <div class="container d-flex justify-content-center align-items-center">
   <div class="card-deck">
     <div class="card text-center pointer card-shadow" [routerLink]="['/search']">
-      <div class="card-body">
+      <div class="card-header">
         <i class="fa fa-4x fa-search text-primary"></i>
-        <h2>Search by entity ID</h2>
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Search by ID</h2>
+        <p class="card-text">Search by entity ID</p>
       </div>
     </div>
 
     <div class="card text-center pointer card-shadow" [routerLink]="['/executions']">
+      <div class="card-header">
+        <i class="fa fa-4x fa-sitemap text-primary"></i>
+      </div>
       <div class="card-body">
-        <i class="fa fa-4x fa-list text-primary"></i>
-        <h2>Browse recent executions</h2>
+        <h2 class="card-title">Recent Executions</h2>
+        <p class="card-text">Browse recent executions</p>
       </div>
     </div>
   </div>

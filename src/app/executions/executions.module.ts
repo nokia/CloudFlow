@@ -14,6 +14,7 @@ import {InfoItemComponent} from "./info-item/info-item.component";
 import {ActionExecutionsInfoComponent} from "./task-info/action-executions-info/action-executions-info.component";
 import {SubworkflowExecutionsInfoComponent} from "./task-info/subworkflow-executions-info/subworkflow-executions-info.component";
 import {ExecutionHeaderComponent} from "./execution/execution-header/execution-header.component";
+import {TasksRuntimeComponent} from './tasks-runtime/tasks-runtime.component';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import {ExecutionHeaderComponent} from "./execution/execution-header/execution-h
         ActionExecutionsInfoComponent,
         SubworkflowExecutionsInfoComponent,
         ExecutionHeaderComponent,
+        TasksRuntimeComponent,
     ],
     exports: [
         ExecutionsComponent

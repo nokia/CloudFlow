@@ -11,16 +11,6 @@
     <span>Up</span>
   </div>
 
-  <div class="execution-header-content header-item d-flex flex-column justify-content-between">
-    <h4>{{execution.workflow_name}}</h4>
-    <div class="d-flex flex-row align-items-baseline extra">
-            <span class="text-muted" [title]="'Created At: ' + execution.created_at">
-                <i class="fa fa-clock-o"></i> {{execution.created_at}}
-            </span>
-      <cf-countdown class="ml-3 flex-center" *ngIf="!execution.done" (done)="autoReloadEnd()"></cf-countdown>
-    </div>
-  </div>
-
   <div *ngIf="!workflowDef?.isEmpty"
        class="execution-header-definition header-item flex-center d-flex flex-column pointer"
        ngbTooltip="Show workflow definition" placement="bottom"
@@ -34,6 +24,26 @@
        ngbTooltip="Workflow definition is missing" placement="bottom">
     <i class="fa fa-warning fa-2x"></i>
     <span>Definition</span>
+  </div>
+
+  <div class="header-item flex-center d-flex flex-column"
+       ngbTooltip="Show tasks runtimes" placement="bottom"
+       [class.disabled]="!tasksRuntimeEnabled"
+       [class.pointer]="tasksRuntimeEnabled"
+       [class.active]="tasksRuntimeActive"
+       (click)="tasksRuntimeEnabled && showTasksRuntime()">
+    <i class="fa fa-signal fa-rotate-90 fa-2x"></i>
+    <span>Runtimes</span>
+  </div>
+
+  <div class="execution-header-content header-item d-flex flex-column justify-content-between">
+    <h4>{{execution.workflow_name}}</h4>
+    <div class="d-flex flex-row align-items-baseline extra">
+            <span class="text-muted" [title]="'Created At: ' + execution.created_at">
+                <i class="fa fa-clock-o"></i> {{execution.created_at}}
+            </span>
+      <cf-countdown class="ml-3 flex-center" *ngIf="!execution.done" (done)="autoReloadEnd()"></cf-countdown>
+    </div>
   </div>
 
 </div>

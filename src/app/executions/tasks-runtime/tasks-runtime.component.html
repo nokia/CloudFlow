@@ -1,0 +1,33 @@
+<div class="p-2 mb-1">
+
+  <div class="d-flex justify-content-center align-items-baseline info-panel-header">
+    <span>Task Runtimes</span>
+  </div>
+
+  <table class="table table-sm table-striped table-hover table-bordered">
+    <thead>
+    <tr>
+      <th>Task</th>
+      <th>Relative Runtime</th>
+      <th>Runtime</th>
+    </tr>
+    </thead>
+    <tr *ngFor="let task of graphModel; trackBy: trackByTaskId">
+      <td class="task-name">
+        <a [routerLink]="['tasks', task.id]" class="text-ellipsis" [title]="task.name + ' (' + task.id + ')'">{{task.name}}</a>
+      </td>
+      <td>
+        <div class="stackedBarChart">
+          <div class="inner">
+            <div class="prehighlight" [style.width.%]="task.preBarWidth"></div>
+            <div class="highlight" [style.width.%]="task.barWidth"
+                 [style.backgroundColor]="task.backgroundColor"></div>
+          </div>
+        </div>
+      </td>
+      <td class="text-muted" [title]="task.created_at + '  -  ' + task.updated_at">
+        {{task.duration}}
+      </td>
+    </tr>
+  </table>
+</div>

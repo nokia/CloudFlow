@@ -16,14 +16,11 @@
   height: 100%;
 }
 
-.card h2 {
-  margin-top: 3rem;
+.card-deck {
+  width: 60%;
 }
 
-.card:hover  i {
-  transform: rotateY(180deg);
+.card:hover {
+  border-color: $entity-completed;
 }
 
-.card i {
-  transition: transform .5s;
-}
