@@ -1,0 +1,11 @@
+FROM nginx:1.13
+
+ARG version=v0.5.0-beta.2
+ARG url=https://github.com/nokia/CloudFlow/releases/download/${version}/CloudFlow.tar.gz
+ARG source=${url}
+
+ADD  ${source} /cloudflow
+
+RUN ([ -f /cloudflow/CloudFlow.* ] && tar xvf /cloudflow/CloudFlow.* -C /opt/) || ln -s /cloudflow /opt/CloudFlow
+
+RUN ln -s /opt/CloudFlow/scripts/cloudflow.nginx.conf /etc/nginx/conf.d/cloudflow.conf
