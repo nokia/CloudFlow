@@ -18,7 +18,7 @@ Then use it:
 
 ```bash
 # fire up the container
-docker run -d --net host -v $PWD:/CloudFlow -w /CloudFlow --name cloudflow_builder -u $(id -u):$(id -g) -t cloudflow_build bash
+docker run -d --net host -v $PWD:/CloudFlow -w /CloudFlow --name cloudflow_builder --net host -u $(id -u):$(id -g) -t cloudflow_build cat
 
 # run build commands
 docker exec -it cloudflow_builder yarn install
@@ -34,13 +34,7 @@ The `Dockerfile.for_run` creates a container image that can be used to run Cloud
 It can build the image for a released version listed in the Github project releases 
 or it can run the locally built version.
 
-The image runs the application with Nginx.
-
-To build and use a released version:
-
-```bash
-docker build -f docker/Dockerfile.for_run -t cloudflow .
-```
+The image is based on the [nginx docker image](https://hub.docker.com/_/nginx/).
 
 The build can take three optional parameters:
 * version - a version number from the Github releases page https://github.com/nokia/CloudFlow/releases
@@ -53,18 +47,18 @@ Examples for building:
 # build a released version
 docker build -f docker/Dockerfile.for_run -t cloudflow-v0.5.0-beta.2 --build-arg version=v0.5.0-beta.2
 
-# build from a url
+# build from an archive on a url
 docker build -f docker/Dockerfile.for_run -t cloudflow-url --build-arg url=https://github.com/nokia/CloudFlow/releases/download/v0.5.0-beta.2/CloudFlow.tar.gz
 
 # build for the local version
-# make sure that npm run build was run before
-docker build -f docker/Dockerfile.for_run -t cloudflow-local --build-arg source=.
+# make sure that npm run build was executed before
+docker build -f docker/Dockerfile.for_run -t cloudflow-local --build-arg source=. .
 ```
 
 Example for running:
 
 ```bash
-docker run --rm --net=host --name clf cloudflow-local
+docker run --net=host --name clf -d cloudflow-local
 ```
 
 Then use http://localhost:8000 to access the GUI.
