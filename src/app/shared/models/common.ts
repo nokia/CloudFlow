@@ -20,6 +20,9 @@ export class ItemDuration {
             const diffMs: number = moment(this.updated_at).diff(this.created_at); // diff in milliseconds
             this.duration = moment.utc(diffMs).format("HH:mm:ss"); // formatted string
             this.duration_sec = diffMs / 1000; // diff in seconds
+            if (this.duration_sec === 0) {
+                this.duration = "< 1 second";
+            }
         } else {
             this.duration = "";
             this.duration_sec = 0;
