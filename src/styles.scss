@@ -9,6 +9,7 @@
 @import "styles/animation";
 @import "styles/jsPlumb";
 @import "styles/zoom";
+@import "styles/search";
 
 /* Bootstrap */
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -77,7 +78,7 @@ html, body, cf-root {
 }
 
 .card-shadow {
-  box-shadow: 0 2px 2px rgba(0,0,0,.24), 0 0 2px rgba(0,0,0,.12);
+  box-shadow: 0 2px 2px rgba(0,0,0,.16);
 }
 
 .header-shadow {
@@ -169,5 +170,24 @@ div[role="tab"].card-header {
   }
   &:hover .show-on-hover {
     opacity: 1;
+  }
+}
+
+/**********************
+*** Labeled buttons ***
+***********************/
+button.btn-labeled {
+  position: relative;
+  padding-left: 3em;
+
+  i {
+    background: rgba(0,0,0,.05);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    line-height: 1;
+    width: 2.5em;
+    padding: .5em;
   }
 }

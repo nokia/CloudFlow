@@ -16,25 +16,6 @@
 
 .search-header {
   flex: 0 0 115px;
-
-  [class*="attr-sort"]:before {
-    font-family: "FontAwesome";
-    cursor: pointer;
-    margin-right: 5px;
-  }
-
-  .attr-sortable:before {
-    content: "\f0dc";
-    color: #ddd;
-  }
-
-  .attr-sort-desc:before {
-    content: "\f0dd";
-  }
-
-  .attr-sort-asc:before {
-    content: "\f0de";
-  }
 }
 
 .search-results {
