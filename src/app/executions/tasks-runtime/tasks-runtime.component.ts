@@ -59,6 +59,8 @@ function timeDiff(t1: string, t2: string, diffUnit: moment.unitOfTime.Diff = "se
     return moment(t1).diff(t2, diffUnit);
 }
 
+const CREATED_AT_RELATIVE = "created_at_relative";
+const DURATION_SEC = "duration_sec";
 
 @Component({
     selector: 'cf-tasks-runtime',
@@ -70,6 +72,12 @@ export class TasksRuntimeComponent implements OnInit {
     @Input() tasks: TaskExec[];
     @Input() execution: Execution;
     graphModel: TaskProgress[] = [];
+    filter: '';
+
+    readonly CREATED_AT_RELATIVE = CREATED_AT_RELATIVE;
+    readonly DURATION_SEC = DURATION_SEC;
+
+    private sort = {by: CREATED_AT_RELATIVE, dir: 'asc'};
 
     constructor() {
     }
@@ -131,6 +139,25 @@ export class TasksRuntimeComponent implements OnInit {
                 preBarWidth = 99;
             }
             t.preBarWidth = preBarWidth;
+        });
+    }
+
+    getSortClass(attr: string) {
+        if (this.sort.by === attr) {
+            return `attr-sort-${this.sort.dir}`;
+        } else {
+            return 'attr-sortable';
+        }
+    }
+
+    sortBy(attr: string) {
+        if (attr === this.sort.by) {
+            this.sort.dir = this.sort.dir === "asc" ? "desc" : "asc";
+        }
+        this.sort.by = attr;
+        const sortDir = this.sort.dir === "asc" ? 1 : -1;
+        this.graphModel = this.graphModel.sort((t1, t2) => {
+            return (sortDir) * (t1[attr] - t2[attr]);
         });
     }
 

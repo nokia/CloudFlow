@@ -5,14 +5,14 @@
   </a>
 
   <ul class="navbar-nav flex-row">
-    <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/search']" title="Search by entity ID">
+    <li class="nav-item" ngbTooltip="Search by entity ID" container="body" placement="bottom">
+      <a class="nav-link" [routerLink]="['/search']">
         <i class="fa fa-search"></i>
       </a>
     </li>
 
-    <li class="nav-item ml-2">
-      <a class="nav-link" [routerLink]="['/executions']" title="Browse recent executions">
+    <li class="nav-item ml-2" ngbTooltip="Browse recent executions" container="body" placement="bottom">
+      <a class="nav-link" [routerLink]="['/executions']">
         <i class="fa fa-list"></i>
       </a>
     </li>

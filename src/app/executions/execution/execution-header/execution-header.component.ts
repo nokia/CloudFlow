@@ -2,7 +2,6 @@
 
 import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {Execution, WorkflowDef} from "../../../shared/models";
-import {CodeMirrorModalService} from "../../../shared/components/codemirror/codemirror-modal.service";
 import {CountdownComponent} from "../../../shared/components/countdown/countdown.component";
 
 @Component({
@@ -18,7 +17,7 @@ export class ExecutionHeaderComponent {
     @Output() tasksRuntimeClicked = new EventEmitter<null>();
     @ViewChild(CountdownComponent) countdown: CountdownComponent;
 
-    constructor(public readonly codeMirrorService: CodeMirrorModalService) {}
+    constructor() {}
 
     counterRestart() {
         this.countdown.restart();
@@ -27,10 +26,6 @@ export class ExecutionHeaderComponent {
     autoReloadEnd() {
         this.counterRestart();
         this.autoReloadDone.emit();
-    }
-
-    showWorkflowDefinition(workflowDef: WorkflowDef) {
-        this.codeMirrorService.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
     }
 
     showTasksRuntime() {

@@ -92,7 +92,7 @@ export class MistralService {
         return this.http.get(this.prefix + `workflows/${id}`)
             .pipe(
                 map(res => new WorkflowDef(res["definition"], res["name"])),
-                catchError(e => this.handleError(e))
+                catchError(e => ObservableOf(WorkflowDef.FromEmpty()))
             );
     }
 

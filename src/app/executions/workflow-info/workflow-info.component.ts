@@ -2,7 +2,7 @@
 
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
-import {Execution} from "../../shared/models";
+import {Execution, WorkflowDef} from "../../shared/models";
 import {Subscription} from "rxjs/Subscription";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {getPropTimeout, InfoItemProperty} from "../info-item/info-item.component";
@@ -35,6 +35,7 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
 
     properties: {[key: string]: InfoItemProperty} = {};
     execution: Execution;
+    workflowDef: WorkflowDef;
 
     ngOnInit() {
         // Due to https://github.com/angular/angular/issues/17473,
@@ -48,10 +49,15 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
             this.execution = execution;
             if (execution) {
                 WorkflowInfoComponent.Properties.forEach(this.drawProp.bind(this));
+                this.fetchWorkflowDef(this.execution.workflow_id);
             } else {
                 this.properties = {};
             }
         });
+    }
+
+    private async fetchWorkflowDef(executionId: string) {
+        this.workflowDef = await this.service.workflowDef(executionId).toPromise();
     }
 
     private drawProp(prop: InfoItemProperty) {
@@ -59,6 +65,10 @@ export class WorkflowInfoComponent implements OnInit, OnDestroy {
         const timeout = getPropTimeout(prop);
 
         setTimeout(() => this.properties[prop.key] = {...prop, value: this.execution[prop.key]}, timeout);
+    }
+
+    showDefinition(workflowDef: WorkflowDef) {
+        this.cmModal.open(workflowDef.definition, {mode: 'yaml', readonly: true}, `Workflow Definition`);
     }
 
     ngOnDestroy() {

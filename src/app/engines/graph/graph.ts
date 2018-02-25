@@ -1,14 +1,30 @@
 // Copyright (C) 2017 Nokia
 
-import {jsPlumb} from 'jsplumb';
+import {jsPlumb, jsPlumbInstance} from 'jsplumb';
 import * as dagre from "dagre";
 import Zoom from "./zoom";
 import {GraphEdge} from "./translator";
 
+// add missing features in jsplumb declaration file
+declare module 'jsplumb' {
+    interface ConnectParams {
+        cssClass?: string;
+        overlays?: any[];
+    }
+
+    interface jsPlumbInstance { /*tslint:disable-line */
+        setContainer(p: any): void;
+        setZoom(n: number): void;
+        getAllConnections(): any[];
+        getConnections(p?: any): any[];
+    }
+}
+
+
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
     private static readonly EndpointStyle = {radius: 6, fill: "#456"};
-    private p: any = jsPlumb.getInstance() as any /* jsplumb typings is messed up again */;
+    private p: jsPlumbInstance = jsPlumb.getInstance() /* jsplumb typings is messed up again */;
     private zoom: Zoom;
 
     private connectAll(edges: GraphEdge[]) {

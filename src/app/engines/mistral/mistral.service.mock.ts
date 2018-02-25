@@ -9,5 +9,12 @@ export const MistralServiceMock = {
                 unsubscribe: function() {}
             };
         },
+    },
+    workflowDef: (executionId: string) => {
+        return {
+            toPromise: function() {
+                return Promise.resolve(null);
+            }
+        };
     }
 };

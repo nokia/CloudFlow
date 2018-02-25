@@ -16,6 +16,7 @@ import {AboutComponent} from "./about/about.component";
 import {OAuthModule, OAuthService} from "angular-oauth2-oidc";
 import {AuthIntercept, auth_init_app} from "./shared/auth/auth.index";
 import {SearchComponent} from './search/search.component';
+import {WorkflowDefInterceptor} from "./engines/mistral/workflowDef.interceptor";
 
 
 @NgModule({
@@ -40,6 +41,11 @@ import {SearchComponent} from './search/search.component';
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthIntercept,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: WorkflowDefInterceptor,
             multi: true
         },
         {

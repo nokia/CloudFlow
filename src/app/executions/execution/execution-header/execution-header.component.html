@@ -1,6 +1,17 @@
 <div class="execution-header bg-white header-shadow" *ngIf="execution">
+
+  <div class="header-item flex-center d-flex flex-column"
+       title="Task Runtimes"
+       [class.disabled]="!tasksRuntimeEnabled"
+       [class.pointer]="tasksRuntimeEnabled"
+       [class.active]="tasksRuntimeActive"
+       (click)="tasksRuntimeEnabled && showTasksRuntime()">
+    <i class="fa fa-signal fa-rotate-90 fa-2x"></i>
+    <span>Runtimes</span>
+  </div>
+
   <div class="execution-header-icon header-item flex-center d-flex flex-column">
-    <i class="fa fa-3x" [ngClass]="execution.state"></i>
+    <i class="fa fa-2x" [ngClass]="execution.state"></i>
     <span class="badge" [ngClass]="execution.state">{{execution.state}}</span>
   </div>
 
@@ -9,31 +20,6 @@
        ngbTooltip="Go to parent execution" placement="bottom">
     <i class="fa fa-2x fa-arrow-circle-up"></i>
     <span>Up</span>
-  </div>
-
-  <div *ngIf="!workflowDef?.isEmpty"
-       class="execution-header-definition header-item flex-center d-flex flex-column pointer"
-       ngbTooltip="Show workflow definition" placement="bottom"
-       (click)="showWorkflowDefinition(workflowDef)">
-    <i class="fa fa-book fa-2x"></i>
-    <span>Definition</span>
-  </div>
-
-  <div *ngIf="workflowDef?.isEmpty"
-       class="execution-header-definition header-item flex-center d-flex flex-column"
-       ngbTooltip="Workflow definition is missing" placement="bottom">
-    <i class="fa fa-warning fa-2x"></i>
-    <span>Definition</span>
-  </div>
-
-  <div class="header-item flex-center d-flex flex-column"
-       ngbTooltip="Show tasks runtimes" placement="bottom"
-       [class.disabled]="!tasksRuntimeEnabled"
-       [class.pointer]="tasksRuntimeEnabled"
-       [class.active]="tasksRuntimeActive"
-       (click)="tasksRuntimeEnabled && showTasksRuntime()">
-    <i class="fa fa-signal fa-rotate-90 fa-2x"></i>
-    <span>Runtimes</span>
   </div>
 
   <div class="execution-header-content header-item d-flex flex-column justify-content-between">

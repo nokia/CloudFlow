@@ -1,7 +1,20 @@
 <div class="p-2 mb-1 animated fadeInLeft" *ngIf="execution">
 
-    <div class="d-flex justify-content-center align-items-baseline info-panel-header">
+    <div class="d-flex justify-content-center align-items-center info-panel-header card-shadow">
         <span>Workflow Execution Information</span>
+
+        <button *ngIf="!workflowDef?.isEmpty"
+                class="btn btn-light btn-sm btn-labeled ml-auto"
+                (click)="showDefinition(workflowDef)" title="Show workflow definition">
+            <i class="fa fa-book"></i>Definition
+        </button>
+
+        <button *ngIf="workflowDef?.isEmpty"
+                class="btn btn-light btn-sm btn-labeled ml-auto"
+                title="Workflow definition is missing">
+            <i class="fa fa-warning"></i>Definition
+        </button>
+
     </div>
 
     <div class="d-flex flex-column">

@@ -1,61 +1,82 @@
 <div class="p-2 mb-1">
 
-    <div class="d-flex justify-content-between align-items-baseline info-panel-header">
-        <i class="fa fa-arrow-left pointer" [routerLink]="['../../']" ngbTooltip="Back to Workflow Execution Information" placement="right"></i>
-        <span>Task Execution Information</span>
-        <i *ngIf="taskDef" class="fa fa-book pointer" (click)="showTaskDefinition(taskDef)" ngbTooltip="Show Task Definition" placement="left"></i>
-        <i *ngIf="!taskDef" class="fa fa-warning" ngbTooltip="Task definition is missing" placement="left"></i>
+  <div class="d-flex justify-content-between align-items-center info-panel-header card-shadow">
+
+    <span>Task Execution Information</span>
+
+    <button [routerLink]="['../../']"
+            class="btn btn-light btn-sm ml-auto btn-labeled"
+            type="button"
+            title="Back to Workflow Execution Information">
+      <i class="fa fa-arrow-left"></i>Back
+    </button>
+
+    <button *ngIf="taskDef"
+            class="btn btn-light btn-sm ml-1 btn-labeled"
+            type="button"
+            (click)="showTaskDefinition(taskDef)"
+            title="Show Task Definition">
+      <i class="fa fa-book"></i>Definition
+    </button>
+    <button *ngIf="!taskDef"
+            class="btn btn-light btn-sm ml-1 btn-labeled"
+            type="button"
+            title="Task definition is missing">
+      <i class="fa fa-warning"></i>Definition
+    </button>
+  </div>
+
+  <div class="d-flex flex-column" *ngIf="properties">
+
+    <cf-info-item [prop]="properties['name']"></cf-info-item>
+
+    <!-- task ID -->
+    <cf-info-item [prop]="properties['id']"></cf-info-item>
+
+    <!-- Workflow Execution ID -->
+    <cf-info-item [prop]="properties['workflow_execution_id']"></cf-info-item>
+
+    <!-- action / workflow name -->
+    <cf-info-item *ngIf="task.isAction" [prop]="properties['action']"></cf-info-item>
+
+    <cf-info-item *ngIf="task.isWorkflow" [prop]="properties['workflow']"></cf-info-item>
+
+    <div class="d-flex flex-row mb-4">
+      <!-- state -->
+      <cf-info-item class="flex-0-0-15" [prop]="properties['state']"></cf-info-item>
+
+      <!-- state info -->
+      <cf-info-item class="flex-1-1-auto mnw-0" [prop]="properties['state_info']"></cf-info-item>
     </div>
 
-    <div class="d-flex flex-column" *ngIf="properties">
+    <div class="d-flex flex-row">
 
-        <cf-info-item [prop]="properties['name']"></cf-info-item>
+      <!-- created -->
+      <cf-info-item class="flex-1-1-auto" [prop]="properties['created_at']"></cf-info-item>
 
-        <!-- task ID -->
-        <cf-info-item [prop]="properties['id']"></cf-info-item>
+      <!-- updated -->
+      <cf-info-item class="flex-1-1-auto" [prop]="properties['updated_at']"></cf-info-item>
 
-        <!-- Workflow Execution ID -->
-        <cf-info-item [prop]="properties['workflow_execution_id']"></cf-info-item>
-
-        <!-- action / workflow name -->
-        <cf-info-item *ngIf="task.isAction" [prop]="properties['action']"></cf-info-item>
-
-        <cf-info-item *ngIf="task.isWorkflow" [prop]="properties['workflow']"></cf-info-item>
-
-        <div class="d-flex flex-row mb-4">
-            <!-- state -->
-            <cf-info-item class="flex-0-0-15" [prop]="properties['state']"></cf-info-item>
-
-            <!-- state info -->
-            <cf-info-item class="flex-1-1-auto mnw-0" [prop]="properties['state_info']"></cf-info-item>
-        </div>
-
-        <div class="d-flex flex-row">
-
-            <!-- created -->
-            <cf-info-item class="flex-1-1-auto" [prop]="properties['created_at']"></cf-info-item>
-
-            <!-- updated -->
-            <cf-info-item class="flex-1-1-auto" [prop]="properties['updated_at']"></cf-info-item>
-
-            <!-- duration -->
-            <cf-info-item class="flex-1-1-auto" [prop]="properties['duration']"></cf-info-item>
-        </div>
-
-        <!-- with-items -->
-        <cf-info-item *ngIf="taskDef && taskDef['with-items']" [prop]="properties['with-items']"></cf-info-item>
-
-        <!-- result -->
-        <cf-info-item [prop]="properties['result']"></cf-info-item>
-
-        <!-- published -->
-        <cf-info-item [prop]="properties['published']"></cf-info-item>
-
-        <!-- when task is action: show action executions -->
-        <cf-action-executions-info *ngIf="task.isAction" class="mt-4" [taskExecutionId]="task.id"></cf-action-executions-info>
-
-        <!-- when task is workflow: show subworkflow executions -->
-        <cf-subworkflow-executions-info *ngIf="task.isWorkflow" class="mt-4" [taskExecId]="task.id"></cf-subworkflow-executions-info>
-
+      <!-- duration -->
+      <cf-info-item class="flex-1-1-auto" [prop]="properties['duration']"></cf-info-item>
     </div>
+
+    <!-- with-items -->
+    <cf-info-item *ngIf="taskDef && taskDef['with-items']" [prop]="properties['with-items']"></cf-info-item>
+
+    <!-- result -->
+    <cf-info-item [prop]="properties['result']"></cf-info-item>
+
+    <!-- published -->
+    <cf-info-item [prop]="properties['published']"></cf-info-item>
+
+    <!-- when task is action: show action executions -->
+    <cf-action-executions-info *ngIf="task.isAction" class="mt-4"
+                               [taskExecutionId]="task.id"></cf-action-executions-info>
+
+    <!-- when task is workflow: show subworkflow executions -->
+    <cf-subworkflow-executions-info *ngIf="task.isWorkflow" class="mt-4"
+                                    [taskExecId]="task.id"></cf-subworkflow-executions-info>
+
+  </div>
 </div>

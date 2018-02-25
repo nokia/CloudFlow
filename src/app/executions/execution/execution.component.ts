@@ -33,7 +33,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
                 protected readonly alerts: AlertsService) {
     }
 
-    tasksRunimeToggle() {
+    taskRuntimeToggle() {
         this.tasksRuntimeOpen = !this.tasksRuntimeOpen;
     }
 
@@ -102,13 +102,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
-        try {
-            this.workflowDef = await this.service.workflowDef(this.execution.workflow_id).toPromise();
-        } catch (e) {
-            this.workflowDef = WorkflowDef.FromEmpty();
-            // const {msg, title} = AlertMessages.workflowDefinitionNotFound(this.execution.workflow_id);
-            // this.alerts.notFound(msg, {title});
-        }
+        this.workflowDef = await this.service.workflowDef(this.execution.workflow_id).toPromise();
 
         // init the selected task given in URL
         this.setSelectedTaskFromNavigation();
