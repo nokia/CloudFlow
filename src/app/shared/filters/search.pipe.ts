@@ -2,22 +2,19 @@
 
 import {Pipe, PipeTransform} from '@angular/core';
 
+/**
+ * Use the 'search' pipe with specifying field name like <Array>|search:<ngModel>:'name',
+ * or with several field names separated by comma <Array>|search:<ngModel>:'name,id'
+ */
 @Pipe({
     name: 'search'
 })
 export class SearchPipe implements PipeTransform {
-
-    private static fieldMatch(item: any, fieldName: string, searchValue: string): boolean {
-        return item[fieldName] != null &&
-            item[fieldName].toString().toLocaleLowerCase().includes(searchValue);
-    }
-
-    private static anywhere(item: any, searchValue: string): boolean {
-        return Object.keys(item).some(key => SearchPipe.fieldMatch(item, key, searchValue));
-    }
-
-    private static matches(item: any, searchValue: string, fieldName?: string): boolean {
-        return fieldName ? SearchPipe.fieldMatch(item, fieldName, searchValue) : SearchPipe.anywhere(item, searchValue);
+    matches(item: any, searchValue: string, fieldName?: string): boolean {
+        const fieldNames = fieldName ? fieldName.split(",") : Object.keys(item);
+        return fieldNames
+            .filter(name => item[name] != null)
+            .some(name => item[name].toString().toLocaleLowerCase().includes(searchValue));
     }
 
     transform(items: any[], searchValue: string, fieldName?: string): any {
@@ -27,7 +24,7 @@ export class SearchPipe implements PipeTransform {
         if (!searchValue) {
             return items;
         }
-        return items.filter(it => SearchPipe.matches(it, searchValue.toLocaleLowerCase(), fieldName));
+        return items.filter(it => this.matches(it, searchValue.toLocaleLowerCase(), fieldName));
     }
 
 }
