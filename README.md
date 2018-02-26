@@ -8,6 +8,7 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 * Visualize the flow of workflow executions
 * Identify the execution path of a single task in huge workflows
 * Search by any entity ID
+* Identify long-running tasks at a glance
 * Easily distinguish between simple task (an action) and a sub workflow
   execution
 * Follow tasks with a `retry` and/or `with-items`
@@ -18,6 +19,7 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 ## Table of Contents
 * [Requirements](#requirements)
 * [Installation](#installing-cloudflow-on-the-mistral-machine)
+* [Upgrading](#upgrade-cloudflow)
 * [Authentication](#authentication)
 * [Development and Building](#development)
 
@@ -59,10 +61,15 @@ To run CloudFlow on your Mistral instance:
 5. Optionally enable HTTPS in the configuration file.
 6. Restart nginx/apache.
 7. Open the browser and navigate to `http[s]://<your_mistral_ip>:8000`.
-8. Whenever there is an update to CloudFlow, simply download the latest version
-  and extract it in the same place.
 
 A Dockerfile will be provided in future release.
+
+## Upgrade CloudFlow
+Whenever there is an update to CloudFlow, simply download the latest version's .tar.gz
+  and extract it in the same place.
+```bash
+wget -qO- https://github.com/nokia/CloudFlow/releases/download/<version>/CloudFlow.tar.gz | tar xvz -C /opt
+```
 
 ## Authentication
 ### OpenID Connect
