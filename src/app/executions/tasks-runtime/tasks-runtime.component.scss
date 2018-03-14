@@ -1,4 +1,5 @@
 // Copyright (C) 2018 Nokia
+@import "../../../styles/colors";
 
 .stackedBarChart {
   width: 100%;
@@ -14,6 +15,7 @@
     .highlight {
       border-radius: 2px;
       transition: filter .3s ease-in-out;
+      background-color: $entity-completed;
 
       &:hover {
         filter: brightness(1.1);
@@ -36,7 +38,7 @@ table {
   }
   td.task-name a {
     width: 150px;
-    display: block;
+    color: #666;
   }
   th input.form-control-sm {
     padding: .1rem;

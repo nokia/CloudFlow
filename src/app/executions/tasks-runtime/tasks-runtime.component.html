@@ -15,6 +15,7 @@
     <tr *ngFor="let task of graphModel | search:filter:'name,id'; trackBy: trackByTaskId">
 
       <td class="task-name">
+        <i class="fa" [ngClass]="task.state"></i>
         <a [routerLink]="['tasks', task.id]" class="text-ellipsis"
            [title]="task.name + ' (' + task.id + ')'">{{task.name}}</a>
       </td>
@@ -26,10 +27,8 @@
             Percent: {{task.duration_sec === 0 ? '< ' : ''}}{{task.barWidth | number}}%</ng-template>
 
           <div class="inner">
-
             <div class="prehighlight" [style.width.%]="task.preBarWidth"></div>
-
-            <div class="highlight" [style.width.%]="task.barWidth" [style.backgroundColor]="task.backgroundColor"></div>
+            <div class="highlight" [style.width.%]="task.barWidth"></div>
           </div>
         </div>
       </td>

@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Nokia
 
 import {Component, Input, OnInit} from '@angular/core';
-import {Execution, TaskExec} from "../../shared/models";
+import {Execution, TaskExec, ExecutionState} from "../../shared/models";
 import * as moment from 'moment';
 
 interface TaskProgress {
@@ -13,46 +13,8 @@ interface TaskProgress {
     duration_sec: number;
     barWidth: number;
     preBarWidth: number;
-    backgroundColor: string;
     duration: string;
-}
-
-function getMixedColor({color1 = '#e74c3c', color2 = '#2ecc71', weight = 0.5}) {
-    // https://gist.github.com/jedfoster/7939513
-    const d2h = (d) => d.toString(16);
-    const h2d = (h) => parseInt(h, 16);
-    const strip = (hexColor) => hexColor.substr(hexColor.indexOf("#") + 1);
-
-    color1 = strip(color1);
-    color2 = strip(color2);
-
-    let color = "";
-
-    for (let i = 0; i <= 5; i += 2) { // loop through each of the 3 hex pairsred, green, and blue
-        const v1 = h2d(color1.substr(i, 2)), // extract the current pairs
-            v2 = h2d(color2.substr(i, 2));
-
-        // combine the current pairs from each source color, according to the specified weight
-        let val = d2h(Math.floor(v2 + (v1 - v2) * weight));
-
-        // prepend a '0' if val results in a single digit
-        val = val.padStart(2, "0");
-
-        color += val; // concatenate val to our new color string
-    }
-
-    return "#" + color;
-}
-
-function noramlize(arr): number[] {
-    const max = Math.max(...arr),
-        min = Math.min(...arr),
-        len = arr.length;
-    if (max === min) {
-        return Array(len).fill(1 / len);
-    } else {
-        return arr.map(i => (i - min) / (max - min));
-    }
+    state: ExecutionState;
 }
 
 function timeDiff(t1: string, t2: string, diffUnit: moment.unitOfTime.Diff = "seconds") {
@@ -98,7 +60,7 @@ export class TasksRuntimeComponent implements OnInit {
                 duration: task.taskDuration.duration,
                 barWidth: 0,
                 preBarWidth: 0,
-                backgroundColor: 'fff'
+                state: task.state
             };
         }).sort((t1, t2) => t1.created_at_relative - t2.created_at_relative);
     }
@@ -120,12 +82,7 @@ export class TasksRuntimeComponent implements OnInit {
 
         this.graphModel = this.createGraphModel(tasks, workflowStarted);
 
-        // normalize the run times to values in [0..1]. This will help to mix the colors (green -> red)
-        const normalized = noramlize(this.graphModel.map(t => t.duration_sec));
-
         this.graphModel.forEach((t, index) => {
-            // set the graph's background color
-            t.backgroundColor = getMixedColor({weight: normalized[index]});
 
             // set the graph's width
             const barWidth = (t.duration_sec / workflowDurationSec) * 100;
