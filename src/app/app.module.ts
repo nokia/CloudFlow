@@ -10,7 +10,6 @@ import {FormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {HomeComponent} from "./home/home.component";
-import {ExecutionsModule} from "./executions/executions.module";
 import {MistralService} from "./engines/mistral/mistral.service";
 import {AboutComponent} from "./about/about.component";
 import {OAuthModule, OAuthService} from "angular-oauth2-oidc";
@@ -33,7 +32,6 @@ import {WorkflowDefInterceptor} from "./engines/mistral/workflowDef.interceptor"
         HttpClientModule,
         BrowserAnimationsModule,
         OAuthModule.forRoot(),
-        ExecutionsModule,
         FormsModule,
     ],
     providers: [
