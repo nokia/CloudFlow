@@ -19,6 +19,7 @@ http://rawgit.com/nokia/CloudFlow/master/docs/index.html
 ## Table of Contents
 * [Requirements](#requirements)
 * [Installation](#installing-cloudflow-on-the-mistral-machine)
+* [Docker Installation](#docker-installation)
 * [Upgrading](#upgrade-cloudflow)
 * [Authentication](#authentication)
 * [Development and Building](#development)
@@ -62,7 +63,47 @@ To run CloudFlow on your Mistral instance:
 6. Restart nginx/apache.
 7. Open the browser and navigate to `http[s]://<your_mistral_ip>:8000`.
 
-A Dockerfile will be provided in future release.
+## Docker Installation
+
+This image based on multi-stage build. The first layer is used to create a artifacts.
+The second layer is the nginx alpine image.
+
+### Build docker image
+
+```bash
+docker build -t cloud-flow .
+```
+
+### Start docker container
+
+* without SSL
+```bash
+docker run -d --rm --net=host --name cloud-flow cloud-flow
+```
+
+* using SSL
+
+Generate certificates, for example
+```bash
+mkdir certs
+cd certs
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
+```
+Run container
+```bash
+docker run --rm -d --net host --name cloud-flow \
+       -v _absolute_path_/CloudFlow/certs:/etc/nginx/ssl:ro -e CF_SSL=ssl cloud-flow
+```
+
+### Environment variables for Docker container
+
+
+|Name|Values|Default|Description|
+|---|---|---|---|
+|CF_PORT|Any number from 1 to 65535|8000|Port of the application|
+|CF_SERVER_NAME|Names, wildcard names, or regular expressions|localhost|[Read more](https://nginx.ru/en/docs/http/server_names.html)|
+|CF_MISTRAL_URL|URL|http://127.0.0.1:8989|URL to the Mistral server|
+|CF_SSL|`ssl` or *empty value*|*empty value*|If the value equals `ssl` then server will use HTTPS connection instead HTTP|
 
 ## Upgrade CloudFlow
 Whenever there is an update to CloudFlow, simply download the latest version's .tar.gz
