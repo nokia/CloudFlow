@@ -4,11 +4,13 @@ import {HttpClient} from "@angular/common/http";
 import {OAuthService} from "angular-oauth2-oidc";
 import {of as ObservableOf} from "rxjs/observable/of";
 import {catchError} from "rxjs/operators";
+import {AuthConfig} from "angular-oauth2-oidc/auth.config";
 
-const OPENID_COMMON_CONF = {
+const OPENID_COMMON_CONF: AuthConfig = {
     redirectUri: window.location.href,
     silentRefreshRedirectUri: window.location.origin + "/assets/silent-refresh.html",
     disableAtHashCheck: true,
+    postLogoutRedirectUri: window.location.origin,
     scope: 'openid userinfo'
 };
 

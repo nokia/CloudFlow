@@ -5,6 +5,14 @@ import {RouterTestingModule} from '@angular/router/testing';
 
 import {AppComponent} from './app.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {OAuthModule, OAuthService} from "angular-oauth2-oidc";
+
+class OAuthServiceMock {
+    hasValidAccessToken() {
+        return true;
+    }
+    logout() {}
+}
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -12,6 +20,10 @@ describe('AppComponent', () => {
             imports: [
                 RouterTestingModule,
                 NgbModule.forRoot(),
+                OAuthModule.forRoot(),
+            ],
+            providers: [
+                {provide: OAuthService, useClass: OAuthServiceMock}
             ],
             declarations: [
                 AppComponent
@@ -31,5 +43,12 @@ describe('AppComponent', () => {
         fixture.detectChanges();
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('.navbar-brand').textContent).toContain('CloudFlow');
+    }));
+
+    it('should render a logout button', async(() => {
+        const fixture = TestBed.createComponent(AppComponent);
+        fixture.detectChanges();
+        const compiled = fixture.debugElement.nativeElement;
+        expect(compiled.querySelector('#logout').textContent).toBeDefined();
     }));
 });

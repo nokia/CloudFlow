@@ -24,6 +24,10 @@
       <a class="nav-link p-2 pointer" (click)="about()">About</a>
     </li>
 
+    <li class="nav-item" *ngIf="isLoggedIn" id="logout">
+      <a class="nav-link pl-2 pointer" (click)="logout()">Logout</a>
+    </li>
+
   </ul>
 
 </nav>

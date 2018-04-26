@@ -125,6 +125,7 @@ create the following `auth.json` file under the `assets/` folder (i.e. `assets/a
   "_type": "openid-connect",
   "issuer": "<Url of the Identity Provider>",
   "loginUrl": "<Url for login endpoint>",
+  "logoutUrl": "<Url for logout endpoint, optional>",
   "clientId": "<Client Identifier valid at the Authorization Server>"
 }
 ```
