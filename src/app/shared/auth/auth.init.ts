@@ -34,7 +34,7 @@ export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
                 oauthService.tryLogin().then(() => {
                     if (!oauthService.hasValidAccessToken()) {
                         oauthService.initImplicitFlow();
-                        reject();
+                        reject('unauthenticated');
                     }
                     resolve(true);
                 });
