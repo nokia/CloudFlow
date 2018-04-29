@@ -1,8 +1,8 @@
 # CloudFlow
-A workflow visualization tool for OpenStack Mistral (https://github.com/openstack/mistral)
+A workflow visualization tool for [OpenStack Mistral](https://github.com/openstack/mistral)
 
 ## Live Demo
-http://rawgit.com/nokia/CloudFlow/master/docs/index.html
+[See CloudFlow in action](http://yaqluator.com:8000)
 
 ## Features
 * Visualize the flow of workflow executions
