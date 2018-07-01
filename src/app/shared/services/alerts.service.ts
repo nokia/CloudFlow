@@ -6,8 +6,10 @@ import swal, {SweetAlertOptions} from "sweetalert2";
 
 @Injectable()
 export class AlertsService {
+    swal: typeof swal;
+
     constructor() {
-        swal.setDefaults({
+        this.swal = (swal as any).mixin({
             allowEscapeKey: false,
             allowOutsideClick: false
         });
@@ -16,7 +18,7 @@ export class AlertsService {
     private show(msg: string, options: SweetAlertOptions) {
         console.warn(msg);
 
-        return swal({
+        return this.swal({
             html: msg,
             ...options
         });

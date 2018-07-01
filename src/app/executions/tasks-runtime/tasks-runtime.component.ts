@@ -71,7 +71,6 @@ export class TasksRuntimeComponent implements OnInit {
      *  the task's graph start point relative to its start time.
      * The task's duration (in seconds) will determine the width of the graph itself.
      *
-     * Each task will be colored in a color from green (the fastest) to red (the slowest).
      * A task with a runtime == 0 will set it's graph width to 1% (for visibility purposes).
      * @param {Execution} execution
      * @param {TaskExec[]} tasks
@@ -82,20 +81,20 @@ export class TasksRuntimeComponent implements OnInit {
 
         this.graphModel = this.createGraphModel(tasks, workflowStarted);
 
-        this.graphModel.forEach((t, index) => {
+        this.graphModel.forEach((task) => {
 
             // set the graph's width
-            const barWidth = (t.duration_sec / workflowDurationSec) * 100;
-            t.barWidth = barWidth || 1;
+            const barWidth = (task.duration_sec / workflowDurationSec) * 100;
+            task.barWidth = barWidth || 1;
 
             // set the position of the task
-            let preBarWidth = (t.created_at_relative / workflowDurationSec) * 100;
+            let preBarWidth = (task.created_at_relative / workflowDurationSec) * 100;
             if (preBarWidth === 100) {
                 // Edge case when the *last* task(s) runtime is 0.
                 // Need to decrease the pre-highlight width to 99 (since a task running in 0 time will get width of 1%)
                 preBarWidth = 99;
             }
-            t.preBarWidth = preBarWidth;
+            task.preBarWidth = preBarWidth;
         });
     }
 

@@ -5,7 +5,7 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution, TaskExec, WorkflowDef} from "../../shared/models/";
 import {WorkflowGraphComponent} from "../workflow-graph/workflow-graph.component";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 import {filter} from "rxjs/operators";
 import {AlertsService} from "../../shared/services/alerts.service";
 import * as AlertMessages from "../../shared/services/alert-messages";

@@ -5,7 +5,7 @@ import {MistralService} from "../../engines/mistral/mistral.service";
 import {TaskExec, TaskDef} from "../../shared/models/";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {InfoItemProperty} from "../info-item/info-item.component";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 import {filter, distinctUntilChanged} from "rxjs/operators";
 
 @Component({

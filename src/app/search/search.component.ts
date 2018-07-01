@@ -3,7 +3,7 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {MistralService} from "../engines/mistral/mistral.service";
-import 'rxjs/add/operator/toPromise';
+
 
 @Component({
     selector: 'cf-search',

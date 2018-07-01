@@ -1,9 +1,9 @@
 // Copyright (C) 2017 Nokia
 
+import {filter, catchError} from 'rxjs/operators';
 import {HttpClient} from "@angular/common/http";
 import {OAuthService} from "angular-oauth2-oidc";
-import {of as ObservableOf} from "rxjs/observable/of";
-import {catchError} from "rxjs/operators";
+import {of as ObservableOf} from "rxjs";
 import {AuthConfig} from "angular-oauth2-oidc/auth.config";
 
 const OPENID_COMMON_CONF: AuthConfig = {
@@ -23,7 +23,7 @@ export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
             console.warn(`No ${AUTH_JSON} file found. Assume no auth is needed.`);
             resolve(false);
             return ObservableOf(null);
-        })).filter(conf => !!conf)
+        })).pipe(filter(conf => !!conf))
             .subscribe(conf => {
                 oauthService.configure({...conf, ...OPENID_COMMON_CONF});
 

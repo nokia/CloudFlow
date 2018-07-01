@@ -2,9 +2,8 @@
 
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-import {of as ObservableOf} from "rxjs/observable/of";
-import {tap} from "rxjs/operators/tap";
+import {Observable, of as ObservableOf} from "rxjs";
+import {tap} from "rxjs/operators";
 
 /**
  * Act like a cache for WorkflowDef getter

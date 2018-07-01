@@ -1,5 +1,6 @@
 // Copyright (C) 2017 Nokia
 
+import {tap} from 'rxjs/operators';
 import {
     HttpErrorResponse,
     HttpEvent,
@@ -8,10 +9,9 @@ import {
     HttpRequest,
     HttpResponse
 } from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {Injectable, Injector} from "@angular/core";
 import {OAuthService} from "angular-oauth2-oidc";
-import 'rxjs/add/operator/do';
 
 /**
  * Add the X-Auth-Token header to all http requests
@@ -37,7 +37,7 @@ export class UnauthorizedIntercept implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).do((event: HttpEvent<any>) => {
+        return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
 
             }
@@ -47,6 +47,6 @@ export class UnauthorizedIntercept implements HttpInterceptor {
                 this.oauthService = this.injector.get(OAuthService);
                 this.oauthService.logOut();
             }
-        });
+        }));
     }
 }
