@@ -15,9 +15,11 @@
     <tr *ngFor="let task of graphModel | search:filter:'name,id'; trackBy: trackByTaskId">
 
       <td class="task-name">
-        <i class="fa" [ngClass]="task.state"></i>
-        <a [routerLink]="['tasks', task.id]" class="text-ellipsis"
-           [title]="task.name + ' (' + task.id + ')'">{{task.name}}</a>
+        <div class="text-ellipsis task-name-container">
+          <i class="fa" [ngClass]="task.state"></i>
+          <a [routerLink]="['tasks', task.id]"
+             [title]="task.name + ' (' + task.id + ')'">{{task.name}}</a>
+        </div>
       </td>
 
       <td [ngbPopover]="runtimeTooltip" container="body" triggers="mouseenter:mouseleave">

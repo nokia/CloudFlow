@@ -155,6 +155,11 @@ div[role="tab"].card-header {
     content: "\f077"; // fa-chevron-up
     font-family: FontAwesome;
   }
+
+  h5 > button {
+    padding: 0;
+    width: 100%;
+  }
 }
 
 /***************************

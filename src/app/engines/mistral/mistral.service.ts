@@ -2,13 +2,10 @@
 
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject, Observable, of as ObservableOf, throwError} from "rxjs";
 import {catchError, map} from "rxjs/operators";
-import {ErrorObservable} from "rxjs/observable/ErrorObservable";
-import {of as ObservableOf} from "rxjs/observable/of";
 
-import {Execution, TaskExec, WorkflowDef, TaskDef, ActionExecution, SubWorkflowExecution} from "../../shared/models";
+import {ActionExecution, Execution, SubWorkflowExecution, TaskDef, TaskExec, WorkflowDef} from "../../shared/models";
 import {toUrlParams} from "../../shared/utils";
 import {NonWaitingStates} from "../../shared/models/common";
 
@@ -25,7 +22,7 @@ export class MistralService {
 
     handleError(e) {
         console.error(e);
-        return ErrorObservable.create(e);
+        return throwError(e);
     }
 
     /**
@@ -43,7 +40,7 @@ export class MistralService {
             params = params.append("marker", marker);
         }
 
-        return this.http.get(this.prefix + "executions", {params})
+        return this.http.get<any>(this.prefix + "executions", {params})
             .pipe(
                 catchError(e => this.handleError(e))
             );
@@ -143,6 +140,7 @@ export class MistralService {
                         actionExecution.input = res["input"];
                         actionExecution.output = res["output"];
                         actionExecution.state_info = res["state_info"];
+                        return actionExecution;
                     }),
                     catchError(e => this.handleError(e))
                 );
@@ -162,6 +160,7 @@ export class MistralService {
                         subWfExecution.state_info = execution["state_info"];
                         subWfExecution.input = execution["input"];
                         subWfExecution.output = execution["output"];
+                        return subWfExecution;
                     }),
                     catchError(e => this.handleError(e))
                 );
@@ -197,7 +196,7 @@ export class MistralService {
      * url: /tasks/<task_id>
      */
     getTask(taskId: string): Observable<TaskExec> {
-        return this.http.get(this.prefix + `tasks/${taskId}`)
+        return this.http.get<any>(this.prefix + `tasks/${taskId}`)
             .pipe(
                 catchError(e => this.handleError(e))
             );
@@ -207,7 +206,7 @@ export class MistralService {
      * url: /action_executions/<action_execution_id>
      */
     getActionExecution(actionExecutionId: string): Observable<ActionExecution> {
-        return this.http.get(this.prefix + `action_executions/${actionExecutionId}`)
+        return this.http.get<any>(this.prefix + `action_executions/${actionExecutionId}`)
             .pipe(
                 catchError(e => this.handleError(e))
             );

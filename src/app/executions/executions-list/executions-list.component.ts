@@ -3,8 +3,7 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution} from "../../shared/models/execution";
-import {fromEvent} from "rxjs/observable/fromEvent";
-import {Subscription} from "rxjs/Subscription";
+import {fromEvent, Subscription} from "rxjs";
 import {map, filter, tap, debounceTime, finalize} from "rxjs/operators";
 
 function getNextMarker(next: string) {

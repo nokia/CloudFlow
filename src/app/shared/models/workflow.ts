@@ -34,7 +34,7 @@ export class WorkflowDef {
     }
 
     constructor(definition: string, workflowName: string) {
-        this.definition = jsyaml.safeLoad(definition);
+        this.definition = jsyaml.safeLoad(definition) as IWorkflowDef;
 
         if (!(workflowName in this.definition)) {
             // workflow name may describe nested wf (contains dots)

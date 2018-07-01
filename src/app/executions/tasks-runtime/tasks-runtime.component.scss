@@ -36,9 +36,12 @@ table {
     padding: .2rem;
     vertical-align: middle;
   }
-  td.task-name a {
+  td .task-name-container {
     width: 150px;
+  }
+  td.task-name a {
     color: #666;
+    margin-left: .4em;
   }
   th input.form-control-sm {
     padding: .1rem;

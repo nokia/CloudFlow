@@ -13,7 +13,6 @@ declare module 'jsplumb' {
     }
 
     interface jsPlumbInstance { /*tslint:disable-line */
-        setContainer(p: any): void;
         setZoom(n: number): void;
         getAllConnections(): any[];
         getConnections(p?: any): any[];
@@ -24,7 +23,7 @@ declare module 'jsplumb' {
 export class Graph {
     private static readonly Anchors = ["Bottom", "Top"];
     private static readonly EndpointStyle = {radius: 6, fill: "#456"};
-    private p: jsPlumbInstance = jsPlumb.getInstance() /* jsplumb typings is messed up again */;
+    private p: jsPlumbInstance = jsPlumb.getInstance();
     private zoom: Zoom;
 
     private connectAll(edges: GraphEdge[]) {

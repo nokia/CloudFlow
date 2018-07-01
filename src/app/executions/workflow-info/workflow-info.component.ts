@@ -3,7 +3,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution, WorkflowDef} from "../../shared/models";
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 import {CodeMirrorModalService} from "../../shared/components/codemirror/codemirror-modal.service";
 import {getPropTimeout, InfoItemProperty} from "../info-item/info-item.component";
 
