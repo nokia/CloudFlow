@@ -67,7 +67,7 @@ $selected-shadow: 0 4px 8px 0px rgba(0, 0, 0, .35);
   box-shadow: $selected-shadow, $WF-shadow;
 }
 
-$state-colors: (SUCCESS: $entity-success, ERROR: $entity-error, COMPLETE: $entity-completed);
+$state-colors: (SUCCESS: $entity-success, ERROR: $entity-error, COMPLETE: $entity-completed, RUNNING: $entity-running);
 
 // set hover color on tasks
 @each $state, $color in $state-colors {
