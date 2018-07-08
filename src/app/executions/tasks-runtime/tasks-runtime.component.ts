@@ -41,9 +41,6 @@ export class TasksRuntimeComponent implements OnInit {
 
     private sort = {by: CREATED_AT_RELATIVE, dir: 'asc'};
 
-    constructor() {
-    }
-
     ngOnInit(): void {
         this.calculateTimes(this.execution, this.tasks);
     }
@@ -79,9 +76,9 @@ export class TasksRuntimeComponent implements OnInit {
         const workflowStarted = execution.created_at;
         const workflowDurationSec = execution.executionDuration.duration_sec;
 
-        this.graphModel = this.createGraphModel(tasks, workflowStarted);
+        const graphModel = this.createGraphModel(tasks, workflowStarted);
 
-        this.graphModel.forEach((task) => {
+        graphModel.forEach((task) => {
 
             // set the graph's width
             const barWidth = (task.duration_sec / workflowDurationSec) * 100;
@@ -96,6 +93,8 @@ export class TasksRuntimeComponent implements OnInit {
             }
             task.preBarWidth = preBarWidth;
         });
+
+        this.graphModel = graphModel;
     }
 
     getSortClass(attr: string) {
