@@ -65,10 +65,7 @@ export class Graph {
     }
 
     destroy() {
-        this.elements.nodes.forEach(node => {
-            this.p.removeAllEndpoints(node.id);
-            this.p.remove(node.id);
-        });
+        this.p.reset();
         this.zoom.destroy();
     }
 

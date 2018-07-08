@@ -12,11 +12,11 @@
       <cf-tasks-runtime [tasks]="tasks" [execution]="execution"></cf-tasks-runtime>
     </split-area>
 
-    <split-area [size]="tasksRuntimeOpen ? 50 : 75" class="graph-container-overflow" [order]="1">
+    <split-area [size]="tasksRuntimeOpen ? 50 : 75" class="graph-container-overflow" [order]="1" [class.over]="loadingDone">
       <cf-workflow-graph class="h-100" [tasks]="tasks" *ngIf="tasks && tasks.length"></cf-workflow-graph>
     </split-area>
 
-    <split-area [size]="25" class="bg-white" [order]="2">
+    <split-area [size]="25" class="bg-white" [order]="2" style="z-index: 2">
       <div class="bg-white h-0">
         <router-outlet></router-outlet>
       </div>

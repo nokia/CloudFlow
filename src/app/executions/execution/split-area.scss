@@ -1,0 +1,20 @@
+// Copyright (C) 2018 Nokia
+
+/**
+Major UI repaint issues when settings the overflow values of the split-area component.
+(done automatically by the angular-split library).
+
+A workaround is to unset them, and set them back after finishing drawing the graph.
+
+We also had to set the z-index of the rightmost panel to "2"
+so the graph will not, well, overflow on that panel.
+ */
+
+split-area.graph-container-overflow:not(.over) {
+  overflow-x: unset !important;
+  overflow-y: unset !important;
+}
+
+split-area.graph-container-overflow.over {
+  overflow-x: auto !important;
+}

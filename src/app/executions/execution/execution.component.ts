@@ -14,7 +14,7 @@ import {ExecutionHeaderComponent} from "./execution-header/execution-header.comp
 @Component({
     selector: 'cf-execution',
     templateUrl: './execution.component.html',
-    styleUrls: ['./execution.component.scss']
+    styleUrls: ['./execution.component.scss', './split-area.scss']
 })
 export class ExecutionComponent implements AfterViewInit, OnDestroy {
     private executionId = "";
@@ -26,6 +26,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     tasks: TaskExec[] = [];
     workflowDef: WorkflowDef = null;
     tasksRuntimeOpen = false;
+    loadingDone = false;
 
     constructor(protected readonly service: MistralService,
                 protected readonly route: ActivatedRoute,
@@ -87,6 +88,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
     }
 
     async load(executionId: string) {
+        this.loadingDone = false;
         this.tasks = [];
         this.executionId = executionId;
         this.tasksRuntimeOpen = false;
@@ -103,6 +105,8 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
         }
 
         this.workflowDef = await this.service.workflowDef(this.execution.workflow_id).toPromise();
+
+        this.loadingDone = true;
 
         // init the selected task given in URL
         this.setSelectedTaskFromNavigation();
