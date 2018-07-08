@@ -1,6 +1,6 @@
 {
   "name": "CloudFlow",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "license": "Apache-2.0",
   "private": true,
   "engines": {
@@ -14,7 +14,7 @@
     "build": "ng build --aot --prod --output-hashing=bundles --no-progress",
     "test": "ng test",
     "test-ci": "ng test --watch=false --no-progress",
-    "test-coverage": "ng test --watch-false --code-coverage --reporters=coverage-istanbul",
+    "test-coverage": "ng test --watch=false --code-coverage",
     "lint": "ng lint CloudFlow --type-check",
     "e2e": "ng e2e",
     "ci": "npm run lint && npm run test-ci && npm run build"
