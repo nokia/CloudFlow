@@ -67,7 +67,7 @@ describe('SubworkflowExecutionsInfoComponent', () => {
     it('should render content of info-items', async(() => {
         fixture.whenStable().then(() => {
             fixture.detectChanges();
-            const headers = fixture.nativeElement.querySelector("div[role='tab'] .card-header-content");
+            const headers = fixture.nativeElement.querySelector("div[role='tab'] > a > div");
             headers.click();
             fixture.detectChanges();
 
