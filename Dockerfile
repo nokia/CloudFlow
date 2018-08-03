@@ -16,7 +16,7 @@ COPY angular.json karma.conf.js package.json protractor.conf.js \
      proxy.conf.json tsconfig.json tslint.json ./
 RUN npm run build
 
-FROM nginx:1.13.6-alpine 
+FROM nginx:1.14-alpine
 
 ENV CF_CONFIG_DIR=/etc/nginx/conf.d \
     CF_SSL_DIR=/etc/nginx/ssl \
@@ -27,6 +27,13 @@ ENV CF_CONFIG_DIR=/etc/nginx/conf.d \
 
 COPY --from=builder "/build/dist" /opt/CloudFlow/dist
 COPY scripts/cloudflow.docker.nginx.conf "${CF_CONFIG_DIR}/cloudflow.template"
+RUN chown nginx:root -R \
+    /var/log/nginx \
+    /var/cache/nginx && \
+    chmod g+w \
+    /var/log/nginx \
+    /var/cache/nginx \
+    /var/run
 
 CMD [[ "${CF_SSL}" = 'ssl' ]] && \ 
     export CF_SSL_CRT='ssl_certificate /etc/nginx/ssl/nginx.crt;' ; \
@@ -35,6 +42,6 @@ CMD [[ "${CF_SSL}" = 'ssl' ]] && \
     envsubst '$$CF_CONFIG_DIR $$CF_PORT $$CF_SERVER_NAME $$CF_MISTRAL_URL \
     $$CF_SSL $$CF_SSL_CRT $$CF_SSL_KEY' \
     < "${CF_CONFIG_DIR}/cloudflow.template" > \
-    "${CF_CONFIG_DIR}/cloudflow.conf" && \
-    cat "${CF_CONFIG_DIR}/cloudflow.conf" \
+    "${CF_CONFIG_DIR}/default.conf" && \
+    cat "${CF_CONFIG_DIR}/default.conf" \
     && exec nginx -g 'daemon off;'
