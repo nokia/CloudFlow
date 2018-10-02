@@ -1,6 +1,6 @@
 {
   "name": "CloudFlow",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "license": "Apache-2.0",
   "private": true,
   "engines": {
@@ -33,7 +33,7 @@
     "angular-oauth2-oidc": "~4.0.2",
     "angular-split": "1.0.0-rc.3",
     "awesome-bootstrap-checkbox": "^1.0.1",
-    "bootstrap": "4.1.1",
+    "bootstrap-css-only": "4.1.1",
     "codemirror": "^5.39.0",
     "core-js": "^2.5.7",
     "dagre": "^0.7.4",
