@@ -66,7 +66,7 @@ export class MistralService {
      */
     executionTasks(id: string): Observable<TaskExec[]> {
         const fields = ["state_info", "created_at", "name", "runtime_context", "workflow_name", "state",
-            "updated_at", "workflow_execution_id", "workflow_id", "type"].join(",");
+            "updated_at", "workflow_execution_id", "workflow_id", "type", "started_at", "finished_at"].join(",");
         const params = toUrlParams({fields});
 
         return this.http.get(this.prefix + `executions/${id}/tasks`, {params})

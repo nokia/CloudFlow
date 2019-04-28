@@ -13,12 +13,15 @@
     background: #dde4e6;
 
     .highlight {
-      border-radius: 2px;
       transition: filter .3s ease-in-out;
       background-color: $entity-completed;
 
       &:hover {
         filter: brightness(1.1);
+      }
+
+      &.waiting {
+        background-color: $entity-waiting;
       }
     }
 

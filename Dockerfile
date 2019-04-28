@@ -1,4 +1,4 @@
-FROM node:8.9.4 as builder
+FROM node:8.15.1 as builder
 
 LABEL name="CloudFlow" \
       version="0.6.3" \

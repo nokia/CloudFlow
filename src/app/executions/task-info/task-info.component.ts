@@ -28,7 +28,10 @@ export class TaskInfoComponent implements OnInit, OnDestroy {
         {key: 'state_info', display: 'State Info', renderType: 'code', mode: 'text', instance: 'taskExec'},
         {key: 'created_at', display: 'Created', instance: 'taskExec'},
         {key: 'updated_at', display: 'Updated', instance: 'taskExec'},
+        {key: 'started_at', display: 'Started', instance: 'taskExec'},
+        {key: 'finished_at', display: 'Finished', instance: 'taskExec'},
         {key: 'duration', display: 'Duration', instance: 'taskExec'},
+        {key: 'durationTotal', display: 'Total', instance: 'taskExec'},
         {key: 'with-items', display: 'With Items', instance: 'taskDef'},
         {key: 'result', display: 'Result', renderType: 'code', mode: 'json', instance: 'taskExec'},
         {key: 'published', display: 'Published', renderType: 'code', mode: 'json', instance: 'taskExec'}

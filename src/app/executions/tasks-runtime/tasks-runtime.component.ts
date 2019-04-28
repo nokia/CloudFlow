@@ -7,12 +7,17 @@ import * as moment from 'moment';
 interface TaskProgress {
     id: string;
     name: string;
-    created_at: string;
-    updated_at: string;
+    started_at: string;
+    finished_at: string;
     created_at_relative: number;
+    started_at_relative: number;
+    finished_at_relative: number;
     duration_sec: number;
-    barWidth: number;
     preBarWidth: number;
+    waitingBeforeBarWidth: number;
+    runningBarWidth: number;
+    waitingAfterBarWidth: number;
+    totalBarWidth: number;
     duration: string;
     state: ExecutionState;
 }
@@ -21,7 +26,7 @@ function timeDiff(t1: string, t2: string, diffUnit: moment.unitOfTime.Diff = "se
     return moment(t1).diff(t2, diffUnit);
 }
 
-const CREATED_AT_RELATIVE = "created_at_relative";
+const STARTED_AT_RELATIVE = "started_at_relative";
 const DURATION_SEC = "duration_sec";
 
 @Component({
@@ -36,10 +41,10 @@ export class TasksRuntimeComponent implements OnInit {
     graphModel: TaskProgress[] = [];
     filter: '';
 
-    readonly CREATED_AT_RELATIVE = CREATED_AT_RELATIVE;
+    readonly STARTED_AT_RELATIVE = STARTED_AT_RELATIVE;
     readonly DURATION_SEC = DURATION_SEC;
 
-    private sort = {by: CREATED_AT_RELATIVE, dir: 'asc'};
+    private sort = {by: STARTED_AT_RELATIVE, dir: 'asc'};
 
     ngOnInit(): void {
         this.calculateTimes(this.execution, this.tasks);
@@ -47,25 +52,33 @@ export class TasksRuntimeComponent implements OnInit {
 
     private createGraphModel(tasks: TaskExec[], workflowStarted: string) {
         return tasks.map(task => {
+
+            const {created_at, updated_at, started_at, finished_at} = task;
+
             return {
                 id: task.id,
                 name: task.name,
-                created_at: task.created_at,
-                updated_at: task.updated_at,
-                created_at_relative: timeDiff(task.created_at, workflowStarted, 'seconds'),
+                started_at: started_at,
+                finished_at: finished_at,
+                created_at_relative: timeDiff(created_at, workflowStarted, 'seconds'),
+                started_at_relative: timeDiff(started_at, created_at, 'seconds'),
+                finished_at_relative: timeDiff(updated_at, finished_at, 'seconds'),
                 duration_sec: task.taskDuration.duration_sec,
                 duration: task.taskDuration.duration,
-                barWidth: 0,
                 preBarWidth: 0,
+                waitingBeforeBarWidth: 0,
+                runningBarWidth: 0,
+                waitingAfterBarWidth: 0,
+                totalBarWidth: 0,
                 state: task.state
             };
-        }).sort((t1, t2) => t1.created_at_relative - t2.created_at_relative);
+        }).sort((t1, t2) => t1.started_at_relative - t2.started_at_relative);
     }
 
     /**
      * Calculate and create the data model of the relative runtimes.
-     * Each task is assigned a "relative created_at time" based on workflow's created_at time. This will position
-     *  the task's graph start point relative to its start time.
+     * Each task is assigned several "relative changing state times" based on workflow's time measures.
+     * This will position the task's graph start and waiting points relative to its start time.
      * The task's duration (in seconds) will determine the width of the graph itself.
      *
      * A task with a runtime == 0 will set it's graph width to 1% (for visibility purposes).
@@ -80,10 +93,6 @@ export class TasksRuntimeComponent implements OnInit {
 
         graphModel.forEach((task) => {
 
-            // set the graph's width
-            const barWidth = (task.duration_sec / workflowDurationSec) * 100;
-            task.barWidth = barWidth || 1;
-
             // set the position of the task
             let preBarWidth = (task.created_at_relative / workflowDurationSec) * 100;
             if (preBarWidth === 100) {
@@ -92,6 +101,16 @@ export class TasksRuntimeComponent implements OnInit {
                 preBarWidth = 99;
             }
             task.preBarWidth = preBarWidth;
+
+            task.waitingBeforeBarWidth = (task.started_at_relative / workflowDurationSec) * 100;
+
+            // set the graph's width
+            const runningBarWidth = (task.duration_sec / workflowDurationSec) * 100;
+            task.runningBarWidth = runningBarWidth || 1;
+
+            task.waitingAfterBarWidth = (task.finished_at_relative / workflowDurationSec) * 100;
+
+            task.totalBarWidth = task.waitingBeforeBarWidth + runningBarWidth + task.waitingAfterBarWidth;
         });
 
         this.graphModel = graphModel;

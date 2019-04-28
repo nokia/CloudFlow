@@ -31,6 +31,11 @@ CloudFlow requires Mistral **Pike** or greater, as we rely on
 new [runtime_context](https://docs.openstack.org/developer/mistral/developer/webapi/v2.html#tasks)
 added to Mistral Pike.
 
+| Mistral Version  | CloudFlow Version to use                                        |
+|------------------|-----------------------------------------------------------------|
+| Stein (or newer) | Latest stable                                                   |
+| Pike - Rocky     | [0.6.4](https://github.com/nokia/CloudFlow/releases/tag/v0.6.4) |
+
     
 ## Installing CloudFlow on the Mistral machine
 CloudFlow has no dedicated backend service and passes the API calls to Mistral

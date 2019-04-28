@@ -3,7 +3,7 @@
 Since CloudFlow doesn't have any backend services, it must connect to a live Mistral instance.
 
 #### Mistral Instance
-Thankfully, Mistral can be easily spawned [as a docker container](https://github.com/openstack/mistral/blob/master/tools/docker/DOCKER_README.rst "as a docker container"), or you can use any Mistral instance you have. (Mistral version must be >= Pike).
+Thankfully, Mistral can be easily spawned [as a docker container](https://github.com/openstack/mistral/blob/master/tools/docker/DOCKER_README.rst "as a docker container"), or you can use any Mistral instance you have. (Mistral version must be >= Stein).
 
 |  Tip |
 | :------------ |

@@ -8,7 +8,7 @@
     <thead>
     <tr>
       <th><input type="search" class="form-control form-control-sm" placeholder="Filter by task name or ID" [(ngModel)]="filter" /></th>
-      <th [ngClass]="getSortClass(CREATED_AT_RELATIVE)" (click)="sortBy(CREATED_AT_RELATIVE)">Timespan</th>
+      <th [ngClass]="getSortClass(STARTED_AT_RELATIVE)" (click)="sortBy(STARTED_AT_RELATIVE)">Timespan</th>
       <th [ngClass]="getSortClass(DURATION_SEC)" (click)="sortBy(DURATION_SEC)">Runtime</th>
     </tr>
     </thead>
@@ -24,13 +24,16 @@
 
       <td [ngbPopover]="runtimeTooltip" container="body" triggers="mouseenter:mouseleave">
         <div class="stackedBarChart">
-          <ng-template #runtimeTooltip>Started: {{task.created_at}}<br/>
-            Updated: {{task.updated_at}}<br/>
-            Percent: {{task.duration_sec === 0 ? '< ' : ''}}{{task.barWidth | number}}%</ng-template>
+          <ng-template #runtimeTooltip>Started: {{task.started_at}}<br/>
+            Finished: {{task.finished_at}}<br/>
+            Percent: {{task.duration_sec === 0 ? '< ' : ''}}{{task.runningBarWidth | number}}%<br/>
+            Total: {{task.duration_sec === 0 ? '< ' : ''}}{{task.totalBarWidth | number}}%</ng-template>
 
           <div class="inner">
             <div class="prehighlight" [style.width.%]="task.preBarWidth"></div>
-            <div class="highlight" [style.width.%]="task.barWidth"></div>
+            <div class="waiting highlight" [style.width.%]="task.waitingBeforeBarWidth"></div>
+            <div class="highlight" [style.width.%]="task.runningBarWidth"></div>
+            <div class="waiting highlight" [style.width.%]="task.waitingAfterBarWidth"></div>
           </div>
         </div>
       </td>
