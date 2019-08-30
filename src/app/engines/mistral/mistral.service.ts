@@ -62,6 +62,24 @@ export class MistralService {
     }
 
     /**
+     * This call will patch the "missing" 'input' value on a execution.
+     */
+    patchExecutionData(exec: Execution) {
+        if (exec.input != null) {
+            return ObservableOf(exec);
+        } else {
+            return this.http.get(this.prefix + `executions/${exec.id}/input`)
+                .pipe(
+                    map(res => {
+                        exec.setInput(res["input"]);
+                        return exec;
+                    }),
+                    catchError(e => this.handleError(e))
+                );
+        }
+    }
+
+    /**
      * url: /executions/<id>/tasks
      */
     executionTasks(id: string): Observable<TaskExec[]> {

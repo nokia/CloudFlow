@@ -95,6 +95,7 @@ export class ExecutionComponent implements AfterViewInit, OnDestroy {
 
         try {
             this.execution = await this.service.execution(this.executionId).toPromise();
+            this.execution = await this.service.patchExecutionData(this.execution).toPromise();
             this.tasks = await this.service.executionTasks(this.executionId).toPromise();
             this.service.setParentExecutionId(this.execution);
         } catch (e) {

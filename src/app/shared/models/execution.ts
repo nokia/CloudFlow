@@ -49,4 +49,8 @@ export class Execution implements JExecution {
     get duration() {
         return this.executionDuration.duration;
     }
+
+    setInput(input: string) {
+        this.input = stringToObject(input, "json");
+    }
 }
