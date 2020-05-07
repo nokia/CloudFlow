@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {OAuthService} from "angular-oauth2-oidc";
 import {of as ObservableOf} from "rxjs";
 import {AuthConfig} from "angular-oauth2-oidc/auth.config";
+import createStorageGuest from 'cross-domain-storage/guest';
 
 const OPENID_COMMON_CONF: AuthConfig = {
     redirectUri: window.location.href,
@@ -15,8 +16,33 @@ const OPENID_COMMON_CONF: AuthConfig = {
 };
 
 const AUTH_JSON = "assets/auth.json";
+let timeoutKey;
 
 export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
+    const hasValidToken = (resolve, reject) => {
+        if (!oauthService.hasValidAccessToken()) {
+            oauthService.initImplicitFlow();
+            reject('unauthenticated');
+        }
+        resolve(true);
+        clearTimeout(timeoutKey);
+    }
+
+    const getAuthByPostMessage = (storageGuest, key, resolve, reject) => {
+        try {
+            storageGuest.get(key, (error, data) => {
+                if (!!data) {
+                    sessionStorage.setItem(key, data);
+                    hasValidToken(resolve, reject);
+                }
+                storageGuest.close();
+            });
+        } catch (e) {
+            hasValidToken(resolve, reject);
+            storageGuest.close();
+        }
+    };
+
     return () => new Promise((resolve, reject) => {
         http.get(AUTH_JSON).pipe(catchError(e => {
             // when no AUTH_JSON file found, assume app has no auth methods
@@ -34,11 +60,9 @@ export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
                 // oauthService.events.subscribe(e => console.log(e));
 
                 oauthService.tryLogin().then(() => {
-                    if (!oauthService.hasValidAccessToken()) {
-                        oauthService.initImplicitFlow();
-                        reject('unauthenticated');
-                    }
-                    resolve(true);
+                    const storageGuest = createStorageGuest(conf.loginUrl);
+                    getAuthByPostMessage(storageGuest, 'access_token', resolve, reject);
+                    timeoutKey = setTimeout(() => hasValidToken(resolve, reject), 5000);
                 });
 
             });

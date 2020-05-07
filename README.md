@@ -137,6 +137,22 @@ create the following `auth.json` file under the `assets/` folder (i.e. `assets/a
 
 You can obtain all the URLs by examining the output of `https://<openid-server-ip>:<port>/auth/realms/<realm>/.well-known/openid-configuration`
 
+#### Cross Domain Access Token Sharing
+
+Redirecting from different applications to the CloudFlow. 
+CloudFlow supports reading `access_token` form authenticated application opened in another tab with the same browser without passing the `access_token` in the URL. 
+
+The authenticated application should allow that by adding the following: 
+
+Adding [cross-domain-storage](https://github.com/MatthewLarner/cross-domain-storage) dependency in the host application: 
+ ```Javascript
+ import createHost from 'cross-domain-storage/host';
+ createHost([{
+   origin: 'CloudFlow URL',
+   allowedMethods: ['get']
+  }]);
+```
+
 ### No Authentication 
 If you want to work w/o authentication, make sure your Mistral does not require authentication to perform REST API
 requests, by setting the following in `/etc/mistral/mistral.conf`:
