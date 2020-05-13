@@ -35,6 +35,7 @@
     "bootstrap-css-only": "4.1.1",
     "codemirror": "^5.39.0",
     "core-js": "^2.5.7",
+    "cross-domain-storage": "^2.0.4",
     "dagre": "^0.8.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
