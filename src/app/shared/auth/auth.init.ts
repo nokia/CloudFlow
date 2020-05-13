@@ -26,7 +26,7 @@ export function auth_init_app(http: HttpClient, oauthService: OAuthService) {
         }
         resolve(true);
         clearTimeout(timeoutKey);
-    }
+    };
 
     const getAuthByPostMessage = (storageGuest, key, resolve, reject) => {
         try {
