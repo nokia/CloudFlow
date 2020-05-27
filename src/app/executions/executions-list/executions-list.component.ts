@@ -152,7 +152,7 @@ export class ExecutionsListComponent implements OnInit, AfterViewInit, OnDestroy
     getItemDuration(created_at, updated_at, state) {
         const duration = new ItemDuration(created_at, updated_at);
         if (state === "RUNNING") {
-            return duration.duration_sec > 0 ? `already ${duration.duration}` : duration.duration;
+            return duration.duration_sec > 0 ? `${duration.duration} so far` : duration.duration;
         }
         return duration.duration;
     }
