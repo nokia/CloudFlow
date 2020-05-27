@@ -15,8 +15,9 @@
 
     <div class="row pb-1 m-0 text-muted">
       <div class="col-sm-1 col-3" (click)="changeSort('state')" [ngClass]="getSortClass('state')">State</div>
-      <div class="col-sm-8 col-4" (click)="changeSort('name')" [ngClass]="getSortClass('name')">Workflow</div>
+      <div class="col-sm-7 col-4" (click)="changeSort('name')" [ngClass]="getSortClass('name')">Workflow</div>
       <div class="col-sm-2 col-4" (click)="changeSort('created_at')" [ngClass]="getSortClass('created_at')">Created At</div>
+      <div class="col-sm-1 col-4">Duration</div>
       <div class="col-sm-1 col-1 text-right">
           <button class="btn btn-light btn-sm" title="Refresh" (click)="refresh()">
               <i class="fa fa-refresh" [class.fa-spin]="loading"></i>
@@ -36,8 +37,9 @@
           <div class="col-sm-1 col-3">
             <span class="badge font-weight-normal" [ngClass]="execution.state">{{execution.state}}</span>
           </div>
-          <div class="col-sm-8 col-4 word-break-all">{{execution.workflow_name}}</div>
-          <div class="col-sm-3 col-5">{{execution.created_at}}</div>
+          <div class="col-sm-7 col-4 word-break-all">{{execution.workflow_name}}</div>
+          <div class="col-sm-2 col-5">{{execution.created_at}}</div>
+          <div class="col-sm-2 col-3">{{getItemDuration(execution.created_at, execution.updated_at, execution.state)}}</div>
         </div>
       </ng-container>
     </ng-container>

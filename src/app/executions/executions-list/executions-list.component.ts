@@ -5,6 +5,7 @@ import {MistralService} from "../../engines/mistral/mistral.service";
 import {Execution} from "../../shared/models/execution";
 import {fromEvent, Subscription} from "rxjs";
 import {map, filter, tap, debounceTime, finalize} from "rxjs/operators";
+import {ItemDuration} from "../../shared/models/common";
 
 function getNextMarker(next: string) {
     try {
@@ -146,6 +147,14 @@ export class ExecutionsListComponent implements OnInit, AfterViewInit, OnDestroy
 
     execTrackBy(index: number, item: Execution) {
         return `${item.id}_${item.state}`;
+    }
+
+    getItemDuration(created_at, updated_at, state) {
+        const duration = new ItemDuration(created_at, updated_at);
+        if (state === "RUNNING") {
+            return duration.duration_sec > 0 ? `already ${duration.duration}` : duration.duration;
+        }
+        return duration.duration;
     }
 
 }

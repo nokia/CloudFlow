@@ -31,7 +31,7 @@ export class MistralService {
     executions(sortBy="created_at", sortByDir="desc", marker=""): Observable<{executions: Execution[], next?: string}> { /*tslint:disable-line*/
         let params = toUrlParams({
             limit: 100,
-            fields: "workflow_name,created_at,state,task_execution_id",
+            fields: "workflow_name,created_at,state,task_execution_id,updated_at",
             sort_keys: `${sortBy},name`,
             sort_dirs: `${sortByDir}`
         });
