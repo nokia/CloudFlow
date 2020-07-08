@@ -7,7 +7,7 @@ import {objectToString} from "../../utils";
     selector: 'cf-copyable',
     template: `
         <i class="fa fa-copy text-muted2 pointer pl-2"
-           [ngbTooltip]="copyMessage" placement="bottom" container="body" (hidden)="toDefault()"
+           [ngbTooltip]="copyMessage" placement="bottom" (hidden)="toDefault()"
            ngxClipboard [cbContent]="content" (cbOnSuccess)="copySuccess()"></i>
         <ng-template #copyMessage><i *ngIf="copied" class="fa fa-check pr-2 text-success"></i>{{message}}</ng-template>`
 })
