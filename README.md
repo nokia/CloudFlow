@@ -42,7 +42,7 @@ CloudFlow has no dedicated backend service and passes the API calls to Mistral
 via Proxy settings.
 
 In the [`scripts`](scripts/) folder there are 2 configuration files: one for
-when using **ngnix** and one for **apache**.
+when using **nginx** and one for **apache**.
 
 To run CloudFlow on your Mistral instance:
 1. Go to [releases](https://github.com/nokia/CloudFlow/releases) tab and
