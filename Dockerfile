@@ -1,7 +1,7 @@
 FROM node:8.15.1 as builder
 
 LABEL name="CloudFlow" \
-      version="0.6.3" \
+      version="0.7.0" \
       description="A workflow visualization tool for OpenStack Mistral" \
       maintainers="Vitalii Solodilov <mcdkr@yandex.ru>"
 
