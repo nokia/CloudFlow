@@ -5,6 +5,7 @@ import {NgbPanelChangeEvent} from "@ng-bootstrap/ng-bootstrap";
 import {MistralService} from "../../../engines/mistral/mistral.service";
 import {ActionExecution} from "../../../shared/models/action";
 import "rxjs/add/operator/toPromise";
+import {InfoItemProperty} from "../../info-item/info-item.component";
 
 @Component({
     selector: 'cf-action-executions-info',
@@ -14,12 +15,18 @@ import "rxjs/add/operator/toPromise";
 export class ActionExecutionsInfoComponent implements OnChanges {
     @Input() taskExecutionId: string;
     actionExecutions: ActionExecution[] = null;
+    actionExecutionsCountProperty: InfoItemProperty;
 
     constructor(private service: MistralService) {
     }
 
     private async loadActionExecutions(taskExecutionId: string) {
         this.actionExecutions = await this.service.actionExecutions(taskExecutionId).toPromise();
+        this.actionExecutionsCountProperty = {
+            key: "count",
+            display: "Action Executions Count",
+            value: this.actionExecutions.length
+        };
     }
 
     /**
