@@ -179,3 +179,8 @@ Also, make sure there is **no** `auth.json` file under the `assets/` directory.
 
 
 ![CloudFlow](docs/main.png "CloudFlow in action")
+
+
+## License
+
+This project is licensed under the Apache-2.0 license - see the [LICENSE](https://github.com/nokia/CloudFlow/blob/master/LICENSE).
