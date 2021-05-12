@@ -33,7 +33,7 @@
     "angular-split": "1.0.0-rc.3",
     "awesome-bootstrap-checkbox": "^1.0.1",
     "bootstrap-css-only": "4.1.1",
-    "codemirror": "^5.39.0",
+    "codemirror": "^5.58.2",
     "core-js": "^2.5.7",
     "cross-domain-storage": "^2.0.4",
     "dagre": "^0.8.4",
