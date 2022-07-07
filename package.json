@@ -41,7 +41,7 @@
     "jquery": "^3.4.1",
     "js-yaml": "^3.13.1",
     "jsplumb": "2.7.9",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "ngx-clipboard": "~11.1.1",
     "open-sans-fontface": "^1.4.0",
     "rxjs": "6.2.2",
