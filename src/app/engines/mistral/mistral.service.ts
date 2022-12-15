@@ -6,7 +6,7 @@ import {BehaviorSubject, Observable, of as ObservableOf, throwError} from "rxjs"
 import {catchError, map} from "rxjs/operators";
 
 import {ActionExecution, Execution, SubWorkflowExecution, TaskDef, TaskExec, WorkflowDef} from "../../shared/models";
-import {toUrlParams} from "../../shared/utils";
+import {toUrlParams, toHTTPHeaders} from "../../shared/utils";
 import {NonWaitingStates} from "../../shared/models/common";
 
 @Injectable()
@@ -29,6 +29,10 @@ export class MistralService {
      * url: /executions?<query_params>
      */
     executions(sortBy="created_at", sortByDir="desc", marker=""): Observable<{executions: Execution[], next?: string}> { /*tslint:disable-line*/
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
         let params = toUrlParams({
             limit: 100,
             fields: "workflow_name,created_at,state,task_execution_id",
@@ -40,7 +44,7 @@ export class MistralService {
             params = params.append("marker", marker);
         }
 
-        return this.http.get<any>(this.prefix + "executions", {params})
+        return this.http.get<any>(this.prefix + "executions", {params, headers})
             .pipe(
                 catchError(e => this.handleError(e))
             );
@@ -50,7 +54,11 @@ export class MistralService {
      * url: /executions/<id>
      */
     execution(id: string): Observable<Execution> {
-        return this.http.get(this.prefix + "executions/" + id)
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get(this.prefix + "executions/" + id, {headers})
             .pipe(
                 map((res: Execution) => {
                     const execution = new Execution(res);
@@ -69,7 +77,11 @@ export class MistralService {
             "updated_at", "workflow_execution_id", "workflow_id", "type", "started_at", "finished_at"].join(",");
         const params = toUrlParams({fields});
 
-        return this.http.get(this.prefix + `executions/${id}/tasks`, {params})
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get(this.prefix + `executions/${id}/tasks`, {params, headers})
             .pipe(
                 map(res => res["tasks"]),
                 map(res => {
@@ -86,7 +98,11 @@ export class MistralService {
      * Extract the definition
      */
     workflowDef(id: string): Observable<WorkflowDef> {
-        return this.http.get(this.prefix + `workflows/${id}`)
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get(this.prefix + `workflows/${id}`, {headers})
             .pipe(
                 map(res => new WorkflowDef(res["definition"], res["name"])),
                 catchError(e => ObservableOf(WorkflowDef.FromEmpty()))
@@ -95,7 +111,11 @@ export class MistralService {
 
     setParentExecutionId(execution: Execution): void {
         if (execution.task_execution_id) {
-            this.http.get(this.prefix + `tasks/${execution.task_execution_id}`)
+            let headers = toHTTPHeaders({
+                Accept: "application/json"
+            });
+
+            this.http.get(this.prefix + `tasks/${execution.task_execution_id}`, {headers})
                 .pipe(
                     map((res: TaskExec) => execution.parentExecutionId = res.workflow_execution_id),
                     catchError(e => this.handleError(e))
@@ -113,7 +133,11 @@ export class MistralService {
         if (taskExec.result != null) {
             return ObservableOf(taskExec);
         } else {
-            return this.http.get(this.prefix + `tasks/${taskExec.id}`)
+            let headers = toHTTPHeaders({
+                Accept: "application/json"
+            });
+
+            return this.http.get(this.prefix + `tasks/${taskExec.id}`, {headers})
                 .pipe(
                     map(res => {
                         taskExec.setResult(res["result"]);
@@ -172,7 +196,12 @@ export class MistralService {
      */
     actionExecutions(taskExecId: string): Observable<ActionExecution[]> {
         const params = toUrlParams({fields: "name,state,created_at,updated_at"});
-        return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`, {params})
+
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get(this.prefix + `tasks/${taskExecId}/action_executions`, {params, headers})
             .pipe(
                 map(res => res["action_executions"]),
                 catchError(e => this.handleError(e))
@@ -185,7 +214,12 @@ export class MistralService {
      */
     wfExecutionsByTaskExecutionId(taskExecId: string): Observable<any[]> {
         const params = toUrlParams({task_execution_id: taskExecId, fields: "state,workflow_name,created_at,updated_at"});
-        return this.http.get(this.prefix + "executions", {params})
+
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get(this.prefix + "executions", {params, headers})
             .pipe(
                 map(res => res["executions"]),
                 catchError(e => this.handleError(e))
@@ -196,7 +230,11 @@ export class MistralService {
      * url: /tasks/<task_id>
      */
     getTask(taskId: string): Observable<TaskExec> {
-        return this.http.get<any>(this.prefix + `tasks/${taskId}`)
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get<any>(this.prefix + `tasks/${taskId}`, {headers})
             .pipe(
                 catchError(e => this.handleError(e))
             );
@@ -206,7 +244,11 @@ export class MistralService {
      * url: /action_executions/<action_execution_id>
      */
     getActionExecution(actionExecutionId: string): Observable<ActionExecution> {
-        return this.http.get<any>(this.prefix + `action_executions/${actionExecutionId}`)
+        let headers = toHTTPHeaders({
+            Accept: "application/json"
+        });
+
+        return this.http.get<any>(this.prefix + `action_executions/${actionExecutionId}`, {headers})
             .pipe(
                 catchError(e => this.handleError(e))
             );

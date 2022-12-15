@@ -1,7 +1,18 @@
 // Copyright (C) 2017 Nokia
 
-import {HttpParams} from "@angular/common/http";
+import {HttpParams, HttpHeaders} from "@angular/common/http";
 import * as jsyaml from 'js-yaml';
+
+/**
+ * Build HttpHeaders object
+ * @param obj
+ * @returns {HttpHeaders}
+ */
+export function toHTTPHeaders(obj = {}): HttpHeaders {
+    let headers = new HttpHeaders();
+    Object.keys(obj).forEach(key => headers = headers.append(key, obj[key].toString()));
+    return headers;
+}
 
 /**
  * Build URLSearchParams object
